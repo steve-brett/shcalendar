@@ -17,7 +17,7 @@ function createFormula($date) {
   // calculate its position in the month, but add 1 because the count is from 0
   $nthDay = floor(($nthDay) / 7) + 1;
   // create array (reference-day = Sunday, nth reference, reference-date, day)
-  $makeFormula[] = array(7, $nthDay, $nextSunday, date('N',strtotime($date)));
+  $makeFormula[] = array(7, $nthDay, date('m', strtotime($nextSunday)), date('N',strtotime($date)));
 
 
 
@@ -27,22 +27,25 @@ function createFormula($date) {
     // calculate its position in the month, but add 1 because the count is from 0
     $nthDay = floor($nthDay / 7) + 1;
     // create array (reference-day, nth reference, since-date, day)
-    $makeFormula[] = array(date('N', strtotime($date)), $nthDay, date('Y-m-d', strtotime($date)), date('N',strtotime($date)));
+    $makeFormula[] = array(date('N', strtotime($date)), $nthDay, date('m', strtotime($date)), date('N',strtotime($date)));
   }
 
   // last day of month
   if (date('m', strtotime($date)) != date('m', strtotime("$date + 1week")) ){
-    $makeFormula[] = array("","","last ".date('N', strtotime($date))." in ".date('F', strtotime($date)) );
+    $makeFormula[] = array(0,0,"last ".date('D', strtotime($date))." in ".date('F', strtotime($date)) );
   }
-  /*
+
   // special day within a week?
-  $specialdays = calculateBankHolidays(date('Y', $date));
-  $special = find_closest($array, $date);
+  $specialdays = calculateBankHolidays(date('Y', strtotime($date)) );
+  //date('Y', $date);
+  $specialId = find_closest_col1($specialdays, $date);
   //calclulate difference from special date
-  $offset = date('j', $date) - date('j', strtotime($special));
+  $offset = date('j', strtotime($date)) - date('j', strtotime($specialdays[$specialId][0]));
+  //$offset = date('j', strtotime($date)).$specialdays[$special][0];
+
   // create array (reference-day, nth reference, since-date, day, offset)
-  $makeFormula[] = array(0, 0, date('Y-m-d', $special[0]), date('N',$date), $offset);
-*/
+  $makeFormula[] = array(0,0, $specialId, date('N',$date), $offset);
+
 
   return $makeFormula;
 }
@@ -70,7 +73,7 @@ function printFormula($formula) {
     $output .= "$weekdays[$day] before the ";
   }
   $output .= ordinal($nthDay)." $weekdays[$refDay] in ";
-  $output .= date("F", strtotime($refMonth))."\n";
+  $output .= date("F", strtotime("2000-$refMonth-01"))."\n";
 
   return $output;
 }
@@ -113,4 +116,20 @@ $weekdays = array(
     7 => 'Sunday'
 );
 
+/*
+*    EXAMPLE:
+*
+*/
+
+header("Content-type: text/plain");
+
+$testdate = '2014-11-26';
+$testFormula = createFormula(date($testdate));
+echo date("l jS F Y", strtotime($testdate))."\n\n";
+
+var_dump($testFormula);
+
+foreach ($testFormula as $k => $formulaOptions) {
+    echo printFormula($formulaOptions)."\n\n";
+}
 ?>

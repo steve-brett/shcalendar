@@ -16,17 +16,33 @@ function ordinal($num) {
     return $num . $suff;
 }
 
+/* from http://webdeveloperblog.tiredmachine.com/php-converting-an-integer-123-to-ordinal-word-firstsecondthird/ */
+function numToOrdinalWord($num)
+		{
+			$first_word = array('eth','first','second','third','fourth','fifth','sixth','seventh','eighth','ninth','tenth','elevents','twelfth','thirteenth','fourteenth','fifteenth','sixteenth','seventeenth','eighteenth','nineteenth','twentieth');
+			$second_word =array('','','twenty','thirty','forty','fifty');
+
+			if($num <= 20)
+				return $first_word[$num];
+
+			$first_num = substr($num,-1,1);
+			$second_num = substr($num,-2,1);
+
+			return $string = str_replace('y-eth','ieth',$second_word[$second_num].'-'.$first_word[$first_num]);
+		}
+
 /* from https://stackoverflow.com/a/15017743 */
-function find_closest($array, $date)
+function find_closest_col1($array, $date)
 {
     foreach($array as $day)
     {
-        $interval[] = abs(strtotime($date) - strtotime($day));
+        $interval[] = abs(strtotime($date) - strtotime($day[0]));
     }
 
     asort($interval);
     $closest = key($interval);
 
-    return $array[$closest];
+    //return $array[$closest];
+    return $closest;
 }
 ?>
