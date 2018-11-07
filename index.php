@@ -14,9 +14,10 @@
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
           <h1 class="govuk-fieldset__heading">
           <?php
-          $testdate = '2014-01-01';
-          $testFormula = createFormula(date($testdate));
-          echo date("l jS F Y", strtotime($testdate));
+          $testDate = new DateTime('2014-01-01', new DateTimeZone('UTC'));
+          $testFormula = new singingFormula($testDate);
+          $testFormula = $testFormula->createFormulae();
+          echo $testDate->format('l jS F Y') . PHP_EOL;
           ?>
           </h1>
         </legend>
@@ -26,7 +27,10 @@
           <div class="govuk-radios__item">
           	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",",$formulaOptions))?>)">
           	<label class="govuk-label govuk-radios__label" for="date-formula-<?php echo $k; ?>">
-              <?php echo printFormula($formulaOptions);?>
+              <?php   $testOutput = new interpretFormula($formulaOptions, $testDate->format('Y'));
+                echo $testOutput->text() . PHP_EOL;
+                echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
+              ?>
           	</label>
           </div>
           <?php } ?>
@@ -40,9 +44,10 @@
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
       <h1 class="govuk-fieldset__heading">
       <?php
-      $testdate = '2018-05-12';
-      $testFormula = createFormula(date($testdate));
-      echo date("l jS F Y", strtotime($testdate));
+      $testDate = new DateTime('2018-05-02', new DateTimeZone('UTC'));
+      $testFormula = new singingFormula($testDate);
+      $testFormula = $testFormula->createFormulae();
+      echo $testDate->format('l jS F Y') . PHP_EOL;
       ?>
       </h1>
     </legend>
@@ -52,7 +57,10 @@
       <div class="govuk-radios__item">
       	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",",$formulaOptions))?>)">
       	<label class="govuk-label govuk-radios__label" for="date-formula-<?php echo $k; ?>">
-          <?php echo printFormula($formulaOptions);?>
+          <?php   $testOutput = new interpretFormula($formulaOptions, '2018');
+            echo $testOutput->text() . PHP_EOL;
+            echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
+          ?>
       	</label>
       </div>
       <?php } ?>
@@ -66,9 +74,10 @@
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
       <h1 class="govuk-fieldset__heading">
       <?php
-      $testdate = '2018-06-30';
-      $testFormula = createFormula(date($testdate));
-      echo date("l jS F Y", strtotime($testdate));
+      $testDate = new DateTime('2018-06-30', new DateTimeZone('UTC'));
+      $testFormula = new singingFormula($testDate);
+      $testFormula = $testFormula->createFormulae();
+      echo $testDate->format('l jS F Y') . PHP_EOL;
       ?>
       </h1>
     </legend>
@@ -78,7 +87,10 @@
       <div class="govuk-radios__item">
       	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",",$formulaOptions))?>)">
       	<label class="govuk-label govuk-radios__label" for="date-formula-<?php echo $k; ?>">
-          <?php echo printFormula($formulaOptions);?>
+          <?php   $testOutput = new interpretFormula($formulaOptions, '2018');
+            echo $testOutput->text() . PHP_EOL;
+            echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
+          ?>
       	</label>
       </div>
       <?php } ?>
@@ -92,9 +104,10 @@
     <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
       <h1 class="govuk-fieldset__heading">
       <?php
-      $testdate = '2018-07-01';
-      $testFormula = createFormula(date($testdate));
-      echo date("l jS F Y", strtotime($testdate));
+      $testDate = new DateTime('2018-07-01', new DateTimeZone('UTC'));
+      $testFormula = new singingFormula($testDate);
+      $testFormula = $testFormula->createFormulae();
+      echo $testDate->format('l jS F Y') . PHP_EOL;
       ?>
       </h1>
     </legend>
@@ -104,7 +117,10 @@
       <div class="govuk-radios__item">
       	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",",$formulaOptions))?>)">
       	<label class="govuk-label govuk-radios__label" for="date-formula-<?php echo $k; ?>">
-          <?php echo printFormula($formulaOptions);?>
+          <?php   $testOutput = new interpretFormula($formulaOptions, '2018');
+            echo $testOutput->text() . PHP_EOL;
+            echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
+          ?>
       	</label>
       </div>
       <?php } ?>

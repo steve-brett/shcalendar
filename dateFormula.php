@@ -3,114 +3,235 @@
 include 'ukBankHols.php';
 include 'handyFunctions.php';
 
-/*  The main singing formula calculation function.
-*   Outputs possible values as a 2D array.
-*
-*/
+class singingFormula {
+  /**
+   * @var array
+   */
+  var $singingFormulae = array();
+  /**
+   * @var DateTime
+   */
+  public $date;
 
-function createFormula($date) {
+  public function __construct($dateInput) {
+    $this->date = $dateInput;
+  }
 
-  $makeFormula = Array();
+  public function get_date() {
+    return $this->date;
+  }
 
-  $nextSunday = date('Y-m-d', strtotime('this sunday', strtotime($date)));
-  $nthDay = date('j', strtotime($nextSunday));
-  // calculate its position in the month, but add 1 because the count is from 0
-  $nthDay = floor(($nthDay) / 7) + 1;
-  // create array (reference-day = Sunday, nth reference, reference-date, day)
-  $makeFormula[] = array(7, $nthDay, $nextSunday, date('N',strtotime($date)));
+  public function nthSunday() {
+    $date = $this->date;
+    // Find the next Sunday (unless it's already a Sunday)
+    $nextSunday = clone $date;
+    $nextSunday->modify('this sunday');
 
-
-
-  // if not Sunday, then calculate nth day in the month, e.g. First Saturday
-  if (date('N', strtotime($date)) != 7){
-    $nthDay = date('j', strtotime($date));
     // calculate its position in the month, but add 1 because the count is from 0
+    $nthDay = $nextSunday->format('j');
     $nthDay = floor($nthDay / 7) + 1;
-    // create array (reference-day, nth reference, since-date, day)
-    $makeFormula[] = array(date('N', strtotime($date)), $nthDay, date('Y-m-d', strtotime($date)), date('N',strtotime($date)));
+    $nthDay = numToOrdinalWord($nthDay);
+
+    //find difference between date and reference Sunday
+    $adjust = $nextSunday->diff($date);
+
+    // add to array (reference nth day of month, difference from reference)
+    $this->singingFormulae[] = array("$nthDay Sunday of ".$date->format('F'), intval($adjust->format('%R%a')));
   }
 
-  // last day of month
-  if (date('m', strtotime($date)) != date('m', strtotime("$date + 1week")) ){
-    $makeFormula[] = array("","","last ".date('N', strtotime($date))." in ".date('F', strtotime($date)) );
-  }
-  /*
-  // special day within a week?
-  $specialdays = calculateBankHolidays(date('Y', $date));
-  $special = find_closest($array, $date);
-  //calclulate difference from special date
-  $offset = date('j', $date) - date('j', strtotime($special));
-  // create array (reference-day, nth reference, since-date, day, offset)
-  $makeFormula[] = array(0, 0, date('Y-m-d', $special[0]), date('N',$date), $offset);
-*/
+  public function nthDay() {
+    $date = $this->date;
 
-  return $makeFormula;
+    // if not Sunday...
+    if ($date->format('N') == 7){
+      return false;
+    }
+
+    // reference day is given day
+    $nthDay = clone $date;
+
+    // calculate its position in the month, but add 1 because the count is from 0
+    $nthDay = $nthDay->format('j');
+    $nthDay = floor($nthDay / 7) + 1;
+    $nthDay = numToOrdinalWord($nthDay);
+
+    // add to array (reference nth day of month, difference from reference)
+    $this->singingFormulae[] = array("$nthDay " . $date->format('l') . " of " . $date->format('F'));
+  }
+
+  public function lastSunday() {
+    $date = $this->date;
+    // Find the next Sunday (unless it's already a Sunday)
+    $nextSunday = clone $date;
+    $nextSunday->modify('this sunday');
+
+    // check if reference Sunday is the last in the month; if not, return false
+    $monthCheck = clone $nextSunday;
+    $monthCheck = $monthCheck->modify('+1 week');
+    if ($nextSunday->format('m') == $monthCheck->format('m')){
+      return false;
+    }
+
+    //find difference between date and reference Sunday
+    $adjust = $nextSunday->diff($date);
+
+    // add to array (reference nth day of month, difference from reference)
+    $this->singingFormulae[] = array("last Sunday of ".$date->format('F'), intval($adjust->format('%R%a')));
+  }
+
+  public function lastDay() {
+    $date = $this->date;
+
+    // check if reference day is the last of its type in the month; if not, return false
+    $monthCheck = clone $date;
+    $monthCheck = $monthCheck->modify('+1 week');
+    if ($date->format('m') == $monthCheck->format('m')){
+      return false;
+    }
+
+    // add to array (refere nce nth day of month)
+    $this->singingFormulae[] = array("last " . $date->format('l') . " of ".$date->format('F'));
+  }
+
+  public function createFormulae() {
+    // clear output array of previous values
+    unset($this->singingFormulae);
+    $this->singingFormulae = array();
+    $this->nthSunday();
+    $this->nthDay();
+    $this->lastSunday();
+    $this->lastDay();
+    return $this->singingFormulae;
+  }
 }
 
-//$ordinal = new NumberFormatter('en_US', NumberFormatter::SPELLOUT);
-//$ordinal->setTextAttribute(NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
+class interpretFormula {
+  /**
+   * @var string
+   */
+  var $singingFormula = array();
+  /**
+   * @var DateTime
+   */
+  public $date;
+  /**
+   * @var int
+   */
+  public $year;
 
-
-// Turn the array into text
-function printFormula($formula) {
-
-  //$ordinal = new NumberFormatter('en_US', NumberFormatter::SPELLOUT);
-  //$ordinal->setTextAttribute(NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
-  //global $ordinal;
-  global $weekdays;
-
-  $refDay = $formula[0];
-  $nthDay = $formula[1];
-  $refMonth = $formula[2];
-  $day = $formula[3];
-
-  $output .= "The ";
-
-  if ($refDay != $day) {
-    $output .= "$weekdays[$day] before the ";
+  /* multiple constructor from php.net  */
+  function __construct()
+  {
+    $a = func_get_args();
+    $i = func_num_args();
+    if (method_exists($this,$f='__construct'.$i)) {
+        call_user_func_array(array($this,$f),$a);
+    }
   }
-  $output .= ordinal($nthDay)." $weekdays[$refDay] in ";
-  $output .= date("F", strtotime($refMonth))."\n";
 
-  return $output;
+  function __construct1($formulaInput)
+  {
+    $this->singingFormula = $formulaInput;
+    // If no year specified, use current year
+    $this->year = date('Y');
+  }
+
+  function __construct2($formulaInput,$year)
+  {
+    $this->singingFormula = $formulaInput;
+    $this->year = $year;
+  }
+
+  public function get_formula() {
+    return $this->singingFormula;
+  }
+
+  public function get_year() {
+    return $this->year;
+  }
+
+  public function text() {
+    // Return formula array as a string
+
+    $refDay = $this->singingFormula[0];
+    $year = $this->year;
+
+    // If $adjust element of array is empty, give output
+    if (empty($this->singingFormula[1])) {
+      $refDay = str_replace(" of ", " in ", $refDay);
+      return 'The ' . $refDay . '.';
+    } else {
+      $adjust = $this->singingFormula[1];
+    }
+
+    $date = new DateTime($refDay . $year, new DateTimeZone('UTC'));
+    // Otherwise convert sign of $adjust into before/after
+    $date->modify("$adjust days");
+    if ($adjust > 0) {
+      $direction = ' after the ';
+    } else {
+      $direction = ' before the ';
+    }
+
+    $adjust = $date->format('l');
+    $refDay = str_replace(" of ", " in ", $refDay);
+    return 'The ' . $adjust . $direction . $refDay;
+  }
+
+  public function date() {
+    // Return DateTime object when given formula array
+
+    $refDay = $this->singingFormula[0];
+    $year = $this->year;
+
+    $this->date = new DateTime($refDay . $year, new DateTimeZone('UTC'));
+
+    // If $adjust element of array is empty, give output
+    if (empty($this->singingFormula[1])) {
+      return $this->date;
+    } else {
+      $adjust = $this->singingFormula[1];
+    }
+
+    // Otherwise adjust
+    $this->date->modify("$adjust days");
+
+    return $this->date;
+  }
+
 }
 
 /*
-// Turn the formula array into a date for a given year
-function printDate($formula,int $year) {
+*    EXAMPLE:
+*
 
-  //$ordinal = new NumberFormatter('en_US', NumberFormatter::SPELLOUT);
-  //$ordinal->setTextAttribute(NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
 
-  global $weekdays;
+header("Content-type: text/plain");
 
-  $refDay = $formula[0];
-  $nthDay = $formula[1];
-  $refMonth = $formula[2];
-  $day = $formula[3];
+$testDate = new DateTime('2014-11-27', new DateTimeZone('UTC'));
 
-  $output .= date("F", strtotime($refMonth)).;
+$classTest = new singingFormula($testDate);
+$testFormula = $classTest->createFormulae();
+var_dump($classTest);
 
-  if ($refDay != $day) {
-    $output .= "$weekdays[$day] before the ";
-  }
-  $output .= ordinal($nthDay)." $weekdays[$refDay] in ";
-  $output .= date("F", strtotime($refMonth))."\n";
+foreach ($testFormula as $k => $formulaOptions) {
+  $testOutput = new interpretFormula($formulaOptions, '2014');
+  echo $testOutput->text() . PHP_EOL;
+  echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
+}
+echo PHP_EOL;
 
-  return $output;
+foreach ($testFormula as $k => $formulaOptions) {
+  $testOutput = new interpretFormula($formulaOptions);
+  echo $testOutput->text() . PHP_EOL;
+  echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
 }
 
+/*
+$classTest->date->modify('-1 week');
+$classTestOut = $classTest->createFormulae();
+var_dump($classTest);
 */
 
-
-$weekdays = array(
-    1 => 'Monday',
-    2 => 'Tuesday',
-    3 => 'Wednesday',
-    4 => 'Thursday',
-    5 => 'Friday',
-    6 => 'Saturday',
-    7 => 'Sunday'
-);
 
 ?>
