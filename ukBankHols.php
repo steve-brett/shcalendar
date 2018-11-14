@@ -22,7 +22,8 @@
 *
 */
 
-function calculateBankHolidays($yr) {
+function calculateBankHolidays($yr)
+{
     //default to current year if not set - SAB
     $yr = $yr ?: date('Y');
 
@@ -30,7 +31,7 @@ function calculateBankHolidays($yr) {
     $key = 0;
 
     // New year's:
-    switch ( date("w", strtotime("$yr-01-01 12:00:00")) ) {
+    switch (date("w", strtotime("$yr-01-01 12:00:00"))) {
         case 6: // if Saturday
             $bankHols[] = "$yr-01-03";
             break;
@@ -40,22 +41,22 @@ function calculateBankHolidays($yr) {
         default:
             $bankHols[] = "$yr-01-01";
     }
-    $bankHols[$key] = array ($bankHols[$key], "New Year's Day"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "New Year's Day"); //SAB
     $key++;
 
     // Palm Sunday:
-    $bankHols[] = date("Y-m-d", strtotime( "+".(easter_days($yr) - 7)." days", strtotime("$yr-03-21 12:00:00") ));
-    $bankHols[$key] = array ($bankHols[$key], "Palm Sunday"); //SAB
+    $bankHols[] = date("Y-m-d", strtotime("+".(easter_days($yr) - 7)." days", strtotime("$yr-03-21 12:00:00")));
+    $bankHols[$key] = array($bankHols[$key], "Palm Sunday"); //SAB
     $key++;
 
     // Good friday:
-    $bankHols[] = date("Y-m-d", strtotime( "+".(easter_days($yr) - 2)." days", strtotime("$yr-03-21 12:00:00") ));
-    $bankHols[$key] = array ($bankHols[$key], "Good Friday"); //SAB
+    $bankHols[] = date("Y-m-d", strtotime("+".(easter_days($yr) - 2)." days", strtotime("$yr-03-21 12:00:00")));
+    $bankHols[$key] = array($bankHols[$key], "Good Friday"); //SAB
     $key++;
 
     // Easter Monday:
-    $bankHols[] = date("Y-m-d", strtotime( "+".(easter_days($yr) + 1)." days", strtotime("$yr-03-21 12:00:00") ));
-    $bankHols[$key] = array ($bankHols[$key], "Easter Monday"); //SAB
+    $bankHols[] = date("Y-m-d", strtotime("+".(easter_days($yr) + 1)." days", strtotime("$yr-03-21 12:00:00")));
+    $bankHols[$key] = array($bankHols[$key], "Easter Monday"); //SAB
     $key++;
 
 
@@ -87,7 +88,7 @@ function calculateBankHolidays($yr) {
                 break;
         }
     }
-    $bankHols[$key] = array ($bankHols[$key], "May Day"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "May Day"); //SAB
     $key++;
 
     // Whitsun:
@@ -119,12 +120,12 @@ function calculateBankHolidays($yr) {
                 break;
         }
     }
-    $bankHols[$key] = array ($bankHols[$key], "Whitsun Bank Holiday"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "Whitsun Bank Holiday"); //SAB
     $key++;
 
     // Independence Day
     $bankHols[] = "$yr-07-04";
-    $bankHols[$key] = array ($bankHols[$key], "Independence Day"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "Independence Day"); //SAB
     $key++;
 
     // First fifth Sunday after the 4th July: (Young people's convention - SAB)
@@ -151,7 +152,7 @@ function calculateBankHolidays($yr) {
             $bankHols[] = "$yr-08-30";
             break;
     }
-    $bankHols[$key] = array ($bankHols[$key], "the first fifth Sunday after the 4th July"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "the first fifth Sunday after the 4th July"); //SAB
     $key++;
 
     // Summer Bank Holiday: (last Mon in Aug)
@@ -178,7 +179,7 @@ function calculateBankHolidays($yr) {
             $bankHols[] = "$yr-08-26";
             break;
     }
-    $bankHols[$key] = array ($bankHols[$key], "Summer Bank Holiday"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "Summer Bank Holiday"); //SAB
     $key++;
 
     // Thanksgiving: (Fourth Thu in Nov)
@@ -205,12 +206,12 @@ function calculateBankHolidays($yr) {
             $bankHols[] = "$yr-11-22";
             break;
     }
-    $bankHols[$key] = array ($bankHols[$key], "Thanksgiving"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "Thanksgiving"); //SAB
     $key++;
 
 
     // Christmas:
-    switch ( date("w", strtotime("$yr-12-25 12:00:00")) ) {
+    switch (date("w", strtotime("$yr-12-25 12:00:00"))) {
         case 5:
             $bankHols[] = "$yr-12-25";
             $bankHols[] = "$yr-12-28";
@@ -227,31 +228,31 @@ function calculateBankHolidays($yr) {
             $bankHols[] = "$yr-12-25";
             $bankHols[] = "$yr-12-26";
     }
-    $bankHols[$key] = array ($bankHols[$key], "Christmas Day"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "Christmas Day"); //SAB
     $key++;
-    $bankHols[$key] = array ($bankHols[$key], "Boxing Day"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "Boxing Day"); //SAB
     $key++;
 
     // Millenium eve
     if ($yr == 1999) {
         $bankHols[] = "1999-12-31";
-        $bankHols[$key] = array ($bankHols[$key], "Millenium Eve"); //SAB
+        $bankHols[$key] = array($bankHols[$key], "Millenium Eve"); //SAB
         $key++;
     }
 
 
     return $bankHols;
-
 }
 
-function calculateFifthSundays($yr) {
+function calculateFifthSundays($yr)
+{
     //default to current year if not set - SAB
     $yr = $yr ?: date('Y');
 
     $fifthSundays = array();
 
     // Fifth Sundays before February (unaffected by leap year)
-    switch ( date("N", strtotime("$yr-01-01 12:00:00")) ) {
+    switch (date("N", strtotime("$yr-01-01 12:00:00"))) {
         case 5: // if 1 Jan Friday
             $fifthSundays[] = "$yr-01-31";
             break;
@@ -265,13 +266,13 @@ function calculateFifthSundays($yr) {
     }
 
     // If a leap year with five Sundays in Feb
-    if (date("L", strtotime("$yr-01-01 12:00:00")) == 1){
-        if ( date("N", strtotime("$yr-02-29 12:00:00")) == 7) {
+    if (date("L", strtotime("$yr-01-01 12:00:00")) == 1) {
+        if (date("N", strtotime("$yr-02-29 12:00:00")) == 7) {
             $fifthSundays[] = "$yr-02-29";
         }
     }
     // Anything after 1 March is unaffected by leap year if calculated from then:
-    switch ( date("N", strtotime("$yr-03-01 12:00:00")) ) {
+    switch (date("N", strtotime("$yr-03-01 12:00:00"))) {
         case 1: // if 1 March Monday
             $fifthSundays[] = "$yr-05-30";
             $fifthSundays[] = "$yr-08-29";
@@ -316,7 +317,6 @@ function calculateFifthSundays($yr) {
     }
 
     return $fifthSundays;
-
 }
 
 /*
@@ -330,4 +330,3 @@ $bankHolsThisYear = calculateBankHolidays('2007');
 
 print_r($bankHolsThisYear);
 */
-?>

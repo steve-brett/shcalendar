@@ -23,14 +23,13 @@ include 'handyFunctions.php';
  * @param string date of output format
  * @return array
  */
-function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d' ) {
-
+function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d')
+{
     $dates = array();
     $current = strtotime($first);
     $last = strtotime($last);
 
-    while( $current <= $last ) {
-
+    while ($current <= $last) {
         $dates[] = date($output_format, $current);
         $current = strtotime($step, $current);
     }
@@ -57,4 +56,3 @@ $offset = date('j', $date) - date('j', strtotime($special));
 // create array (reference-day, nth reference, since-date, day, offset)
 $makeFormula[] = array(0, 0, date('Y-m-d', $special[0]), date('N',$date), $offset);
 */
-?>

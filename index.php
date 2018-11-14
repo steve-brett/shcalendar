@@ -23,17 +23,18 @@
         </legend>
 
         <div class="govuk-radios govuk-radios--conditional" data-module="radios">
-          <?php foreach ($testFormula as $k => $formulaOptions) { ?>
+          <?php foreach ($testFormula as $k => $formulaOptions) {
+              ?>
           <div class="govuk-radios__item">
-          	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",",$formulaOptions))?>)">
+          	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",", $formulaOptions))?>)">
           	<label class="govuk-label govuk-radios__label" for="date-formula-<?php echo $k; ?>">
               <?php   $testOutput = new interpretFormula($formulaOptions, $testDate->format('Y'));
-                echo $testOutput->text() . PHP_EOL;
-                echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
-              ?>
+              echo $testOutput->text() . PHP_EOL;
+              echo $testOutput->date()->format('l jS F Y') . PHP_EOL; ?>
           	</label>
           </div>
-          <?php } ?>
+          <?php
+          } ?>
         </div>
 
       </fieldset>
@@ -53,17 +54,18 @@
     </legend>
 
     <div class="govuk-radios govuk-radios--conditional" data-module="radios">
-      <?php foreach ($testFormula as $k => $formulaOptions) { ?>
+      <?php foreach ($testFormula as $k => $formulaOptions) {
+          ?>
       <div class="govuk-radios__item">
-      	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",",$formulaOptions))?>)">
+      	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",", $formulaOptions))?>)">
       	<label class="govuk-label govuk-radios__label" for="date-formula-<?php echo $k; ?>">
           <?php   $testOutput = new interpretFormula($formulaOptions, $testDate->format('Y'));
-            echo $testOutput->text() . PHP_EOL;
-            echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
-          ?>
+          echo $testOutput->text() . PHP_EOL;
+          echo $testOutput->date()->format('l jS F Y') . PHP_EOL; ?>
       	</label>
       </div>
-      <?php } ?>
+      <?php
+      } ?>
     </div>
 
   </fieldset>
@@ -83,17 +85,18 @@
     </legend>
 
     <div class="govuk-radios govuk-radios--conditional" data-module="radios">
-      <?php foreach ($testFormula as $k => $formulaOptions) { ?>
+      <?php foreach ($testFormula as $k => $formulaOptions) {
+          ?>
       <div class="govuk-radios__item">
-      	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",",$formulaOptions))?>)">
+      	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",", $formulaOptions))?>)">
       	<label class="govuk-label govuk-radios__label" for="date-formula-<?php echo $k; ?>">
           <?php   $testOutput = new interpretFormula($formulaOptions, $testDate->format('Y'));
-            echo $testOutput->text() . PHP_EOL;
-            echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
-          ?>
+          echo $testOutput->text() . PHP_EOL;
+          echo $testOutput->date()->format('l jS F Y') . PHP_EOL; ?>
       	</label>
       </div>
-      <?php } ?>
+      <?php
+      } ?>
     </div>
 
   </fieldset>
@@ -113,17 +116,18 @@
     </legend>
 
     <div class="govuk-radios govuk-radios--conditional" data-module="radios">
-      <?php foreach ($testFormula as $k => $formulaOptions) { ?>
+      <?php foreach ($testFormula as $k => $formulaOptions) {
+          ?>
       <div class="govuk-radios__item">
-      	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",",$formulaOptions))?>)">
+      	<input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",", $formulaOptions))?>)">
       	<label class="govuk-label govuk-radios__label" for="date-formula-<?php echo $k; ?>">
           <?php   $testOutput = new interpretFormula($formulaOptions, $testDate->format('Y'));
-            echo $testOutput->text() . PHP_EOL;
-            echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
-          ?>
+          echo $testOutput->text() . PHP_EOL;
+          echo $testOutput->date()->format('l jS F Y') . PHP_EOL; ?>
       	</label>
       </div>
-      <?php } ?>
+      <?php
+      } ?>
     </div>
 
   </fieldset>
