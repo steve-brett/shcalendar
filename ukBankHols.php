@@ -26,7 +26,7 @@ function calculateBankHolidays($yr) {
     //default to current year if not set - SAB
     $yr = $yr ?: date('Y');
 
-    $bankHols = Array();
+    $bankHols = array();
     $key = 0;
 
     // New year's:
@@ -151,7 +151,7 @@ function calculateBankHolidays($yr) {
             $bankHols[] = "$yr-08-30";
             break;
     }
-    $bankHols[$key] = array ($bankHols[$key], "first fifth Sunday after the 4th July"); //SAB
+    $bankHols[$key] = array ($bankHols[$key], "the first fifth Sunday after the 4th July"); //SAB
     $key++;
 
     // Summer Bank Holiday: (last Mon in Aug)
@@ -181,8 +181,8 @@ function calculateBankHolidays($yr) {
     $bankHols[$key] = array ($bankHols[$key], "Summer Bank Holiday"); //SAB
     $key++;
 
-    // Thanksgiving: (Last Thu in Nov)
-    switch (date("w", strtotime("$yr-11-31 12:00:00"))) {
+    // Thanksgiving: (Fourth Thu in Nov)
+    switch (date("w", strtotime("$yr-11-24 12:00:00"))) {
         case 0:
             $bankHols[] = "$yr-11-28";
             break;
@@ -196,13 +196,13 @@ function calculateBankHolidays($yr) {
             $bankHols[] = "$yr-11-25";
             break;
         case 4:
-            $bankHols[] = "$yr-11-31";
+            $bankHols[] = "$yr-11-24";
             break;
         case 5:
-            $bankHols[] = "$yr-11-30";
+            $bankHols[] = "$yr-11-23";
             break;
         case 6:
-            $bankHols[] = "$yr-11-29";
+            $bankHols[] = "$yr-11-22";
             break;
     }
     $bankHols[$key] = array ($bankHols[$key], "Thanksgiving"); //SAB
@@ -241,6 +241,81 @@ function calculateBankHolidays($yr) {
 
 
     return $bankHols;
+
+}
+
+function calculateFifthSundays($yr) {
+    //default to current year if not set - SAB
+    $yr = $yr ?: date('Y');
+
+    $fifthSundays = array();
+
+    // Fifth Sundays before February (unaffected by leap year)
+    switch ( date("N", strtotime("$yr-01-01 12:00:00")) ) {
+        case 5: // if 1 Jan Friday
+            $fifthSundays[] = "$yr-01-31";
+            break;
+        case 6: // if Saturday
+            $fifthSundays[] = "$yr-01-30";
+            break;
+        case 7: // if Sunday
+            $fifthSundays[] = "$yr-01-29";
+            break;
+
+    }
+
+    // If a leap year with five Sundays in Feb
+    if (date("L", strtotime("$yr-01-01 12:00:00")) == 1){
+        if ( date("N", strtotime("$yr-02-29 12:00:00")) == 7) {
+            $fifthSundays[] = "$yr-02-29";
+        }
+    }
+    // Anything after 1 March is unaffected by leap year if calculated from then:
+    switch ( date("N", strtotime("$yr-03-01 12:00:00")) ) {
+        case 1: // if 1 March Monday
+            $fifthSundays[] = "$yr-05-30";
+            $fifthSundays[] = "$yr-08-29";
+            $fifthSundays[] = "$yr-10-31";
+            break;
+        case 2: // if Tuesday
+            $fifthSundays[] = "$yr-05-29";
+            $fifthSundays[] = "$yr-07-31";
+            $fifthSundays[] = "$yr-10-30";
+            break;
+        case 3: // if Wednesday
+            $fifthSundays[] = "$yr-04-30";
+            $fifthSundays[] = "$yr-07-30";
+            $fifthSundays[] = "$yr-10-29";
+            $fifthSundays[] = "$yr-12-31";
+            break;
+        case 4: // if Thursday
+            $fifthSundays[] = "$yr-04-29";
+            $fifthSundays[] = "$yr-07-29";
+            $fifthSundays[] = "$yr-09-30";
+            $fifthSundays[] = "$yr-12-30";
+            break;
+        case 5: // if Friday
+            $fifthSundays[] = "$yr-03-31";
+            $fifthSundays[] = "$yr-06-30";
+            $fifthSundays[] = "$yr-09-29";
+            $fifthSundays[] = "$yr-12-29";
+            break;
+        case 6: // if Saturday
+            $fifthSundays[] = "$yr-03-30";
+            $fifthSundays[] = "$yr-06-29";
+            $fifthSundays[] = "$yr-08-31";
+            $fifthSundays[] = "$yr-11-30";
+            break;
+        case 7: // if Sunday
+            $fifthSundays[] = "$yr-03-29";
+            $fifthSundays[] = "$yr-05-31";
+            $fifthSundays[] = "$yr-08-30";
+            $fifthSundays[] = "$yr-11-29";
+            break;
+
+    }
+
+    return $fifthSundays;
 
 }
 

@@ -45,4 +45,35 @@ function find_closest_col1($array, $date)
     //return $array[$closest];
     return $closest;
 }
+function find_closest($array, $date)
+{
+    //$count = 0;
+    foreach($array as $day)
+    {
+        //$interval[$count] = abs(strtotime($date) - strtotime($day));
+        $interval[] = abs(strtotime($date) - strtotime($day));
+        //$count++;
+    }
+
+    asort($interval);
+    $closest = key($interval);
+
+    echo $array[$closest];
+}
+/* from https://stackoverflow.com/a/834355 */
+function startsWith($haystack, $needle)
+{
+     $length = strlen($needle);
+     return (substr($haystack, 0, $length) === $needle);
+}
+
+function endsWith($haystack, $needle)
+{
+    $length = strlen($needle);
+    if ($length == 0) {
+        return true;
+    }
+
+    return (substr($haystack, -$length) === $needle);
+}
 ?>

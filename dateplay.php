@@ -1,6 +1,9 @@
 <?php
 header("Content-type: text/plain");
 
+include 'ukBankHols.php';
+include 'handyFunctions.php';
+
 /**
  * Creating date collection between two dates
  *
@@ -34,39 +37,24 @@ function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d' ) 
 
     return $dates;
 }
-/*
-$testweek = date_range("2018-06-27", "2018-07-04", "+1 day", "Y-m-d");
-var_dump($testweek);
-echo "\n\n";
-
-foreach ($testweek as $date) {
-    echo $date."\n";
-    echo date('Y-m-d', strtotime("this sunday", strtotime($date)))."\n\n";
-}
-*/
-echo date('Y-m-d', strtotime("fourth sat of october 2014"))."\n\n";
-
-echo "Current PHP version: " . phpversion()."\n\n";
-
-$playDate = new DateTime('fourth thu of october 2014');
-
-echo $playDate->format('Y-m-d') . PHP_EOL;
-
-$playDate->modify('this sat');
-
-echo $playDate->format('Y-m-d') . PHP_EOL;
 
 $testDate = new DateTime('2014-11-27', new DateTimeZone('UTC'));
-//$testFormula = createFormula($testdate);
-echo $testDate->format('l jS F Y') . PHP_EOL;
+$specialDays = calculateBankHolidays($testDate->format('Y'));
+var_dump($specialDays);
+$special = find_closest_col1($specialDays, $testDate->format('Y-m-d'));
+echo $special . $specialDays[$special][0] . $specialDays[$special][1];
 
-//$f = new NumberFormatter("en", NumberFormatter::SPELLOUT);
-//echo $f->format(123456);
+$testSundays = calculateFifthSundays(2018);
+var_dump($testSundays);
+$testSundays = calculateFifthSundays(2004);
+var_dump($testSundays);
 /*
-$ordinal = new NumberFormatter('en_US', NumberFormatter::SPELLOUT);
-$ordinal->setTextAttribute(NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
-echo $ordinal->format(1);
-echo $ordinal->format(2);
-echo $ordinal->format(3);
+// special day within a week?
+$specialdays = calculateBankHolidays(date('Y', $date));
+$special = find_closest($array, $date);
+//calclulate difference from special date
+$offset = date('j', $date) - date('j', strtotime($special));
+// create array (reference-day, nth reference, since-date, day, offset)
+$makeFormula[] = array(0, 0, date('Y-m-d', $special[0]), date('N',$date), $offset);
 */
 ?>
