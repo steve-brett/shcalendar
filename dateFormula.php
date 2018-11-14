@@ -36,7 +36,7 @@ class singingFormula {
     $adjust = $nextSunday->diff($date);
 
     // add to array (reference nth day of month, difference from reference)
-    $this->singingFormulae[] = array("$nthDay Sunday of ".$date->format('F'), intval($adjust->format('%R%a')));
+    $this->singingFormulae[] = array("$nthDay Sunday of ".$nextSunday->format('F'), intval($adjust->format('%R%a')));
   }
 
   public function nthDay() {
@@ -93,6 +93,23 @@ class singingFormula {
     $this->singingFormulae[] = array("last " . $date->format('l') . " of ".$date->format('F'));
   }
 
+  public function specialDay() {
+    $date = $this->date;
+
+    $specialDays = calculateBankHolidays($date->format('Y'));
+    $specialKey = find_closest_col1($specialDays, $date->format('Y-m-d'));
+
+    $refDay = new DateTime($specialDays[$specialKey][0], new DateTimeZone('UTC'));
+    // check if reference day is within a week of date
+    $adjust = $refDay->diff($date);
+    if ($adjust->format('%a') > 7){
+      return false;
+    }
+
+    // add to array (refere nce nth day of month)
+    $this->singingFormulae[] = array('special' . $specialKey, intval($adjust->format('%R%a')));
+  }
+
   public function createFormulae() {
     // clear output array of previous values
     unset($this->singingFormulae);
@@ -101,6 +118,7 @@ class singingFormula {
     $this->nthDay();
     $this->lastSunday();
     $this->lastDay();
+    $this->specialDay();
     return $this->singingFormulae;
   }
 }
@@ -155,27 +173,41 @@ class interpretFormula {
 
     $refDay = $this->singingFormula[0];
     $year = $this->year;
+    $refDayText = $refDay;
+
+    if (startsWith($refDay, 'special')) {
+      $specialDays = calculateBankHolidays($year);
+      $specialKey = str_replace('special', '', $refDay);
+      $refDay = $specialDays[$specialKey][0];
+      $refDay = substr($refDay, 4);
+      $refDayText = $specialDays[$specialKey][1];
+      $article = array('', '');
+      $refDay = $year . $refDay;
+    } else {
+      $article = array('The ','the ');
+      $refDay = $refDay . $year;
+    }
 
     // If $adjust element of array is empty, give output
     if (empty($this->singingFormula[1])) {
-      $refDay = str_replace(" of ", " in ", $refDay);
-      return 'The ' . $refDay . '.';
+      $refDayText = str_replace(" of ", " in ", $refDayText);
+      return $article[0] . $refDayText . '.';
     } else {
       $adjust = $this->singingFormula[1];
     }
 
-    $date = new DateTime($refDay . $year, new DateTimeZone('UTC'));
+    $date = new DateTime($refDay, new DateTimeZone('UTC'));
     // Otherwise convert sign of $adjust into before/after
     $date->modify("$adjust days");
     if ($adjust > 0) {
-      $direction = ' after the ';
+      $direction = ' after ' . $article[1];
     } else {
-      $direction = ' before the ';
+      $direction = ' before ' . $article[1];
     }
 
     $adjust = $date->format('l');
-    $refDay = str_replace(" of ", " in ", $refDay);
-    return 'The ' . $adjust . $direction . $refDay;
+    $refDayText = str_replace(" of ", " in ", $refDayText);
+    return 'The ' . $adjust . $direction . $refDayText . '.';
   }
 
   public function date() {
@@ -184,7 +216,17 @@ class interpretFormula {
     $refDay = $this->singingFormula[0];
     $year = $this->year;
 
-    $this->date = new DateTime($refDay . $year, new DateTimeZone('UTC'));
+    if (startsWith($refDay, 'special')) {
+      $specialDays = calculateBankHolidays($year);
+      $specialKey = str_replace('special', '', $refDay);
+      $refDay = $specialDays[$specialKey][0];
+      $refDay = substr($refDay, 4);
+      $refDay = $year . $refDay;
+    } else {
+      $refDay = $refDay . $year;
+    }
+
+    $this->date = new DateTime($refDay, new DateTimeZone('UTC'));
 
     // If $adjust element of array is empty, give output
     if (empty($this->singingFormula[1])) {
