@@ -212,6 +212,7 @@ function calculateBankHolidays($yr)
 
 
     // Christmas:
+    /*
     switch (date("w", strtotime("$yr-12-25 12:00:00"))) {
         case 5:
             $bankHols[] = "$yr-12-25";
@@ -229,6 +230,9 @@ function calculateBankHolidays($yr)
             $bankHols[] = "$yr-12-25";
             $bankHols[] = "$yr-12-26";
     }
+    */
+    $bankHols[] = "$yr-12-25";
+    $bankHols[] = "$yr-12-26";
     $bankHols[$key] = array($bankHols[$key], "Christmas Day"); //SAB
     $key++;
     $bankHols[$key] = array($bankHols[$key], "Boxing Day"); //SAB
