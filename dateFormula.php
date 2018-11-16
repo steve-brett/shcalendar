@@ -6,11 +6,13 @@ include 'handyFunctions.php';
 class singingFormula
 {
     /**
+     * Array of potential formulae
      * @var array
      */
     public $singingFormulae = array();
     /**
-     * @var DateTime
+     * Date object
+     * @var DateTime object
      */
     public $date;
 
@@ -100,11 +102,18 @@ class singingFormula
         $this->singingFormulae[] = array("last " . $date->format('l') . " of ".$date->format('F'));
     }
 
+    /**
+     * Calculate proximity to an existing array of special dates
+     * If within one week, add to output array
+     * @return [type] [description]
+     */
     public function specialDay()
     {
+        //Load DateTime object from class
         $date = $this->date;
-
+        //Generate array of special days for given year
         $specialDays = calculateBankHolidays($date->format('Y'));
+        //Find nearest special day to date
         $specialKey = find_closest_col1($specialDays, $date->format('Y-m-d'));
 
         $refDay = new DateTime($specialDays[$specialKey][0], new DateTimeZone('UTC'));
