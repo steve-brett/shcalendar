@@ -1,5 +1,5 @@
 <?php
-header("Content-type: text/plain");
+header("Content-type: text/html");
 
 include 'ukBankHols.php';
 include 'handyFunctions.php';
@@ -36,6 +36,8 @@ function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d')
 
     return $dates;
 }
+
+var_dump(calculateBankHolidays(2220));
 
 $testDate = new DateTime('2014-11-27', new DateTimeZone('UTC'));
 $specialDays = calculateBankHolidays($testDate->format('Y'));

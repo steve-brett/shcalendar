@@ -189,6 +189,10 @@ class interpretFormula
         return $this->year;
     }
 
+    public function year($year)
+    {
+        $this->year = $year;
+    }
     public function text()
     {
         // Return formula array as a string
@@ -229,7 +233,7 @@ class interpretFormula
 
         $adjust = $date->format('l');
         $refDayText = str_replace(" of ", " in ", $refDayText);
-        return 'The ' . $adjust . $direction . $refDayText . '.';
+        return 'The ' . $adjust . $direction . $refDayText;
     }
 
     public function date()
@@ -265,34 +269,4 @@ class interpretFormula
     }
 }
 
-/*
-*    EXAMPLE:
-*
-
-
-header("Content-type: text/plain");
-
-$testDate = new DateTime('2014-11-27', new DateTimeZone('UTC'));
-
-$classTest = new singingFormula($testDate);
-$testFormula = $classTest->createFormulae();
-var_dump($classTest);
-
-foreach ($testFormula as $k => $formulaOptions) {
-  $testOutput = new interpretFormula($formulaOptions, '2014');
-  echo $testOutput->text() . PHP_EOL;
-  echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
-}
-echo PHP_EOL;
-
-foreach ($testFormula as $k => $formulaOptions) {
-  $testOutput = new interpretFormula($formulaOptions);
-  echo $testOutput->text() . PHP_EOL;
-  echo $testOutput->date()->format('l jS F Y') . PHP_EOL;
-}
-
-/*
-$classTest->date->modify('-1 week');
-$classTestOut = $classTest->createFormulae();
-var_dump($classTest);
-*/
+?>

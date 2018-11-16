@@ -6,6 +6,8 @@
 *    Created by David Scourfield, 07 August 2006, and released into the public domain.
 *    Anybody may use and/or modify this code.
 *
+*    Modified by Steve Brett 2018 for Sacred Harp calendar use.
+*
 *    USAGE:
 *
 *    array calculateBankHolidays(int $yr)
@@ -30,17 +32,8 @@ function calculateBankHolidays($yr)
     $bankHols = array();
     $key = 0;
 
-    // New year's:
-    switch (date("w", strtotime("$yr-01-01 12:00:00"))) {
-        case 6: // if Saturday
-            $bankHols[] = "$yr-01-03";
-            break;
-        case 0: // if Sunday
-            $bankHols[] = "$yr-01-02";
-            break;
-        default:
-            $bankHols[] = "$yr-01-01";
-    }
+    // New year's day:
+    $bankHols[] = "$yr-01-01";
     $bankHols[$key] = array($bankHols[$key], "New Year's Day"); //SAB
     $key++;
 
@@ -49,16 +42,24 @@ function calculateBankHolidays($yr)
     $bankHols[$key] = array($bankHols[$key], "Palm Sunday"); //SAB
     $key++;
 
+    /*
     // Good friday:
     $bankHols[] = date("Y-m-d", strtotime("+".(easter_days($yr) - 2)." days", strtotime("$yr-03-21 12:00:00")));
     $bankHols[$key] = array($bankHols[$key], "Good Friday"); //SAB
     $key++;
+    */
 
+    // Easter:
+    $bankHols[] = date("Y-m-d", strtotime("+".easter_days($yr)." days", strtotime("$yr-03-21 12:00:00")));
+    $bankHols[$key] = array($bankHols[$key], "Easter"); //SAB
+    $key++;
+
+    /*
     // Easter Monday:
     $bankHols[] = date("Y-m-d", strtotime("+".(easter_days($yr) + 1)." days", strtotime("$yr-03-21 12:00:00")));
     $bankHols[$key] = array($bankHols[$key], "Easter Monday"); //SAB
     $key++;
-
+    */
 
     // May Day:
     if ($yr == 1995) {
@@ -88,7 +89,7 @@ function calculateBankHolidays($yr)
                 break;
         }
     }
-    $bankHols[$key] = array($bankHols[$key], "May Day"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "May Day bank holiday"); //SAB
     $key++;
 
     // Whitsun:
@@ -120,7 +121,7 @@ function calculateBankHolidays($yr)
                 break;
         }
     }
-    $bankHols[$key] = array($bankHols[$key], "Whitsun Bank Holiday"); //SAB
+    $bankHols[$key] = array($bankHols[$key], "Whitsun bank holiday"); //SAB
     $key++;
 
     // Independence Day
