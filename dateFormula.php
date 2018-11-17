@@ -191,7 +191,13 @@ class interpretFormula
 
     public function year($year)
     {
+      // Change year
         $this->year = $year;
+    }
+    public function formula($formulaInput)
+    {
+      // Change formula
+        $this->singingFormula = $formulaInput;
     }
     public function text()
     {
@@ -217,7 +223,7 @@ class interpretFormula
         // If $adjust element of array is empty, give output
         if (empty($this->singingFormula[1])) {
             $refDayText = str_replace(" of ", " in ", $refDayText);
-            return $article[0] . $refDayText . '.';
+            return $article[0] . $refDayText;
         } else {
             $adjust = $this->singingFormula[1];
         }
