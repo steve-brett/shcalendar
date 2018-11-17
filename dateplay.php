@@ -1,8 +1,11 @@
 <?php
-header("Content-type: text/plain");
+header("Content-type: text/html");
 
 include 'ukBankHols.php';
 include 'handyFunctions.php';
+
+require '../vendor/autoload.php';
+use RRule\RRule;
 
 /**
  * Creating date collection between two dates
@@ -36,6 +39,32 @@ function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d')
 
     return $dates;
 }
+
+
+// New year's day
+$rrule = new RRule([
+	'FREQ' => 'YEARLY',
+	'INTERVAL' => 1,
+	'DTSTART' => '2015-01-01',
+	'COUNT' => 10
+]);
+
+foreach ( $rrule as $occurrence ) {
+	echo $occurrence->format('D d M Y'),", ";
+}
+
+// Sat before first Sunday in July
+$rrule = new RRule([
+	'FREQ' => 'YEARLY',
+	'INTERVAL' => 1,
+	'DTSTART' => '2015-01-01',
+	'COUNT' => 10
+]);
+
+foreach ( $rrule as $occurrence ) {
+	echo $occurrence->format('D d M Y'),", ";
+}
+
 
 $testDate = new DateTime('2014-11-27', new DateTimeZone('UTC'));
 $specialDays = calculateBankHolidays($testDate->format('Y'));
