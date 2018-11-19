@@ -1,0 +1,15 @@
+ @import url('https://fonts.googleapis.com/css?family=PT+Sans');
+
+.govuk-template {
+background-color:#ffffff;
+}
+
+.govuk-hint, .govuk-label, .govuk-button,
+.govuk-error-message, .govuk-link, .govuk-body,
+.govuk-list {
+  font-family: 'PT Sans', Arial, sans-serif;
+}
+
+.govuk-heading-xl {
+  line-height: normal;
+}

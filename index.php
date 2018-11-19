@@ -1,22 +1,32 @@
 <?php
+/**********************************************
+ * User form for generating repeating events. *
+ * Needs better structure                     *
+ * Steve Brett November 2018                  *
+ **********************************************/
+
+
 include 'dateFormula.php';
+
 // Check if form has been submitted, regardless of method (button, return key, etc)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+    if(isset($_POST['dateFormula'])) {
+        $dateFormula = explode(",", $_POST['dateFormula']);
+    }
     if(isset($_POST['singDate-day']) && strlen($_POST['singDate-day']) > 0) {
         $day = $_POST['singDate-day'];
     } else {
-        $errors[] = 'Please enter a valid day.';
+        $errors[] = 'Please enter a valid day. ';
     }
     if(isset($_POST['singDate-month']) && strlen($_POST['singDate-month']) > 0) {
         $month = $_POST['singDate-month'];
     } else {
-        $errors[]= 'Please enter a valid month.';
+        $errors[]= 'Please enter a valid month. ';
     }
     if(isset($_POST['singDate-year']) && strlen($_POST['singDate-year']) > 0) {
         $year = $_POST['singDate-year'];
     } else {
-        $errors[] = 'Please enter a valid year.';
+        $errors[] = 'Please enter a valid year. ';
     }
 
     if(isset($day) && isset($month) && isset($year))
@@ -31,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $formSuccess = true;
       } else {
           $formSuccess = false;
-          $errors[] = 'Please enter a valid date.';
+          $errors[] = 'Please enter a valid date. ';
       }
     } else {
         $formSuccess = false;
@@ -42,42 +52,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="govuk-template app-html-class">
   <head>
     <meta charset="utf-8">
     <title>Sacred Harp calendar calculator</title>
-    <link href="https://design-system.service.gov.uk/stylesheets/main-2beab115c64c3ab6a1bc2c3d53d93233.css" rel="stylesheet" media="all">
-    <link href="http://cdn.govstrap.io/v1/css/govstrap.min.css" rel="stylesheet">
-    <!--<link rel="stylesheet" href="style.css">
-    <script src="script.js"></script> -->
-  </head>
-  <body>
-<div class="container">
-<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <!--[if !IE 8]><!-->
+          <link rel="stylesheet" href="stylesheets/govuk-frontend-2.3.0.min.css">
+        <!--<![endif]-->
+        <!--[if IE 8]>
+          <link rel="stylesheet" href="stylesheets/govuk-frontend-ie8-2.3.0.min.css">
+        <![endif]-->
+    <!--<link href="http://cdn.govstrap.io/v1/css/govstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="stylesheets/override.css">
 
-<?php if ($formSuccess === true) {
+  </head>
+  <body class="govuk-template__body app-body-class">
+
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper app-main-class" id="main-content" role="main">
+<?php
+if (!isset($dateFormula)) {
+  ?>
+<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+<?php
+if ($formSuccess === true) {
   // Start of second page section -------------------------------
   ?>
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-        <h1 class="govuk-fieldset__heading">
+        <h1 class="govuk-fieldset__heading govuk-heading-xl">
         <?php
         $date = new DateTime($date, new DateTimeZone('UTC'));
-        $formula = new singingFormula($date);
-        $formula = $formula->createFormulae();
+        $formulae = new singingFormula($date);
+        $formulae = $formulae->createFormulae();
         echo $date->format('l jS F Y') . PHP_EOL;
         ?>
         </h1>
       </legend>
-
+      <span id="dateFormula-hint" class="govuk-hint">
+        Choose the date formula that describes your singing.<br/>
+        If you are not presented with a correct formula, please <a href="mailto:steve.brett.design@gmail.com">email me</a>.
+      </span>
       <div class="govuk-radios govuk-radios--conditional" data-module="radios">
-        <?php foreach ($formula as $k => $formulaOptions) {
+        <?php foreach ($formulae as $k => $formula) {
             ?>
         <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="date-formula-<?php echo $k; ?>" name="date-formula" type="radio" value="(<?php print_r(implode(",", $formulaOptions))?>)">
-          <label class="govuk-label govuk-radios__label" for="date-formula-<?php echo $k; ?>">
-            <?php   $output = new interpretFormula($formulaOptions, $date->format('Y'));
+          <input class="govuk-radios__input" id="dateFormula-<?php echo $k; ?>" name="dateFormula" type="radio" value="<?php print_r(implode(",", $formula))?>">
+          <label class="govuk-label govuk-radios__label" for="dateFormula-<?php echo $k; ?>">
+            <?php   $output = new interpretFormula($formula, $date->format('Y'));
             echo $output->text() . PHP_EOL; ?>
           </label>
         </div>
@@ -88,47 +111,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </fieldset>
   </div>
 
-<p><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">Choose a different date.</a></p>
+<p><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="govuk-link">Choose a different date.</a></p>
 
 
 <?php } else {
 // Start of first page section -------------------------------
   ?>
-<div class="form-group">
-  <fieldset class="fieldset" aria-describedby="singDate-hint" role="group">
-    <legend class="fieldset__legend fieldset__legend--xl">
-      <h1 class="fieldset__heading">
+<div class="govuk-form-group<?php if(isset($errors)) { echo ' govuk-form-group--error';}?>">
+  <fieldset class="govuk-fieldset" aria-describedby="singDate-hint" role="group">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+      <h1 class="govuk-fieldset__heading govuk-heading-xl">
         What date is your singing?
       </h1>
     </legend>
-    <span id="singDate-hint" class="help-block">
-      For example, 12 6 2018. This can be any past or future singing that
-      follows your formula.<br/>
-      Do not use the date of a one-off exception: you can set this later.
+    <span id="singDate-hint" class="govuk-hint">
+      For example, 28 7 2018. This can be any past or future singing that
+      follows your formula.
     </span>
-    <div class="date-input form-inline" id="singDate">
-      <div class="date-input__item">
-        <div class="form-group">
-          <label class="label date-input__label" for="singDate-day">
+    <span id="singDate-error" class="govuk-error-message">
+      <?php if(isset($errors)) {
+        foreach($errors as $error) {
+            echo $error;
+        }
+      }?>
+    </span>
+    <div class="govuk-date-input govuk-form-inline" id="singDate">
+      <div class="govuk-date-input__item">
+        <div class="govuk-form-group">
+          <label class="govuk-label govuk-date-input__label" for="singDate-day">
             Day
           </label>
-          <input value="<?php if(isset($day)){echo $day;} ?>" class="input date-input__input input--width-2" id="singDate-day" name="singDate-day" type="number" pattern="[0-9]*">
+          <input value="<?php if(isset($day)){echo $day;} ?>" class="govuk-input govuk-date-input__input govuk-input--width-2" id="singDate-day" name="singDate-day" type="number" pattern="[0-9]*">
         </div>
       </div>
-      <div class="date-input__item">
-        <div class="form-group">
-          <label class="label date-input__label" for="singDate-month">
+      <div class="govuk-date-input__item">
+        <div class="govuk-form-group">
+          <label class="govuk-label govuk-date-input__label" for="singDate-month">
             Month
           </label>
-          <input value="<?php if(isset($month)){echo $month;} ?>" class="input date-input__input input--width-2" id="singDate-month" name="singDate-month" type="number" pattern="[0-9]*">
+          <input value="<?php if(isset($month)){echo $month;} ?>" class="govuk-input govuk-date-input__input govuk-input--width-2" id="singDate-month" name="singDate-month" type="number" pattern="[0-9]*">
         </div>
       </div>
-      <div class="date-input__item">
-        <div class="form-group">
-          <label class="label date-input__label" for="singDate-year">
+      <div class="govuk-date-input__item">
+        <div class="govuk-form-group">
+          <label class="govuk-label govuk-date-input__label" for="singDate-year">
             Year
           </label>
-          <input value="<?php if(isset($year)){echo $year;} ?>" class="input date-input__input input--width-4" id="singDate-year" name="singDate-year" type="number" pattern="[0-9]*">
+          <input value="<?php if(isset($year)){echo $year;} ?>" class="govuk-input govuk-date-input__input govuk-input--width-4" id="singDate-year" name="singDate-year" type="number" pattern="[0-9]*">
         </div>
       </div>
     </div>
@@ -138,16 +167,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // End of first page section -------------------------------
 } ?>
 
-<?php if(isset($errors)) {
-  foreach($errors as $error) {
-      echo '<div class="alert alert-danger" role="alert">' . $error . '</div>';
-  }
-}?>
-<button type="submit" class="btn btn-primary">
+
+<button type="submit" class="govuk-button">
   Submit
 </button>
 </form>
+
+<?php } else {
+// Start of third page section -------------------------------
+$output = new interpretFormula($dateFormula);
+  ?>
+<span class="govuk-caption-xl">
+  <?php echo $output->text() . PHP_EOL; ?>
+</span>
+<h1 class="govuk-heading-xl">Next five singings</h1>
+<ul class="govuk-list">
+<?php
+
+$years = range(date('Y'), date('Y') + 4);
+foreach ($years as $year) {
+    ?>
+    <li>
+        <?php  $output->year($year);
+        echo $output->date()->format('l jS F Y') . PHP_EOL; ?>
+    </li>
+<?php
+} ?>
+</ul>
+<p class="govuk-body">Coming soon: Google Calendar integration!</p>
+<?php
+  // End of third page section -------------------------------
+  } ?>
+
+</main>
 </div>
 
+<script src="javascript/govuk-frontend-2.3.0.min.js"></script>
+    <script>window.GOVUKFrontend.initAll()</script>
 </body>
 </html>
