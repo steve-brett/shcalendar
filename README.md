@@ -11,15 +11,19 @@ The current formula takes advantage of the PHP `DateTime` object's text-based [r
 
 ## Examples
 The Saturday before the second Sunday in May
+
 `(second Sunday in May,-1)`
 
 The second Saturday in February
+
 `(second Saturday in February)`
 
 The Saturday after the Whitsun bank holiday
+
 `(special4,5)`
 
 The Saturday before the first fifth Sunday after the 4th July (yes, this is a real singing!)
+
 `(special6,-1)`
 
 
