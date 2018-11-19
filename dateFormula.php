@@ -288,11 +288,9 @@ class interpretFormula
         // If $adjust element of array is empty, give output
         if (empty($this->singingFormula[1])) {
             return $this->date;
-        } else {
-            $adjust = $this->singingFormula[1];
         }
-
         // Otherwise adjust
+        $adjust = $this->singingFormula[1];
         $this->date->modify("$adjust days");
 
         return $this->date;
