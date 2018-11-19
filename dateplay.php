@@ -52,7 +52,6 @@ $rrule = new RRule([
 foreach ( $rrule as $occurrence ) {
 	echo $occurrence->format('D d M Y'),", ";
 }
-<<<<<<< HEAD
 echo PHP_EOL;
 echo $rrule->rfcstring() . PHP_EOL;
 
@@ -71,35 +70,26 @@ foreach ( $rrule as $occurrence ) {
 }
 echo PHP_EOL;
 echo $rrule->rfcstring() . PHP_EOL;
-=======
->>>>>>> master
 
 // Sat before first Sunday in July
 $rrule = new RRule([
 	'FREQ' => 'YEARLY',
 	'INTERVAL' => 1,
-<<<<<<< HEAD
 	'DTSTART' => '2018-06-30',
   'BYYEARDAY' => '181,182,183,184,185,186,187,188',
   'BYMONTHDAY' => '-1,1,2,3,4,5,6',
   'BYDAY' => 'SA',
-=======
-	'DTSTART' => '2015-01-01',
->>>>>>> master
 	'COUNT' => 10
 ]);
 
 foreach ( $rrule as $occurrence ) {
 	echo $occurrence->format('D d M Y'),", ";
 }
-<<<<<<< HEAD
 echo PHP_EOL;
 echo $rrule->rfcstring() . PHP_EOL;
 
 
 /*
-=======
->>>>>>> master
 
 
 $testDate = new DateTime('2014-11-27', new DateTimeZone('UTC'));
