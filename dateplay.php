@@ -1,8 +1,11 @@
 <?php
-header("Content-type: text/html");
+header("Content-type: text/plain");
 
 include 'ukBankHols.php';
 include 'handyFunctions.php';
+
+require '../vendor/autoload.php';
+use RRule\RRule;
 
 /**
  * Creating date collection between two dates
@@ -37,7 +40,57 @@ function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d')
     return $dates;
 }
 
-var_dump(calculateBankHolidays(2220));
+
+// New year's day
+$rrule = new RRule([
+	'FREQ' => 'YEARLY',
+	'INTERVAL' => 1,
+	'DTSTART' => '2015-01-01',
+	'COUNT' => 10
+]);
+
+foreach ( $rrule as $occurrence ) {
+	echo $occurrence->format('D d M Y'),", ";
+}
+echo PHP_EOL;
+echo $rrule->rfcstring() . PHP_EOL;
+
+// first Sunday in July
+$rrule = new RRule([
+	'FREQ' => 'YEARLY',
+	'INTERVAL' => 1,
+	'DTSTART' => '2018-06-30',
+  'BYMONTH' => 7,
+  'BYDAY' => '1SU',
+	'COUNT' => 10
+]);
+
+foreach ( $rrule as $occurrence ) {
+	echo $occurrence->format('D d M Y'),", ";
+}
+echo PHP_EOL;
+echo $rrule->rfcstring() . PHP_EOL;
+
+// Sat before first Sunday in July
+$rrule = new RRule([
+	'FREQ' => 'YEARLY',
+	'INTERVAL' => 1,
+	'DTSTART' => '2018-06-30',
+  'BYYEARDAY' => '181,182,183,184,185,186,187,188',
+  'BYMONTHDAY' => '-1,1,2,3,4,5,6',
+  'BYDAY' => 'SA',
+	'COUNT' => 10
+]);
+
+foreach ( $rrule as $occurrence ) {
+	echo $occurrence->format('D d M Y'),", ";
+}
+echo PHP_EOL;
+echo $rrule->rfcstring() . PHP_EOL;
+
+
+/*
+
 
 $testDate = new DateTime('2014-11-27', new DateTimeZone('UTC'));
 $specialDays = calculateBankHolidays($testDate->format('Y'));

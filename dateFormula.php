@@ -26,6 +26,11 @@ class singingFormula
         return $this->date;
     }
 
+    /**
+     * Calculate a singing formula using the next Sunday as a reference day (most common)
+     * e.g. the Saturday before the second Sunday in May
+     * Is called by createFormulae() and adds a line to $singingFormulae array
+     */
     public function nthSunday()
     {
         $date = $this->date;
@@ -45,6 +50,11 @@ class singingFormula
         $this->singingFormulae[] = array("$nthDay Sunday of ".$nextSunday->format('F'), intval($adjust->format('%R%a')));
     }
 
+    /**
+     * Calculate a singing formula using the current day as a reference day
+     * e.g. the first Saturday in July
+     * Is called by createFormulae() and adds a line to $singingFormulae array
+     */
     public function nthDay()
     {
         $date = $this->date;
@@ -66,6 +76,12 @@ class singingFormula
         $this->singingFormulae[] = array("$nthDay " . $date->format('l') . " of " . $date->format('F'));
     }
 
+    /**
+     * Calculate a singing formula using the next Sunday as a reference day
+     * if it is the last Sunday in the month.
+     * e.g. the Saturday before the last Sunday in November
+     * Is called by createFormulae() and adds a line to $singingFormulae array
+     */
     public function lastSunday()
     {
         $date = $this->date;
@@ -87,6 +103,12 @@ class singingFormula
         $this->singingFormulae[] = array("last Sunday of ".$date->format('F'), intval($adjust->format('%R%a')));
     }
 
+    /**
+     * Calculate a singing formula using the current as a reference day
+     * if it is the last of its kind in the month.
+     * e.g. the last Saturday in February
+     * Is called by createFormulae() and adds a line to $singingFormulae array
+     */
     public function lastDay()
     {
         $date = $this->date;
@@ -98,14 +120,16 @@ class singingFormula
             return false;
         }
 
-        // add to array (refere nce nth day of month)
+        // add to array (reference nth day of month)
         $this->singingFormulae[] = array("last " . $date->format('l') . " of ".$date->format('F'));
     }
 
     /**
-     * Calculate proximity to an existing array of special dates
-     * If within one week, add to output array
-     * @return [type] [description]
+     * Calculate proximity to an existing array of special dates, if within one week
+     * e.g. New Year's Day (fixed date)
+     * e.g. Palm Sunday (moves around year)
+     * e.g. the Saturday after the Whitsun bank holiday (semi-fixed)
+     * Is called by createFormulae() and adds a line to $singingFormulae array
      */
     public function specialDay()
     {
@@ -123,7 +147,7 @@ class singingFormula
             return false;
         }
 
-        // add to array (refere nce nth day of month)
+        // add to array (special#, difference from reference)
         $this->singingFormulae[] = array('special' . $specialKey, intval($adjust->format('%R%a')));
     }
 

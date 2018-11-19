@@ -1,5 +1,13 @@
 <?php
+/**********************************************
+ * User form for generating repeating events. *
+ * Needs better structure                     *
+ * Steve Brett November 2018                  *
+ **********************************************/
+
+
 include 'dateFormula.php';
+
 // Check if form has been submitted, regardless of method (button, return key, etc)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(isset($_POST['dateFormula'])) {
