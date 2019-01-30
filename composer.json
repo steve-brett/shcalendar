@@ -9,7 +9,7 @@
             "email": "steve.brett.design@gmail.com"
         }
     ],
-    "require": ,
+    "require": {},
     "autoload": {
       "psr-4" : {
         "SHCalendar\\" : "src/"
