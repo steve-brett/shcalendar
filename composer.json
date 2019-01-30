@@ -10,12 +10,13 @@
         }
     ],
     "require": {
-        "coduo/php-humanizer": "^2.0"
+        "coduo/php-humanizer": "^2.0",
+        "rlanvin/php-rrule": "^1.6"
     },
     "autoload": {
       "psr-4" : {
-        "SHCalendar" : "src/",
-        "SHCalendar\\Tests" : "tests/"
+        "SHCalendar\\" : "src/",
+        "SHCalendar\\Tests\\" : "tests/"
       }
     },
     "require-dev": {
