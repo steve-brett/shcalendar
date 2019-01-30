@@ -14,7 +14,8 @@
     },
     "autoload": {
       "psr-4" : {
-        "SHCalendar\\" : "src/"
+        "SHCalendar" : "src/",
+        "SHCalendar\\Tests" : "tests/"
       }
     },
     "require-dev": {
