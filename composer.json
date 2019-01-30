@@ -1,0 +1,21 @@
+{
+    "name": "steve-brett/shcalendar",
+    "description": "Sacred Harp recurring event calculator",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Steve Brett",
+            "email": "steve.brett.design@gmail.com"
+        }
+    ],
+    "require": ,
+    "autoload": {
+      "psr-4" : {
+        "SHCalendar\\" : "src/"
+      }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    }
+}
