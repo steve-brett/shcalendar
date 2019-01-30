@@ -9,7 +9,9 @@
             "email": "steve.brett.design@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "coduo/php-humanizer": "^2.0"
+    },
     "autoload": {
       "psr-4" : {
         "SHCalendar\\" : "src/"
