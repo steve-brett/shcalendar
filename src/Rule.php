@@ -6,7 +6,7 @@ namespace SHCalendar;
 class Rule
 {
 
-  public function create(object $date): array
+  public function create(\DateTime $date): array
   {
     $rule = [
       'OFFSET' => '0'
