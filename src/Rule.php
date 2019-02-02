@@ -17,13 +17,8 @@ class Rule
     if ($rule['BYDAY'] == '5SU') {
       $rule['BYDAY'] = '-SU';
     }
-    if ($date->format('Y-m-d') == '2019-05-26') {
-      $rule = [$rule,
-        ['BYMONTH' => '5',
-          'BYDAY' => '-SU',
-          'OFFSET' => '0'
-          ]];
-    }
+
+
     return $rule;
   }
 
