@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace SHCalendar;
 
-class NthSundayRule
+use SHCalendar\Rule;
+
+class NthSundayRule implements Rule
 {
 
   public function create(\DateTime $date): array
