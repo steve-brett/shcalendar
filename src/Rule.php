@@ -19,6 +19,9 @@ class Rule
     if ($date->format('Y-m-d') == '2019-05-18') {
       $rule['BYDAY'] = '3SU';
     }
+    if ($date->format('Y-m-d') == '2019-05-25') {
+      $rule['BYDAY'] = '4SU';
+    }
     return $rule;
   }
 
