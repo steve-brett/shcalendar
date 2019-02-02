@@ -20,12 +20,16 @@ class LastSundayRule implements Rule
     $monthCheck = clone $nextSunday;
     $monthCheck = $monthCheck->modify('+1 week');
     if ($nextSunday->format('m') == $monthCheck->format('m')) {
-      throw new \InvalidArgumentException('Date is not last Sunday in month. Got [' . $date->format('Y-m-d') .']');    
+      throw new \InvalidArgumentException('Date is not last Sunday in month. Got [' . $date->format('Y-m-d') .']');
     }
 
     $rule = ['BYDAY' => '-SU',
       'OFFSET' => '0'
     ];
+
+    if ($date->format('D') !== 'Sun') {
+      $rule['OFFSET'] = $nextSunday->diff($date)->format('%R%a');
+    }
 
     $rule['BYMONTH'] = $nextSunday->format('n');
 
