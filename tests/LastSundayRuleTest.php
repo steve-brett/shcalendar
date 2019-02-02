@@ -64,6 +64,7 @@ class LastSundayRuleTest extends TestCase  # Has to be [ClassName]Test
   return [
     ['1799-12-31'],
     ['2019-05-19'],
+    ['2019-06-02'],
   ];
 }
 
