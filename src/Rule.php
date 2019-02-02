@@ -14,7 +14,9 @@ class Rule
     $day = $date->format('d');
     $rule['BYDAY'] = floor(($day - 1) / 7) + 1 . 'SU';
     $rule['BYMONTH'] = $date->format('n');
-
+    if ($rule['BYDAY'] == '5SU') {
+      $rule['BYDAY'] = '-SU';
+    }
     if ($date->format('Y-m-d') == '2019-05-26') {
       $rule = [$rule,
         ['BYMONTH' => '5',
