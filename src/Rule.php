@@ -25,11 +25,9 @@ class Rule
     if ($rule['BYDAY'] == '5SU') {
       $rule['BYDAY'] = '-SU';
     }
-
-    if ($date->format('D') == 'Sat') {
-      $rule['OFFSET'] = '-1';
+    if ($date->format('D') !== 'Sun') {
+      $rule['OFFSET'] = $nextSunday->diff($date)->format('%R%a');
     }
-
     return $rule;
   }
 
