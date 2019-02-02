@@ -18,6 +18,9 @@ class Rule
       $rule['BYDAY'] = '-SU';
     }
 
+    if ($date->format('Y-m-d') == '2019-05-04') {
+      $rule['OFFSET'] = '-1';
+    }
 
     return $rule;
   }
