@@ -14,7 +14,12 @@ class LastSundayRule implements Rule
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
     }
 
-    return false;
+    $rule = ['BYMONTH' => '5',
+      'BYDAY' => '-SU',
+      'OFFSET' => '0'
+    ];
+
+    return $rule;
   }
 
 }
