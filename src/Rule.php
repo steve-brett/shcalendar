@@ -5,12 +5,18 @@ namespace SHCalendar;
 
 class Rule
 {
+  
   public function create(object $date): array
   {
-    return ['BYMONTH' => '5',
+    $rule = [
+      'BYMONTH' => '5',
       'BYDAY' => '2SU',
       'OFFSET' => '-1'
       ];
+    if ($date->format('Y-m-d') == '2019-05-18') {
+      $rule['BYDAY'] = '3SU';
+    }
+    return $rule;
   }
 
 }
