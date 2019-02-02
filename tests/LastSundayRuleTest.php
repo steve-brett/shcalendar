@@ -22,7 +22,10 @@ class LastSundayRuleTest extends TestCase  # Has to be [ClassName]Test
   public function happyPathSundayDataProvider(): array
   {
     return [
-      [false, '2019-05-05'],
+      [['BYMONTH' => '5',
+        'BYDAY' => '-SU',
+        'OFFSET' => '0'
+      ], '2019-05-26'],
 
     ];
   }
