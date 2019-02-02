@@ -8,6 +8,9 @@ class Rule
 
   public function create(\DateTime $date): array
   {
+    if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
+      throw new \InvalidArgumentException('Date must 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
+    }
     $rule = [
       'OFFSET' => '0'
       ];
