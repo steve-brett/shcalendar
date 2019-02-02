@@ -13,10 +13,9 @@ class Rule
       'OFFSET' => '0'
       ];
     $day = $date->format('d');
-    $rule['BYDAY'] = floor($day / 7) + 1 . 'SU';
-    if ($date->format('m') == '6') {
-      $rule['BYMONTH'] = '6';
-    }
+    $rule['BYDAY'] = floor(($day - 1) / 7) + 1 . 'SU';
+    $rule['BYMONTH'] = $date->format('n');
+
     return $rule;
   }
 
