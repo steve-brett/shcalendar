@@ -19,7 +19,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     $this->rule = new Rule();
   }
 
-  public function happyPathDataProvider(): array
+  public function happyPathSundayDataProvider(): array
   {
     return [
       [['BYMONTH' => '5',
@@ -51,7 +51,20 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         'BYDAY' => '-SU',
         'OFFSET' => '0'
       ], '2019-06-30'],
+    ];
+  }
 
+  /**
+   * @dataProvider happyPathSundayDataProvider
+   */
+  public function testHappyPathSunday(array $expectedValue, string $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
+  }
+
+  public function happyPathSundayOffsetDataProvider(): array
+  {
+    return [
       [['BYMONTH' => '5',
         'BYDAY' => '1SU',
         'OFFSET' => '-1'
@@ -81,11 +94,11 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
   }
 
   /**
-   * @dataProvider happyPathDataProvider
+   * @dataProvider happyPathSundayOffsetDataProvider
    */
-  public function testHappyPath(array $expectedValue, string $inputValue): void
+  public function testHappyPathSundayOffset(array $expectedValue, string $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('Y-m-d', $inputValue)));
+    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
   }
 
   public function invalidData(): array
