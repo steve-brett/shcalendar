@@ -47,10 +47,7 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
         'OFFSET' => '0'
       ], '2019-07-07'],
 
-      [['BYMONTH' => '6',
-        'BYDAY' => '-SU',
-        'OFFSET' => '0'
-      ], '2019-06-30'],
+
     ];
   }
 
@@ -110,6 +107,7 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
 {
   return [
     ['1799-12-31'],
+    ['2019-06-30'],
   ];
 }
 
