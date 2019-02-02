@@ -25,7 +25,7 @@ class NthSundayRule implements Rule
     $rule['BYMONTH'] = $nextSunday->format('n');
 
     if ($rule['BYDAY'] == '5SU') {
-      $rule['BYDAY'] = '-SU';
+      throw new \InvalidArgumentException('Date is 5th Sunday in month - not annual. Got [' . $date->format('Y-m-d') .']');
     }
     if ($date->format('D') !== 'Sun') {
       $rule['OFFSET'] = $nextSunday->diff($date)->format('%R%a');
