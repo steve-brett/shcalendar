@@ -24,20 +24,20 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     return [
       [['BYMONTH' => '5',
         'BYDAY' => '1SU',
-        'OFFSET' => '-1'
-      ], '2019-05-04'],
+        'OFFSET' => '0'
+      ], '2019-05-05'],
       [['BYMONTH' => '5',
         'BYDAY' => '2SU',
-        'OFFSET' => '-1'
-      ], '2019-05-11'],
+        'OFFSET' => '0'
+      ], '2019-05-12'],
       [['BYMONTH' => '5',
         'BYDAY' => '3SU',
-        'OFFSET' => '-1'
-      ], '2019-05-18'],
+        'OFFSET' => '0'
+      ], '2019-05-19'],
       [['BYMONTH' => '5',
         'BYDAY' => '4SU',
-        'OFFSET' => '-1'
-      ], '2019-05-25'],
+        'OFFSET' => '0'
+      ], '2019-05-26'],
     ];
   }
 

@@ -11,15 +11,15 @@ class Rule
     $rule = [
       'BYMONTH' => '5',
       'BYDAY' => '1SU',
-      'OFFSET' => '-1'
+      'OFFSET' => '0'
       ];
-    if ($date->format('d') == '11') {
+    if ($date->format('d') == '12') {
       $rule['BYDAY'] = '2SU';
     }
-    if ($date->format('d') == '18') {
+    if ($date->format('d') == '19') {
       $rule['BYDAY'] = '3SU';
     }
-    if ($date->format('d') == '25') {
+    if ($date->format('d') == '26') {
       $rule['BYDAY'] = '4SU';
     }
     return $rule;
