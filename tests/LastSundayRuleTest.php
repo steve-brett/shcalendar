@@ -27,6 +27,10 @@ class LastSundayRuleTest extends TestCase  # Has to be [ClassName]Test
         'OFFSET' => '0'
       ], '2019-05-26'],
 
+      [['BYMONTH' => '6',
+        'BYDAY' => '-SU',
+        'OFFSET' => '0'
+      ], '2019-06-30'],
     ];
   }
 
@@ -37,7 +41,7 @@ class LastSundayRuleTest extends TestCase  # Has to be [ClassName]Test
   {
     $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
   }
-
+/*
   public function happyPathSundayOffsetDataProvider(): array
   {
     return [
@@ -48,12 +52,13 @@ class LastSundayRuleTest extends TestCase  # Has to be [ClassName]Test
 
   /**
    * @dataProvider happyPathSundayOffsetDataProvider
-   */
+   */ /*
   public function testHappyPathSundayOffset(array $expectedValue, string $inputValue): void
   {
     $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
   }
 
+*/
   public function invalidData(): array
 {
   return [
