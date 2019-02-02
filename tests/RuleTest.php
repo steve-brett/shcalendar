@@ -69,6 +69,22 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('Y-m-d', $inputValue)));
   }
 
+  public function invalidData(): array
+{
+  return [
+    ['1799-12-31'],
+  ];
+}
+
+/**
+ * @dataProvider invalidData
+ */
+public function testThrowsException(string $inputValue): void
+{
+  $this->expectException(\InvalidArgumentException::class);
+  $this->rule->create(\DateTime::createFromFormat('Y-m-d', $inputValue));
+}
+
 }
 
  ?>
