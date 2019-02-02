@@ -6,7 +6,7 @@
  **********************************************/
 
 
-include 'dateFormula.php';
+include 'src/dateFormula.php';
 
 // Check if form has been submitted, regardless of method (button, return key, etc)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
