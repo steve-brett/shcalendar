@@ -21,7 +21,7 @@ class Rule
       $rule['BYDAY'] = '-SU';
     }
 
-    if ($date->format('Y-m-d') == '2019-05-04') {
+    if ($date->format('D') == 'Sat') {
       $rule['OFFSET'] = '-1';
     }
 
