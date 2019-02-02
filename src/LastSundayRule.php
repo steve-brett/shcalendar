@@ -13,11 +13,14 @@ class LastSundayRule implements Rule
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
     }
-
-    $rule = ['BYMONTH' => '5',
-      'BYDAY' => '-SU',
+    $rule = ['BYDAY' => '-SU',
       'OFFSET' => '0'
     ];
+
+    $nextSunday = clone $date;
+    $nextSunday->modify('this sunday');
+
+    $rule['BYMONTH'] = $nextSunday->format('n');
 
     return $rule;
   }
