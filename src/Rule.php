@@ -13,13 +13,13 @@ class Rule
       'BYDAY' => '1SU',
       'OFFSET' => '-1'
       ];
-    if ($date->format('Y-m-d') == '2019-05-11') {
+    if ($date->format('d') == '11') {
       $rule['BYDAY'] = '2SU';
     }
-    if ($date->format('Y-m-d') == '2019-05-18') {
+    if ($date->format('d') == '18') {
       $rule['BYDAY'] = '3SU';
     }
-    if ($date->format('Y-m-d') == '2019-05-25') {
+    if ($date->format('d') == '25') {
       $rule['BYDAY'] = '4SU';
     }
     return $rule;
