@@ -62,6 +62,11 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         'OFFSET' => '-1'
       ], '2019-05-11'],
 
+      [['BYMONTH' => '7',
+        'BYDAY' => '1SU',
+        'OFFSET' => '-1'
+      ], '2018-06-30'],
+
 
     ];
   }
