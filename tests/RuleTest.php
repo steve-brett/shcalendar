@@ -26,18 +26,26 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         'BYDAY' => '1SU',
         'OFFSET' => '0'
       ], '2019-05-05'],
+
       [['BYMONTH' => '5',
         'BYDAY' => '2SU',
         'OFFSET' => '0'
       ], '2019-05-12'],
+
       [['BYMONTH' => '5',
         'BYDAY' => '3SU',
         'OFFSET' => '0'
       ], '2019-05-19'],
+
       [['BYMONTH' => '5',
         'BYDAY' => '4SU',
         'OFFSET' => '0'
       ], '2019-05-26'],
+
+      [['BYMONTH' => '6',
+        'BYDAY' => '1SU',
+        'OFFSET' => '0'
+      ], '2016-06-02'],
     ];
   }
 
