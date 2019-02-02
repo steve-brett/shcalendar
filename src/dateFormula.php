@@ -1,5 +1,4 @@
 <?php
-namespace SHCalendar;
 
 include 'ukBankHols.php';
 include 'handyFunctions.php';

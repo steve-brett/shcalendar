@@ -4,8 +4,9 @@
  * Needs better structure                     *
  * Steve Brett November 2018                  *
  **********************************************/
-use SHCalendar\singingFormula;
-use SHCalendar\interpretFormula;
+
+
+include 'dateFormula.php';
 
 // Check if form has been submitted, regardless of method (button, return key, etc)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
