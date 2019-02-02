@@ -1,10 +1,10 @@
 <?php
 header("Content-type: text/html");
 
-include 'ukBankHols.php';
-include 'handyFunctions.php';
+include 'src/ukBankHols.php';
+include 'src/handyFunctions.php';
 
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 use RRule\RRule;
 
 /**
@@ -50,7 +50,7 @@ $rrule = new RRule([
 ]);
 
 foreach ( $rrule as $occurrence ) {
-	echo $occurrence->format('D d M Y'),", ";
+	echo $occurrence->format('D d M Y'),", " . PHP_EOL;
 }
 echo PHP_EOL;
 echo $rrule->rfcstring() . PHP_EOL;
