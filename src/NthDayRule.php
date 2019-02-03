@@ -14,8 +14,8 @@ class NthDayRule implements Rule
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
     }
 
-    $rule = ['BYMONTH' => '',
-      'BYDAY' => '',
+    $rule = ['BYMONTH' => '5',
+      'BYDAY' => '1SA',
       'OFFSET' => '0'
     ];
     return $rule;
