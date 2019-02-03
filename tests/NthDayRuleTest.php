@@ -23,9 +23,9 @@ class NthDayRuleTest extends TestCase  # Has to be [ClassName]Test
   {
     return [
       [['BYMONTH' => '5',
-        'BYDAY' => '1SU',
+        'BYDAY' => '1SA',
         'OFFSET' => '0'
-      ], '2019-05-05'],
+      ], '2019-05-04'],
 
 
     ];
