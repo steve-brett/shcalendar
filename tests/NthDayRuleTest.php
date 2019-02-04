@@ -32,6 +32,21 @@ class NthDayRuleTest extends TestCase  # Has to be [ClassName]Test
         'OFFSET' => '0'
       ], '2019-05-11'],
 
+      [['BYMONTH' => '5',
+        'BYDAY' => '3SA',
+        'OFFSET' => '0'
+      ], '2019-05-18'],
+
+      [['BYMONTH' => '5',
+        'BYDAY' => '4SA',
+        'OFFSET' => '0'
+      ], '2019-05-25'],
+
+      [['BYMONTH' => '6',
+        'BYDAY' => '1SA',
+        'OFFSET' => '0'
+      ], '2019-06-01'],
+
 
     ];
   }
