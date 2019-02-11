@@ -69,6 +69,8 @@ class NthDayRuleTest extends TestCase  # Has to be [ClassName]Test
   return [
     ['1799-12-31'],
     ['2019-06-29'],
+    ['2019-06-30'],
+    ['2019-07-29'],
   ];
 }
 
