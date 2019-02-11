@@ -22,34 +22,34 @@ class NthDayRuleTest extends TestCase  # Has to be [ClassName]Test
   public function happyPathDayDataProvider(): array
   {
     return [
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '1SA',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-05-04'],
 
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '2SA',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-05-11'],
 
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '3SA',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-05-18'],
 
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '4SA',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-05-25'],
 
-      [['BYMONTH' => '6',
+      [['BYMONTH' => 6,
         'BYDAY' => '1SA',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-06-01'],
 
-      [['BYMONTH' => '6',
+      [['BYMONTH' => 6,
         'BYDAY' => '1MO',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-06-03'],
 
 

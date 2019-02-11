@@ -22,14 +22,14 @@ class LastSundayRuleTest extends TestCase  # Has to be [ClassName]Test
   public function happyPathSundayDataProvider(): array
   {
     return [
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '-SU',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-05-26'],
 
-      [['BYMONTH' => '6',
+      [['BYMONTH' => 6,
         'BYDAY' => '-SU',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-06-30'],
     ];
   }
@@ -45,9 +45,9 @@ class LastSundayRuleTest extends TestCase  # Has to be [ClassName]Test
   public function happyPathSundayOffsetDataProvider(): array
   {
     return [
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '-SU',
-        'OFFSET' => '-1'
+        'OFFSET' => -1
       ], '2019-05-25'],
 
     ];

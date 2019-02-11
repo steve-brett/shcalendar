@@ -22,29 +22,29 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
   public function happyPathSundayDataProvider(): array
   {
     return [
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '1SU',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-05-05'],
 
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '2SU',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-05-12'],
 
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '3SU',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-05-19'],
 
-      [['BYMONTH' => '6',
+      [['BYMONTH' => 6,
         'BYDAY' => '1SU',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-06-02'],
 
-      [['BYMONTH' => '7',
+      [['BYMONTH' => 7,
         'BYDAY' => '1SU',
-        'OFFSET' => '0'
+        'OFFSET' => 0
       ], '2019-07-07'],
 
 
@@ -62,34 +62,34 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
   public function happyPathSundayOffsetDataProvider(): array
   {
     return [
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '1SU',
-        'OFFSET' => '-1'
+        'OFFSET' => -1
       ], '2019-05-04'],
 
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '2SU',
-        'OFFSET' => '-1'
+        'OFFSET' => -1
       ], '2019-05-11'],
 
-      [['BYMONTH' => '7',
+      [['BYMONTH' => 7,
         'BYDAY' => '1SU',
-        'OFFSET' => '-1'
+        'OFFSET' => -1
       ], '2018-06-30'],
 
-      [['BYMONTH' => '1',
+      [['BYMONTH' => 1,
         'BYDAY' => '1SU',
-        'OFFSET' => '-1'
+        'OFFSET' => -1
       ], '2016-12-31'],
 
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '1SU',
-        'OFFSET' => '-2'
+        'OFFSET' => -2
       ], '2019-05-03'],
 
-      [['BYMONTH' => '5',
+      [['BYMONTH' => 5,
         'BYDAY' => '1SU',
-        'OFFSET' => '-6'
+        'OFFSET' => -6
       ], '2019-04-29'],
 
     ];

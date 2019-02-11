@@ -15,7 +15,7 @@ class NthSundayRule implements Rule
     }
 
     $rule = [
-      'OFFSET' => '0'
+      'OFFSET' => 0
       ];
     $nextSunday = clone $date;
     $nextSunday->modify('this sunday');
