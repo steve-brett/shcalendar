@@ -19,14 +19,16 @@ class NthSundayRule implements Rule
       ];
     $nextSunday = clone $date;
     $nextSunday->modify('this sunday');
-
     $refDay = $nextSunday->format('d');
-    $rule['BYDAY'] = floor(($refDay - 1) / 7) + 1 . 'SU';
-    $rule['BYMONTH'] = $nextSunday->format('n');
 
-    if ($rule['BYDAY'] == '5SU') {
+    $count = floor(($refDay - 1) / 7) + 1;
+    if ($count == 5) {
       throw new \InvalidArgumentException('Date is 5th Sunday in month - not annual. Got [' . $date->format('Y-m-d') .']');
     }
+
+    $rule['BYDAY'] = $count . 'SU';
+    $rule['BYMONTH'] = $nextSunday->format('n');
+
     if ($date->format('D') !== 'Sun') {
       $rule['OFFSET'] = $nextSunday->diff($date)->format('%R%a');
     }
