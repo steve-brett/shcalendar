@@ -63,31 +63,12 @@ class NthDayRuleTest extends TestCase  # Has to be [ClassName]Test
   {
     $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
   }
-/*
-  public function happyPathDayOffsetDataProvider(): array
-  {
-    return [
-      [['BYMONTH' => '5',
-        'BYDAY' => '1SU',
-        'OFFSET' => '-1'
-      ], '2019-05-04'],
 
-
-    ];
-  }
-
-  /**
-   * @dataProvider happyPathDayOffsetDataProvider
-   */ /*
-  public function testHappyPathDayOffset(array $expectedValue, string $inputValue): void
-  {
-    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
-  }
-*/
   public function invalidData(): array
 {
   return [
     ['1799-12-31'],
+    ['2019-06-29'],
   ];
 }
 
