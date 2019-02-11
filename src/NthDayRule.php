@@ -15,10 +15,9 @@ class NthDayRule implements Rule
     }
     $refDay = $date->format('d');
 
-    $rule = ['BYMONTH' => '5',
-      'OFFSET' => '0'
-    ];
+    $rule = ['OFFSET' => '0'];
     $rule['BYDAY'] = floor(($refDay - 1) / 7) + 1 . 'SA';
+    $rule['BYMONTH'] = $date->format('n');
 
     return $rule;
   }
