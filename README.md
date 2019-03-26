@@ -1,7 +1,7 @@
 # shcalendar
 Formula date manager for Sacred Harp singings
 
-http://www.bristolsacredharp.org/stevetest/
+http://stevebrett.nfshost.com/shcalendar/
 
 Annual Sacred Harp singings are organised using date formulae, usually relating to the day's position in the month (e.g. second Sunday), or a special date (e.g. Palm Sunday).
 
