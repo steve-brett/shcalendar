@@ -148,6 +148,46 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
         'refday' => 'Sat'
       ]],
 
+      [['BYMONTH' => 5,
+        'BYDAY' => '2SA',
+        'OFFSET' => 0
+      ],
+      [ 'date' => '2019-05-11',
+        'refday' => 'Sat'
+      ]],
+
+      [['BYMONTH' => 5,
+        'BYDAY' => '3SA',
+        'OFFSET' => 0
+      ],
+      [ 'date' => '2019-05-18',
+        'refday' => 'Sat'
+      ]],
+
+      [['BYMONTH' => 5,
+        'BYDAY' => '4SA',
+        'OFFSET' => 0
+      ],
+      [ 'date' => '2019-05-25',
+        'refday' => 'Sat'
+      ]],
+
+      [['BYMONTH' => 6,
+        'BYDAY' => '1SA',
+        'OFFSET' => 0
+      ],
+      [ 'date' => '2019-06-01',
+        'refday' => 'Sat'
+      ]],
+
+      [['BYMONTH' => 6,
+        'BYDAY' => '1MO',
+        'OFFSET' => 0
+      ],
+      [ 'date' => '2019-06-03',
+        'refday' => 'Mon'
+      ]],
+
     ];
   }
 
