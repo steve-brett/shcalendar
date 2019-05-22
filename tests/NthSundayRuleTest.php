@@ -81,32 +81,50 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
       [['BYMONTH' => 5,
         'BYDAY' => '1SU',
         'OFFSET' => -1
-      ], '2019-05-04'],
+      ],
+      [ 'date' => '2019-05-04',
+        'refday' => 'Sun'
+      ]],
 
       [['BYMONTH' => 5,
         'BYDAY' => '2SU',
         'OFFSET' => -1
-      ], '2019-05-11'],
+      ],
+      [ 'date' => '2019-05-11',
+        'refday' => 'Sun'
+      ]],
 
       [['BYMONTH' => 7,
         'BYDAY' => '1SU',
         'OFFSET' => -1
-      ], '2018-06-30'],
+      ],
+      [ 'date' => '2018-06-30',
+        'refday' => 'Sun'
+      ]],
 
       [['BYMONTH' => 1,
         'BYDAY' => '1SU',
         'OFFSET' => -1
-      ], '2016-12-31'],
+      ],
+      [ 'date' => '2016-12-31',
+        'refday' => 'Sun'
+      ]],
 
       [['BYMONTH' => 5,
         'BYDAY' => '1SU',
         'OFFSET' => -2
-      ], '2019-05-03'],
+      ],
+      [ 'date' => '2019-05-03',
+        'refday' => 'Sun'
+      ]],
 
       [['BYMONTH' => 5,
         'BYDAY' => '1SU',
         'OFFSET' => -6
-      ], '2019-04-29'],
+      ],
+      [ 'date' => '2019-04-29',
+        'refday' => 'Sun'
+      ]],
 
     ];
   }
@@ -114,9 +132,9 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
   /**
    * @dataProvider happyPathSundayOffsetDataProvider
    */
-  public function testHappyPathSundayOffset(array $expectedValue, string $inputValue): void
+  public function testHappyPathSundayOffset(array $expectedValue, array $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
+    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
   }
 
   public function invalidData(): array
