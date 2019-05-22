@@ -137,6 +137,28 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
     $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
   }
 
+  public function happyPathDayDataProvider(): array
+  {
+    return [
+      [['BYMONTH' => 5,
+        'BYDAY' => '1SA',
+        'OFFSET' => 0
+      ],
+      [ 'date' => '2019-05-04',
+        'refday' => 'Sat'
+      ]],
+
+    ];
+  }
+
+  /**
+   * @dataProvider happyPathDayDataProvider
+   */
+  public function testHappyPathDay(array $expectedValue, array $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
+  }
+
   public function invalidData(): array
 {
   return [
