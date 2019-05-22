@@ -14,9 +14,6 @@ class NthSundayRule implements Rule
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
     }
 
-    $rule = [
-      'OFFSET' => 0
-      ];
     $nextSunday = clone $date;
     $nextSunday->modify('this sun');
     $refDay = $nextSunday->format('d');
@@ -28,10 +25,8 @@ class NthSundayRule implements Rule
 
     $rule['BYDAY'] = $count . 'SU';
     $rule['BYMONTH'] = $nextSunday->format('n');
-
-    if ($date->format('D') !== 'Sun') {
-      $rule['OFFSET'] = $nextSunday->diff($date)->format('%R%a');
-    }
+    $rule['OFFSET'] = $nextSunday->diff($date)->format('%R%a');
+    
     return $rule;
   }
 
