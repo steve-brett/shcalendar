@@ -200,22 +200,22 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
   }
 
   public function invalidData(): array
-{
-  return [
-    ['1799-12-31'],
-    ['2019-06-30'],
-    ['2019-06-24'],
-  ];
-}
+  {
+    return [
+      ['1799-12-31'],
+      ['2019-06-30'],
+      ['2019-06-24'],
+    ];
+  }
 
-/**
- * @dataProvider invalidData
- */
-public function testThrowsException(string $inputValue): void
-{
-  $this->expectException(\InvalidArgumentException::class);
-  $this->rule->create(\DateTime::createFromFormat('Y-m-d', $inputValue));
-}
+  /**
+   * @dataProvider invalidData
+   */
+  public function testThrowsException(string $inputValue): void
+  {
+    $this->expectException(\InvalidArgumentException::class);
+    $this->rule->create(\DateTime::createFromFormat('Y-m-d', $inputValue));
+  }
 
 }
 
