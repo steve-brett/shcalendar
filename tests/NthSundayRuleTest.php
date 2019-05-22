@@ -83,7 +83,7 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
         'OFFSET' => -1
       ],
       [ 'date' => '2019-05-04',
-        'refday' => 'Sun'
+        'refday' => '' // Defaults to Sun if empty
       ]],
 
       [['BYMONTH' => 5,
