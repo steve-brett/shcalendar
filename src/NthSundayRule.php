@@ -18,7 +18,7 @@ class NthSundayRule implements Rule
       'OFFSET' => 0
       ];
     $nextSunday = clone $date;
-    $nextSunday->modify('this sunday');
+    $nextSunday->modify('this sun');
     $refDay = $nextSunday->format('d');
 
     $count = floor(($refDay - 1) / 7) + 1;
