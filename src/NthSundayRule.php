@@ -8,7 +8,7 @@ use SHCalendar\Rule;
 class NthSundayRule implements Rule
 {
 
-  public function create(\DateTime $date): array
+  public function create(\DateTime $date, string $refday = 'Sun'): array
   {
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
