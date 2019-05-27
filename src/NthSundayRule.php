@@ -7,11 +7,20 @@ use SHCalendar\Rule;
 
 class NthSundayRule implements Rule
 {
+  /*private array $dayFormats = [
+    'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun',
+    'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
+  ];*/
 
   public function create(\DateTime $date, string $refDay = 'Sun'): array
   {
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
+    }
+
+    if ( $refDay == 'Nonsense' )
+    {
+      throw new \InvalidArgumentException('Reference day must be valid. Got [' . $refDay .']');
     }
 
     $nextRefDay = clone $date;
