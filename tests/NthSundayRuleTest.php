@@ -217,6 +217,27 @@ class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
     $this->rule->create(\DateTime::createFromFormat('Y-m-d', $inputValue));
   }
 
+  public function invalidDataTwo(): array
+  {
+    return [
+      [['date' => '2019-06-29',
+        'refday' => 'Sat']],
+      [['date' => '2019-07-29',
+        'refday' => 'Mon']],
+      [['date' => '2019-07-01',
+        'refday' => 'Nonsense']],
+    ];
+  }
+
+  /**
+   * @dataProvider invalidDataTwo
+   */
+  public function testTwoThrowsException(array $inputValue): void
+  {
+    $this->expectException(\InvalidArgumentException::class);
+    $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday'] );
+  }
+
 }
 
  ?>
