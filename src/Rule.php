@@ -7,14 +7,9 @@ class Rule
 {
   public function readable(array $rule): string
   {
-    if ($rule['BYMONTH'] == 7)
-    {
-      return 'The first Sunday in July';
-    }
-    if ($rule['BYMONTH'] == 6)
-    {
-      return 'The first Sunday in June';
-    }
+    $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
+    $monthName = $dateObj->format('F');
+
     if ($rule['BYDAY'] == '-SU')
     {
       return 'The last Sunday in May';
@@ -25,7 +20,7 @@ class Rule
     $formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET,
                         "%spellout-ordinal");
 
-    return 'The ' . $formatter->format($ordinal) . ' Sunday in May';
+    return 'The ' . $formatter->format($ordinal) . ' Sunday in ' . $monthName;
   }
 
 }
