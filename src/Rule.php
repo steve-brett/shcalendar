@@ -12,7 +12,7 @@ class Rule
 
     if ($rule['BYDAY'] == '-SU')
     {
-      return 'The last Sunday in May';
+      return 'The last Sunday in ' . $monthName;
     }
     $ordinal = substr($rule['BYDAY'], 0, 1);
 
