@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class RuleTest extends TestCase  # Has to be [ClassName]Test
 {
   /**
-   * @var NthSundayRule
+   * @var Rule
    */
   private $rule;
 
