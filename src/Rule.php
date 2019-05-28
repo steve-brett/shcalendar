@@ -14,6 +14,10 @@ class Rule
     {
       return 'The first Saturday in ' . $monthName;
     }
+    if ($rule['BYDAY'] == '1MO')
+    {
+      return 'The first Monday in ' . $monthName;
+    }
 
     if ($rule['BYDAY'] == '-SU')
     {
