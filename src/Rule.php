@@ -7,6 +7,10 @@ class Rule
 {
   public function readable(array $rule): string
   {
+    if ($rule['BYDAY'] == '-SU')
+    {
+      return 'The last Sunday in May';
+    }
     $ordinal = substr($rule['BYDAY'], 0, 1);
 
     $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
