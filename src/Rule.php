@@ -10,6 +10,11 @@ class Rule
     $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
     $monthName = $dateObj->format('F');
 
+    if ($rule['BYDAY'] == '1SA')
+    {
+      return 'The first Saturday in ' . $monthName;
+    }
+
     if ($rule['BYDAY'] == '-SU')
     {
       return 'The last Sunday in ' . $monthName;
@@ -17,8 +22,7 @@ class Rule
     $ordinal = substr($rule['BYDAY'], 0, 1);
 
     $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
-    $formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET,
-                        "%spellout-ordinal");
+    $formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
 
     return 'The ' . $formatter->format($ordinal) . ' Sunday in ' . $monthName;
   }
