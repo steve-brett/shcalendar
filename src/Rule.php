@@ -8,7 +8,7 @@ class Rule
   public function readable(array $rule): string
   {
 
-    return '';
+    return 'The first Sunday in May';
   }
 
 }
