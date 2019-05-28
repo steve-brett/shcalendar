@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace SHCalendar;
 
-use SHCalendar\Rule;
-
-class NthSundayRule implements Rule
+class NthSundayRule
 {
   /*private array $dayFormats = [
     'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun',

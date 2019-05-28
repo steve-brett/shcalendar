@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace SHCalendar;
 
-use SHCalendar\Rule;
-
-class NthDayRule implements Rule
+class NthDayRule
 {
 
   public function create(\DateTime $date): array
@@ -13,7 +11,7 @@ class NthDayRule implements Rule
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
     }
-    
+
     $refDay = $date->format('d');
     $count = floor(($refDay - 1) / 7) + 1;
 

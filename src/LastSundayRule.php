@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace SHCalendar;
 
-use SHCalendar\Rule;
-
-class LastSundayRule implements Rule
+class LastSundayRule
 {
 
   public function create(\DateTime $date): array
