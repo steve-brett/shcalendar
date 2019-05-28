@@ -6,6 +6,8 @@ namespace SHCalendar;
 $start = isset($_GET['start']) ? $_GET['start'] : '';
   $end = isset($_GET['end']) ? $_GET['end'] : '';
 
+// maybe pass values to validator function in a try/catch
+// instead of doing it here
 $start_object = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $start);
   $end_object = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $end);
 
