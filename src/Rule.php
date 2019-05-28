@@ -7,6 +7,10 @@ class Rule
 {
   public function readable(array $rule): string
   {
+    if ($rule['BYMONTH'] == 7)
+    {
+      return 'The first Sunday in July';
+    }
     if ($rule['BYMONTH'] == 6)
     {
       return 'The first Sunday in June';
