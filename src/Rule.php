@@ -7,6 +7,10 @@ class Rule
 {
   public function readable(array $rule): string
   {
+    if ($rule['BYDAY'] == '2SU')
+    {
+      return 'The second Sunday in May';
+    }
 
     return 'The first Sunday in May';
   }
