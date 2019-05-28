@@ -46,6 +46,12 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         'OFFSET' => 0
       ]],
 
+      ['The last Sunday in May',
+      ['BYMONTH' => 5,
+        'BYDAY' => '-SU',
+        'OFFSET' => 0
+      ]],
+
     ];
   }
 
