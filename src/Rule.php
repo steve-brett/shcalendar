@@ -29,6 +29,7 @@ class Rule
   {
     $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
     $monthName = $dateObj->format('F');
+    $offset = '';
 
     $dayName = $this::$week_days[substr($rule['BYDAY'], 1, 2)];
    
@@ -36,12 +37,18 @@ class Rule
     {
       return 'The last ' . $dayName . ' in ' . $monthName;
     }
+
+    if ($rule['OFFSET'] == '-1') 
+    {
+      $offset = 'Saturday before the ';
+    }
+
     $ordinal = substr($rule['BYDAY'], 0, 1);
 
     $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
     $formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
 
-    return 'The ' . $formatter->format($ordinal) . ' ' . $dayName . ' in ' . $monthName;
+    return 'The ' . $offset . $formatter->format($ordinal) . ' ' . $dayName . ' in ' . $monthName;
   }
 
 }
