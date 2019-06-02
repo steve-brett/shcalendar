@@ -38,6 +38,11 @@ class Rule
       $offset = 'Saturday before the ';
     }
 
+    if ($rule['OFFSET'] == '-1' && $dayName == 'Monday')
+    {
+      $offset = 'Sunday before the ';
+    }
+
     $ordinal = substr($rule['BYDAY'], 0, 1);
     $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
     $formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
