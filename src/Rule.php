@@ -32,7 +32,7 @@ class Rule
 
     $dayName = $this::$week_days[substr($rule['BYDAY'], 1, 2)];
    
-    if ($rule['BYDAY'] == '-SU')
+    if (substr($rule['BYDAY'], 0, 1) == '-')
     {
       return 'The last ' . $dayName . ' in ' . $monthName;
     }
