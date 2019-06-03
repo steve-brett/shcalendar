@@ -46,7 +46,7 @@ class Rule
     $weekDay = $rule['OFFSET'] + \RRule\RRule::$week_days[substr($rule['BYDAY'], 1, 2)];
     $weekDay = ($weekDay + 7) % 7;
 
-     if ($rule['OFFSET'] == '-1') 
+     if ($rule['OFFSET'] == '-1' || $rule['OFFSET'] == '-2' || $rule['OFFSET'] == '-3')
     {
       $offset = $this::$week_days[$weekDay] . ' before the ';
     }
