@@ -15,7 +15,7 @@ class Rule
 	 *
 	 * @var array The name as the key
 	 */
-	protected static $week_days = array(
+	protected static $week_day_abbrev = array(
 		'MO' => 'Monday',
 		'TU' => 'Tuesday',
 		'WE' => 'Wednesday',
@@ -25,26 +25,30 @@ class Rule
 		'SU' => 'Sunday'
   );
 
+  protected static $week_days = array(
+		1 => 'Monday',
+		2 => 'Tuesday',
+		3 => 'Wednesday',
+		4 => 'Thursday',
+		5 => 'Friday',
+		6 => 'Saturday',
+		0 => 'Sunday'
+  );
+
   public function readable(array $rule): string
   {
     $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
     $monthName = $dateObj->format('F');
     $offset = '';
 
-    $dayName = $this::$week_days[substr($rule['BYDAY'], 1, 2)];
-   
+    $dayName = $this::$week_day_abbrev[substr($rule['BYDAY'], 1, 2)];
+
+    $weekDay = $rule['OFFSET'] + \RRule\RRule::$week_days[substr($rule['BYDAY'], 1, 2)];
+    $weekDay = ($weekDay + 7) % 7;
+
      if ($rule['OFFSET'] == '-1') 
     {
-      $offset = 'Saturday before the ';
-    }
-
-    if ($rule['OFFSET'] == '-1' && $dayName == 'Monday')
-    {
-      $offset = 'Sunday before the ';
-    }
-    if ($rule['OFFSET'] == '-1' && $dayName == 'Tuesday')
-    {
-      $offset = 'Monday before the ';
+      $offset = $this::$week_days[$weekDay] . ' before the ';
     }
 
     $ordinal = substr($rule['BYDAY'], 0, 1);
