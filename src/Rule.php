@@ -42,6 +42,10 @@ class Rule
     {
       $offset = 'Sunday before the ';
     }
+    if ($rule['OFFSET'] == '-1' && $dayName == 'Tuesday')
+    {
+      $offset = 'Monday before the ';
+    }
 
     $ordinal = substr($rule['BYDAY'], 0, 1);
     $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
