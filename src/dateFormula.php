@@ -13,7 +13,7 @@ class singingFormula
     public $singingFormulae = array();
     /**
      * Date object
-     * @var DateTime object
+     * @var \DateTime object
      */
     public $date;
 
@@ -141,7 +141,7 @@ class singingFormula
         //Find nearest special day to date
         $specialKey = find_closest_col1($specialDays, $date->format('Y-m-d'));
 
-        $refDay = new DateTime($specialDays[$specialKey][0], new DateTimeZone('UTC'));
+        $refDay = new \DateTime($specialDays[$specialKey][0], new \DateTimeZone('UTC'));
         // check if reference day is within a week of date
         $adjust = $refDay->diff($date);
         if ($adjust->format('%a') > 7) {
@@ -173,7 +173,7 @@ class interpretFormula
      */
     public $singingFormula = array();
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     public $date;
     /**
@@ -253,7 +253,7 @@ class interpretFormula
             $adjust = $this->singingFormula[1];
         }
 
-        $date = new DateTime($refDay, new DateTimeZone('UTC'));
+        $date = new \DateTime($refDay, new \DateTimeZone('UTC'));
         // Otherwise convert sign of $adjust into before/after
         $date->modify("$adjust days");
         if ($adjust > 0) {
@@ -284,7 +284,7 @@ class interpretFormula
             $refDay = $refDay . $year;
         }
 
-        $this->date = new DateTime($refDay, new DateTimeZone('UTC'));
+        $this->date = new \DateTime($refDay, new \DateTimeZone('UTC'));
 
         // If $adjust element of array is empty, give output
         if (empty($this->singingFormula[1])) {
