@@ -14,18 +14,18 @@ $start = isset($_GET['start']) ? $_GET['start'] : '';
 $start_object = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $start);
   $end_object = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $end);
 
-if (($start_object && $end_object) !== false)
-{
-  $formulae = new singingFormula($start_object);
-  $formulae = $formulae->createFormulae();
-  echo $start_object->format('l jS F Y') . PHP_EOL;
-  echo   $end_object->format('l jS F Y') . PHP_EOL;
-  // send dates to function here
-}
-else
+if ( ($start_object == false) || ($end_object == false) )
 {
   echo 'Invalid date. ';
   echo 'Got START: ' . $start . ', END: ' . $end . PHP_EOL;
+  echo '<br><br><a href="http://shcalendar.localhost/src/calculator.php?start=2019-05-23T23%3A14%3A57%2B02%3A00">calculator.php?start=2019-05-23T23%3A14%3A57%2B02%3A00</a>';
+  exit();
 }
 
-echo '<br><br><a href="http://shcalendar.localhost/src/calculator.php?start=2019-05-23T23%3A14%3A57%2B02%3A00">calculator.php?start=2019-05-23T23%3A14%3A57%2B02%3A00</a>';
+$formulae = new singingFormula($start_object);
+$formulae = $formulae->createFormulae();
+echo $start_object->format('l jS F Y') . PHP_EOL;
+echo   $end_object->format('l jS F Y') . PHP_EOL;
+// send dates to function here
+
+
