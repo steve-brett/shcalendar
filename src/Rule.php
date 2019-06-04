@@ -38,18 +38,31 @@ class Rule
   public function readable(array $rule): string
   {
     // TODO use a separate validate() function here?
-    if (!isset($rule['BYMONTH']) || !is_int($rule['BYMONTH']) )
+    if (!isset($rule['BYMONTH']) )
     {
       throw new \InvalidArgumentException('BYMONTH is required.');
-    }
-    if ($rule['BYMONTH'] > 12 || $rule['BYMONTH'] < 1 )
-    {
-      throw new \InvalidArgumentException('BYMONTH must be between 1 and 12.');
     }
     if (!isset($rule['BYDAY']) )
     {
       throw new \InvalidArgumentException('BYDAY is required.');
     }
+    // Validate using RRule
+    try 
+    {
+      $rrule = new RRule([
+        'FREQ' => 'YEARLY',
+        'INTERVAL' => 1,
+        'BYMONTH' => $rule['BYMONTH'],
+        'BYDAY' => $rule['BYDAY'],
+        'DTSTART' => '1800-01-01',
+        'COUNT' => '2'
+    ]);
+    }
+    catch (Exception $e)
+    {
+      throw new \InvalidArgumentException($e);
+    }
+
     if (!isset($rule['OFFSET']) )
     {
       $rule['OFFSET'] = 0;
