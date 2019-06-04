@@ -37,6 +37,7 @@ class Rule
 
   public function readable(array $rule): string
   {
+    // TODO use a separate validate() function here?
     if (!isset($rule['BYMONTH']) || !is_int($rule['BYMONTH']) )
     {
       throw new \InvalidArgumentException('BYMONTH is required.');
@@ -61,17 +62,17 @@ class Rule
     $monthName = $dateObj->format('F');
     $offset = '';
 
-    $dayName = $this::$week_day_abbrev[substr($rule['BYDAY'], 1, 2)];
+    $dayName = $this::$week_day_abbrev[substr($rule['BYDAY'], -2)];
 
      if ($rule['OFFSET'] !== 0)
     {
-      $weekDay = $rule['OFFSET'] + \RRule\RRule::$week_days[substr($rule['BYDAY'], 1, 2)];
+      $weekDay = $rule['OFFSET'] + \RRule\RRule::$week_days[substr($rule['BYDAY'], -2)];
       $weekDay = ($weekDay + 7) % 7;
 
       $offset = $this::$week_days[$weekDay] . ' before the ';
     }
 
-    $ordinal = substr($rule['BYDAY'], 0, 1);
+    $ordinal = substr($rule['BYDAY'], 0, -2);
     $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
     $formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
     $ordinal = $formatter->format($ordinal);
