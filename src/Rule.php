@@ -45,6 +45,10 @@ class Rule
     {
       throw new \InvalidArgumentException('BYDAY is required.');
     }
+    if (!isset($rule['OFFSET']) )
+    {
+      $rule['OFFSET'] = 0;
+    }
     $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
     $monthName = $dateObj->format('F');
     $offset = '';
