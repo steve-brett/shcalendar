@@ -135,24 +135,29 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     $this->assertEquals($expectedValue, $this->rule->readable($inputValue) );
   }
 
-  //
-  // public function invalidData(): array
-  // {
-  //   return [
-  //     ['1799-12-31'],
-  //     ['2019-06-30'],
-  //     ['2019-06-24'],
-  //   ];
-  // }
-  //
-  // /**
-  //  * @dataProvider invalidData
-  //  */
-  // public function testThrowsException(string $inputValue): void
-  // {
-  //   $this->expectException(\InvalidArgumentException::class);
-  //   $this->rule->create(\DateTime::createFromFormat('Y-m-d', $inputValue));
-  // }
-  //
+  
+  public function invalidData(): array
+  {
+    return [
+      [['BYDAY' => '1SU',
+        'OFFSET' => 0
+      ]],
+      // [['BYMONTH' => 5,
+      //   'BYDAY' => '1SU',
+      //   'OFFSET' => 17
+      // ]],
+      // ['2019-06-24'],
+    ];
+  }
+  
+  /**
+   * @dataProvider invalidData
+   */
+  public function testThrowsException(array $inputValue): void
+  {
+    $this->expectException(\InvalidArgumentException::class);
+    $this->rule->readable($inputValue);
+  }
+  
 }
  ?>
