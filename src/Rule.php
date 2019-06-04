@@ -37,6 +37,10 @@ class Rule
 
   public function readable(array $rule): string
   {
+    if (!isset($rule['BYMONTH']) )
+    {
+      throw new \InvalidArgumentException('BYMONTH is required.');
+    }
     $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
     $monthName = $dateObj->format('F');
     $offset = '';
@@ -47,7 +51,7 @@ class Rule
     {
       $weekDay = $rule['OFFSET'] + \RRule\RRule::$week_days[substr($rule['BYDAY'], 1, 2)];
       $weekDay = ($weekDay + 7) % 7;
-      
+
       $offset = $this::$week_days[$weekDay] . ' before the ';
     }
 
