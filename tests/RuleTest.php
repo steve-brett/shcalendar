@@ -154,6 +154,9 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         'BYDAY' => '1SU',
         'OFFSET' => 17
       ]],
+      [['BYMONTH' => 13,
+      'BYDAY' => '1SU',
+      ]],
     ];
   }
   
