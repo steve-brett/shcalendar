@@ -43,11 +43,11 @@ class Rule
 
     $dayName = $this::$week_day_abbrev[substr($rule['BYDAY'], 1, 2)];
 
-    $weekDay = $rule['OFFSET'] + \RRule\RRule::$week_days[substr($rule['BYDAY'], 1, 2)];
-    $weekDay = ($weekDay + 7) % 7;
-
-     if ($rule['OFFSET'] == '-1' || $rule['OFFSET'] == '-2' || $rule['OFFSET'] == '-3')
+     if ($rule['OFFSET'] !== 0)
     {
+      $weekDay = $rule['OFFSET'] + \RRule\RRule::$week_days[substr($rule['BYDAY'], 1, 2)];
+      $weekDay = ($weekDay + 7) % 7;
+      
       $offset = $this::$week_days[$weekDay] . ' before the ';
     }
 
