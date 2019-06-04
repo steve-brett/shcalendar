@@ -41,7 +41,7 @@ class Rule
     {
       throw new \InvalidArgumentException('BYMONTH is required.');
     }
-    if ($rule['BYMONTH'] > 12 )
+    if ($rule['BYMONTH'] > 12 || $rule['BYMONTH'] < 1 )
     {
       throw new \InvalidArgumentException('BYMONTH must be between 1 and 12.');
     }
