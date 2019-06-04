@@ -37,7 +37,7 @@ class Rule
 
   public function readable(array $rule): string
   {
-    if (!isset($rule['BYMONTH']) )
+    if (!isset($rule['BYMONTH']) || !is_int($rule['BYMONTH']) )
     {
       throw new \InvalidArgumentException('BYMONTH is required.');
     }
