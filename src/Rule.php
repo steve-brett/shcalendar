@@ -46,6 +46,10 @@ class Rule
     {
       throw new \InvalidArgumentException('BYDAY is required.');
     }
+    if ( strlen($rule['BYDAY']) < 3 )
+    {
+      throw new \InvalidArgumentException('BYDAY format incorrect. Got [' . $rule['BYDAY'] . ']');
+    }
     // Validate using RRule
     try 
     {
