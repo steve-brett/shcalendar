@@ -48,7 +48,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
 
       ['The last Sunday in May',
       ['BYMONTH' => 5,
-        'BYDAY' => '-SU',
+        'BYDAY' => '-1SU',
         'OFFSET' => 0
       ]],
 
@@ -72,7 +72,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
 
       ['The last Sunday in August',
       ['BYMONTH' => 8,
-        'BYDAY' => '-SU',
+        'BYDAY' => '-1SU',
         'OFFSET' => 0
       ]],
       
@@ -90,7 +90,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
 
       ['The last Tuesday in January',
       ['BYMONTH' => 1,
-        'BYDAY' => '-TU',
+        'BYDAY' => '-1TU',
         'OFFSET' => 0
       ]],
 
@@ -145,10 +145,8 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
   {
     return [
       [['BYDAY' => '1SU',
-        'OFFSET' => 0
       ]],
       [['BYMONTH' => 5,
-      'OFFSET' => 0
       ]],
       [['BYMONTH' => 5,
         'BYDAY' => '1SU',
@@ -163,6 +161,9 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
       [['BYMONTH' => -5,
       'BYDAY' => '1SU',
       ]],
+      // [['BYMONTH' => 5,
+      // 'BYDAY' => 'SU',
+      // ]],
     ];
   }
   
