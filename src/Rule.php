@@ -71,9 +71,9 @@ class Rule
     {
       $rule['OFFSET'] = 0;
     }
-    if ($rule['OFFSET'] > 7 )
+    if (abs($rule['OFFSET']) > 7 )
     {
-      throw new \InvalidArgumentException('OFFSET must be 7 or less. Got [' . $rule['OFFSET'] . ']');
+      throw new \InvalidArgumentException('OFFSET must be between -7 and 7. Got [' . $rule['OFFSET'] . ']');
     }
     $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
     $monthName = $dateObj->format('F');
