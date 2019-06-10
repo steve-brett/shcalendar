@@ -71,7 +71,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
    */
   public function testHappyPathSunday(array $expectedValue, array $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
+    $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
   }
 
 
@@ -134,7 +134,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
    */
   public function testHappyPathSundayOffset(array $expectedValue, array $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
+    $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
   }
 
   public function happyPathDayDataProvider(): array
@@ -196,7 +196,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
    */
   public function testHappyPathDay(array $expectedValue, array $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
+    $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
   }
 
   public function invalidData(): array
@@ -214,7 +214,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   public function testThrowsException(string $inputValue): void
   {
     $this->expectException(\InvalidArgumentException::class);
-    $this->rule->create(\DateTime::createFromFormat('Y-m-d', $inputValue));
+    $this->rule->nthDay(\DateTime::createFromFormat('Y-m-d', $inputValue));
   }
 
   public function invalidDataTwo(): array
@@ -235,8 +235,73 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   public function testTwoThrowsException(array $inputValue): void
   {
     $this->expectException(\InvalidArgumentException::class);
-    $this->rule->create(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday'] );
+    $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday'] );
   }
+
+  /**
+   * Last day tests -----------------------------------------------
+   */
+
+  public function happyPathLastSundayDataProvider(): array
+  {
+    return [
+      [['BYMONTH' => 5,
+        'BYDAY' => '-SU',
+        'OFFSET' => 0
+      ], '2019-05-26'],
+
+      [['BYMONTH' => 6,
+        'BYDAY' => '-SU',
+        'OFFSET' => 0
+      ], '2019-06-30'],
+    ];
+  }
+
+  /**
+   * @dataProvider happyPathLastSundayDataProvider
+   */
+  public function testHappyPathLastSunday(array $expectedValue, string $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->lastDay(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
+  }
+
+  public function happyPathLastSundayOffsetDataProvider(): array
+  {
+    return [
+      [['BYMONTH' => 5,
+        'BYDAY' => '-SU',
+        'OFFSET' => -1
+      ], '2019-05-25'],
+
+    ];
+  }
+
+  /**
+   * @dataProvider happyPathLastSundayOffsetDataProvider
+   */
+  public function testHappyPathLastSundayOffset(array $expectedValue, string $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->lastDay(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
+  }
+
+
+  public function invalidDataLastDay(): array
+{
+  return [
+    ['1799-12-31'],
+    ['2019-05-19'],
+    ['2019-06-02'],
+  ];
+}
+
+/**
+ * @dataProvider invalidDataLastDay
+ */
+public function testThreeThrowsException(string $inputValue): void
+{
+  $this->expectException(\InvalidArgumentException::class);
+  $this->rule->lastDay(\DateTime::createFromFormat('Y-m-d', $inputValue));
+}
 
 }
 
