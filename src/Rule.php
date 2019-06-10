@@ -50,6 +50,7 @@ class Rule
     {
       throw new \InvalidArgumentException('BYDAY format incorrect. Got [' . $rule['BYDAY'] . ']');
     }
+    
     // Validate using RRule
     try 
     {
@@ -70,6 +71,10 @@ class Rule
     if (!isset($rule['OFFSET']) )
     {
       $rule['OFFSET'] = 0;
+    }
+    if ( is_int($rule['OFFSET']) == false )
+    {
+      throw new \InvalidArgumentException('OFFSET format incorrect. Got [' . $rule['OFFSET'] . ']');
     }
     if (abs($rule['OFFSET']) > 7 )
     {
