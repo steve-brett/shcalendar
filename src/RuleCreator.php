@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace SHCalendar;
 
-class NthSundayRule
+class RuleCreator
 {
   /*private array $dayFormats = [
     'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun',
     'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
   ];*/
-
+// TODO make $refDay default to day of $date and not Sun
   public function create(\DateTime $date, string $refDay = 'Sun'): array
   {
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace SHCalendar\Test;
 
-use SHCalendar\NthSundayRule;
+use SHCalendar\RuleCreator;
 use PHPUnit\Framework\TestCase;
 
-class NthSundayRuleTest extends TestCase  # Has to be [ClassName]Test
+class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 {
   /**
-   * @var NthSundayRule
+   * @var RuleCreator
    */
   private $rule;
 
   protected function setUp()
   {
-    $this->rule = new NthSundayRule();
+    $this->rule = new RuleCreator();
   }
 
   public function happyPathSundayDataProvider(): array
