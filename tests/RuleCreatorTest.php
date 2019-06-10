@@ -255,7 +255,9 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
       [['BYMONTH' => 5,
         'BYDAY' => '-1SU',
         'OFFSET' => -1
-      ], '2019-05-25'],
+      ], 
+      ['date' => '2019-05-25',
+      'refday'=> 'Sun']],
 
     ];
   }
@@ -263,9 +265,9 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   /**
    * @dataProvider happyPathLastSundayOffsetDataProvider
    */
-  public function testHappyPathLastSundayOffset(array $expectedValue, string $inputValue): void
+  public function testHappyPathLastSundayOffset(array $expectedValue, array $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->lastDay(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
+    $this->assertEquals($expectedValue, $this->rule->lastDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
   }
 
 
