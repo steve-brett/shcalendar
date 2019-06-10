@@ -5,10 +5,10 @@ namespace SHCalendar;
 
 class RuleCreator
 {
-  /*private static $dayFormats = [
+  private static $dayFormats = [
     'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun',
     'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
-  ];*/
+  ];
 // TODO make $refDay default to day of $date and not Sun
   public function nthDay(\DateTime $date, string $refDay = null): array
   {
@@ -43,30 +43,30 @@ class RuleCreator
     return $rule;
   }
 
-  public function lastDay(\DateTime $date): array
+  public function lastDay(\DateTime $date, $refDay = null): array
   {
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
     }
 
-    $nextRefday = clone $date;
-    $nextRefday->modify('this sunday');
+    // Find next instance of $refDay
+    $nextRefDay = clone $date;
+    if ( $refDay != null )
+    {
+      $nextRefDay->modify('this ' . $refDay);
+    }
 
-    $monthCheck = clone $nextRefday;
+    $monthCheck = clone $nextRefDay;
     $monthCheck = $monthCheck->modify('+1 week');
-    if ($nextRefday->format('m') == $monthCheck->format('m')) {
-      throw new \InvalidArgumentException('Date is not last Sunday in month. Got [' . $date->format('Y-m-d') .']');
+    if ($nextRefDay->format('m') == $monthCheck->format('m')) {
+      throw new \InvalidArgumentException('Date is not last of its type in month. Got [' . $date->format('Y-m-d') .']');
     }
 
-    $rule = ['BYDAY' => '-SU',
-      'OFFSET' => '0'
-    ];
+    $day = strtoupper(substr($nextRefDay->format('D'), 0, -1));
 
-    if ($date->format('D') !== 'Sun') {
-      $rule['OFFSET'] = $nextRefday->diff($date)->format('%R%a');
-    }
-
-    $rule['BYMONTH'] = $nextRefday->format('n');
+    $rule['BYDAY'] = '-1'. $day;
+    $rule['BYMONTH'] = $nextRefDay->format('n');
+    $rule['OFFSET'] = $nextRefDay->diff($date)->format('%R%a');
 
     return $rule;
   }
