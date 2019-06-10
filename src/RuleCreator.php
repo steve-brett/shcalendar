@@ -9,21 +9,26 @@ class RuleCreator
     'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun',
     'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
   ];
-// TODO make $refDay default to day of $date and not Sun
+
+  public function create(\DateTime $start, \DateTime $end = null): array
+  {
+    return [false];
+  }
+  // TODO change $refday to format 'N'
   public function nthDay(\DateTime $date, string $refDay = null): array
   {
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
     }
 
-    if ( $refDay == 'Nonsense' )
+    if (isset($refDay) && !in_array(strtolower($refDay), $this::$dayFormats) )
     {
       throw new \InvalidArgumentException('Reference day must be valid. Got [' . $refDay .']');
     }
 
     // Find next instance of $refDay
     $nextRefDay = clone $date;
-    if ( $refDay != null )
+    if ( isset($refDay) )
     {
       $nextRefDay->modify('this ' . $refDay);
     }
@@ -43,15 +48,21 @@ class RuleCreator
     return $rule;
   }
 
-  public function lastDay(\DateTime $date, $refDay = null): array
+  // TODO change $refday to format 'N'
+  public function lastDay(\DateTime $date, string $refDay = null): array
   {
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
     }
 
+    if (isset($refDay) && !in_array(strtolower($refDay), $this::$dayFormats) )
+    {
+      throw new \InvalidArgumentException('Reference day must be valid. Got [' . $refDay .']');
+    }
+
     // Find next instance of $refDay
     $nextRefDay = clone $date;
-    if ( $refDay != null )
+    if ( isset($refDay) )
     {
       $nextRefDay->modify('this ' . $refDay);
     }
