@@ -26,41 +26,31 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
         'BYDAY' => '1SU',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-05-05',
-        'refday' => 'Sun'
-      ]],
+      '2019-05-05'],
 
       [['BYMONTH' => 5,
         'BYDAY' => '2SU',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-05-12',
-        'refday' => 'Sun'
-      ]],
+      '2019-05-12'],
 
       [['BYMONTH' => 5,
         'BYDAY' => '3SU',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-05-19',
-        'refday' => 'Sun'
-      ]],
+      '2019-05-19'],
 
       [['BYMONTH' => 6,
         'BYDAY' => '1SU',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-06-02',
-        'refday' => 'Sun'
-      ]],
+      '2019-06-02'],
 
       [['BYMONTH' => 7,
         'BYDAY' => '1SU',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-07-07',
-        'refday' => 'Sun'
-      ]],
+      '2019-07-07'],
 
 
     ];
@@ -69,9 +59,9 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   /**
    * @dataProvider happyPathSundayDataProvider
    */
-  public function testHappyPathSunday(array $expectedValue, array $inputValue): void
+  public function testHappyPathSunday(array $expectedValue, string $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
+    $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue) ) );
   }
 
 
@@ -144,49 +134,37 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
         'BYDAY' => '1SA',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-05-04',
-        'refday' => 'Sat'
-      ]],
+      '2019-05-04'],
 
       [['BYMONTH' => 5,
         'BYDAY' => '2SA',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-05-11',
-        'refday' => 'Sat'
-      ]],
+      '2019-05-11'],
 
       [['BYMONTH' => 5,
         'BYDAY' => '3SA',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-05-18',
-        'refday' => 'Sat'
-      ]],
+      '2019-05-18'],
 
       [['BYMONTH' => 5,
         'BYDAY' => '4SA',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-05-25',
-        'refday' => 'Sat'
-      ]],
+      '2019-05-25'],
 
       [['BYMONTH' => 6,
         'BYDAY' => '1SA',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-06-01',
-        'refday' => 'Sat'
-      ]],
+      '2019-06-01'],
 
       [['BYMONTH' => 6,
         'BYDAY' => '1MO',
         'OFFSET' => 0
       ],
-      [ 'date' => '2019-06-03',
-        'refday' => 'Mon'
-      ]],
+      '2019-06-03'],
 
     ];
   }
@@ -194,9 +172,9 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   /**
    * @dataProvider happyPathDayDataProvider
    */
-  public function testHappyPathDay(array $expectedValue, array $inputValue): void
+  public function testHappyPathDay(array $expectedValue, string $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
+    $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue) ) );
   }
 
   public function invalidData(): array
@@ -204,7 +182,6 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
     return [
       ['1799-12-31'],
       ['2019-06-30'],
-      ['2019-06-24'],
     ];
   }
 
@@ -222,6 +199,8 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
     return [
       [['date' => '2019-06-29',
         'refday' => 'Sat']],
+      [['date' => '2019-06-24',
+        'refday' => 'Sun']],
       [['date' => '2019-07-29',
         'refday' => 'Mon']],
       [['date' => '2019-07-01',
