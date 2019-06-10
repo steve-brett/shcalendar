@@ -225,17 +225,17 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   {
     return [
       [['BYMONTH' => 5,
-        'BYDAY' => '-SU',
+        'BYDAY' => '-1SU',
         'OFFSET' => 0
       ], '2019-05-26'],
 
       [['BYMONTH' => 6,
-        'BYDAY' => '-SU',
+        'BYDAY' => '-1SU',
         'OFFSET' => 0
       ], '2019-06-30'],
 
       [['BYMONTH' => 6,
-      'BYDAY' => '-SA',
+      'BYDAY' => '-1SA',
       'OFFSET' => 0
     ], '2019-06-29'],
     ];
@@ -253,7 +253,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   {
     return [
       [['BYMONTH' => 5,
-        'BYDAY' => '-SU',
+        'BYDAY' => '-1SU',
         'OFFSET' => -1
       ], '2019-05-25'],
 
