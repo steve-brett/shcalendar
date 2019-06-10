@@ -205,6 +205,8 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
         'refday' => 'Mon']],
       [['date' => '2019-07-01',
         'refday' => 'Nonsense']],
+      [['date' => '2019-07-01',
+      'refday' => 'More nonsense']],
     ];
   }
 
