@@ -5,12 +5,12 @@ namespace SHCalendar;
 
 class RuleCreator
 {
-  /*private array $dayFormats = [
+  /*private static $dayFormats = [
     'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun',
     'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
   ];*/
 // TODO make $refDay default to day of $date and not Sun
-  public function nthDay(\DateTime $date, string $refDay = 'Sun'): array
+  public function nthDay(\DateTime $date, string $refDay = null): array
   {
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. Got [' . $date->format('Y-m-d') .']');
@@ -21,8 +21,12 @@ class RuleCreator
       throw new \InvalidArgumentException('Reference day must be valid. Got [' . $refDay .']');
     }
 
+    // Find next instance of $refDay
     $nextRefDay = clone $date;
-    $nextRefDay->modify('this ' . $refDay);
+    if ( $refDay != null )
+    {
+      $nextRefDay->modify('this ' . $refDay);
+    }
 
     // Find position of refDay in month
     $count = floor(($nextRefDay->format('d') - 1) / 7) + 1;
