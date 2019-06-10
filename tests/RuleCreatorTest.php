@@ -285,10 +285,49 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 /**
  * @dataProvider invalidDataLastDay
  */
-public function testThreeThrowsException(string $inputValue): void
+public function testLastDayThrowsException(string $inputValue): void
 {
   $this->expectException(\InvalidArgumentException::class);
   $this->rule->lastDay(\DateTime::createFromFormat('Y-m-d', $inputValue));
+}
+
+public function happyPathCreatorDataProvider(): array
+  {
+    return [
+      [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, '2019-08-15T15:52:01+00:00'),
+        'START_OFFSET' => -1
+      ], 
+      ['start' => '2019-09-14T15:52:01+00:00',
+         'end' => '2019-09-15T15:52:01+00:00'],
+
+    ]];
+  }
+
+  /**
+   * @dataProvider happyPathCreatorDataProvider
+   */
+  public function testHappyPathCreator(array $expectedValue, array $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) ) );
+  }
+
+
+  public function invalidDataCreator(): array
+{
+  return [
+    // [['start' => '2005-08-01T15:52:01+00:00',
+    // 'end' => '2005-08-08T15:52:01+00:00']],
+
+  ];
+}
+
+/**
+ * @dataProvider invalidDataCreator
+ */
+public function testCreatorThrowsException(array $inputValue): void
+{
+  $this->expectException(\InvalidArgumentException::class);
+  $this->rule->create(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) );
 }
 
 }
