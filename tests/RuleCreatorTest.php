@@ -294,7 +294,7 @@ public function testLastDayThrowsException(string $inputValue): void
 public function happyPathCreatorDataProvider(): array
   {
     return [
-      [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, '2019-08-15T15:52:01+00:00'),
+      [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, '2019-09-15T15:52:01+00:00'),
         'START_OFFSET' => -1
       ], 
       ['start' => '2019-09-14T15:52:01+00:00',
