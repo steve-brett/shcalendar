@@ -12,8 +12,13 @@ class RuleCreator
 
   public function create(\DateTime $start, \DateTime $end = null): array
   {
-    return [false];
+    $output = [
+            'DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
+                      '2019-08-15T15:52:01+00:00'),
+    'START_OFFSET' => -1];
+    return $output;
   }
+  
   // TODO change $refday to format 'N'
   public function nthDay(\DateTime $date, string $refDay = null): array
   {
