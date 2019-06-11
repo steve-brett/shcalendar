@@ -17,6 +17,14 @@ class RuleCreator
       throw new \InvalidArgumentException('Dates must not span more than a week. 
       Got [' . $start->format('Y-m-d') . ', ' . $end->format('Y-m-d') .']');
     }
+    // Swap if end is before start
+    if ($start->diff($end)->format('%r'))
+    {
+      $tmp=$start;
+      $start=$end;
+      $end=$tmp;
+    }
+
     $output['DATE'] = $end;
     $output['START_OFFSET'] = -1;
     return $output;
