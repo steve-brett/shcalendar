@@ -17,10 +17,8 @@ class RuleCreator
       throw new \InvalidArgumentException('Dates must not span more than a week. 
       Got [' . $start->format('Y-m-d') . ', ' . $end->format('Y-m-d') .']');
     }
-    $output = [
-            'DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
-                      '2019-08-15T15:52:01+00:00'),
-    'START_OFFSET' => -1];
+    $output['DATE'] = $end;
+    $output['START_OFFSET'] = -1;
     return $output;
   }
 
