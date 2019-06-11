@@ -1,5 +1,5 @@
 <?php
-namespace SHCalendar;
+// namespace SHCalendar;
 
 include 'ukBankHols.php';
 include 'handyFunctions.php';
@@ -35,13 +35,18 @@ class singingFormula
     public function nthSunday()
     {
         $date = $this->date;
+        /*
         // Find the next Sunday (unless it's already a Sunday)
         $nextSunday = clone $date;
-        $nextSunday->modify('this sunday');
+        $nextSunday->modify('this sunday');*/
+
+        $findRef = 7 - $date->format('N');
+        $nextSunday = clone $date;
+        $nextSunday->modify('+' . $findRef . ' days');
 
         // calculate its position in the month, but add 1 because the count is from 0
         $nthDay = $nextSunday->format('j');
-        $nthDay = floor($nthDay / 7) + 1;
+        $nthDay = floor(($nthDay - 1)  / 7) + 1;
         $nthDay = numToOrdinalWord($nthDay);
 
         //find difference between date and reference Sunday
@@ -70,7 +75,7 @@ class singingFormula
 
         // calculate its position in the month, but add 1 because the count is from 0
         $nthDay = $nthDay->format('j');
-        $nthDay = floor($nthDay / 7) + 1;
+        $nthDay = floor(($nthDay -1) / 7) + 1;
         $nthDay = numToOrdinalWord($nthDay);
 
         // add to array (reference nth day of month, difference from reference)
@@ -86,9 +91,14 @@ class singingFormula
     public function lastSunday()
     {
         $date = $this->date;
+        /*
         // Find the next Sunday (unless it's already a Sunday)
         $nextSunday = clone $date;
-        $nextSunday->modify('this sunday');
+        $nextSunday->modify('this sunday');*/
+
+        $findRef = 7 - $date->format('N');
+        $nextSunday = clone $date;
+        $nextSunday->modify('+' . $findRef . ' days');
 
         // check if reference Sunday is the last in the month; if not, return false
         $monthCheck = clone $nextSunday;
