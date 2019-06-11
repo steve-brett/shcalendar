@@ -1,11 +1,14 @@
 <?php
 header("Content-type: text/html");
 
-include 'src/ukBankHols.php';
-include 'src/handyFunctions.php';
+// include 'src/ukBankHols.php';
+// include 'src/handyFunctions.php';
+include 'src/dateFormula.php';
 
 require 'vendor/autoload.php';
 use RRule\RRule;
+// use SHCalendar\singingFormula;
+// use SHCalendar\interpretFormula;
 
 /**
  * Creating date collection between two dates
@@ -40,6 +43,33 @@ function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d')
     return $dates;
 }
 
+$start = \DateTime::createFromFormat(\DateTimeInterface::ATOM, '2019-07-27T10:00:00+01:00');
+$formulaeTest = new singingFormula($start);
+$formulaeTest = $formulaeTest->createFormulae();
+
+foreach ($formulaeTest as $k => $formula) 
+{
+	echo $start->format(\DateTimeInterface::ATOM) . '<br/>' . PHP_EOL;
+	// echo $formula . '<br/>' . PHP_EOL;
+	$output = new interpretFormula($formula, $start->format('Y'));
+	// echo var_dump($formula) . '<br/>' . PHP_EOL;
+    echo $output->text() . '<br/>' . PHP_EOL;
+}
+echo '<br/>' . PHP_EOL;
+
+$start =  new \DateTime('2019-07-27', new \DateTimeZone('UTC'));
+$formulaeTest = new singingFormula($start);
+$formulaeTest = $formulaeTest->createFormulae();
+
+foreach ($formulaeTest as $k => $formula) 
+{
+	echo $start->format(\DateTimeInterface::ATOM) . '<br/>' . PHP_EOL;
+	// echo $formula . '<br/>' . PHP_EOL;
+	$output = new interpretFormula($formula, $start->format('Y'));
+	// echo var_dump($formula) . '<br/>' . PHP_EOL;
+    echo $output->text() . '<br/>' . PHP_EOL;
+}
+echo '<br/>' . PHP_EOL;
 
 // New year's day
 $rrule = new RRule([
