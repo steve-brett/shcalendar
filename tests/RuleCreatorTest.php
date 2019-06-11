@@ -317,6 +317,8 @@ public function happyPathCreatorDataProvider(): array
   return [
     [['start' => '2005-08-01T15:52:01+00:00',
         'end' => '2005-08-08T15:52:01+00:00']],
+    [['start' => '2019-05-01T15:52:01+03:00',
+        'end' => '2019-05-11T15:52:01+03:00']],
 
   ];
 }
