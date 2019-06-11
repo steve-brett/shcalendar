@@ -315,8 +315,8 @@ public function happyPathCreatorDataProvider(): array
   public function invalidDataCreator(): array
 {
   return [
-    // [['start' => '2005-08-01T15:52:01+00:00',
-    // 'end' => '2005-08-08T15:52:01+00:00']],
+    [['start' => '2005-08-01T15:52:01+00:00',
+        'end' => '2005-08-08T15:52:01+00:00']],
 
   ];
 }
