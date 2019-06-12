@@ -10,6 +10,22 @@ class RuleCreator
     'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
   ];
 
+  public function create(\DateTime $start, \DateTime $end = null): array
+  {
+    $terms = $this->span($start, $end);
+    $date = $terms['DATE'];
+
+    try {
+      $output[] = $this->nthDay($date, 'Sun');
+    } catch (\Exception $e) { }
+
+    try {
+      $output[] = $this->nthDay($date);
+    } catch (\Exception $e) { }
+
+    return $output;
+  }
+
   public function span(\DateTime $start, \DateTime $end = null): array
   {
     // Time will mess with our calculations - set to midnight
