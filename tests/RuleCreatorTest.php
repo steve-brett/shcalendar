@@ -23,32 +23,27 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   {
     return [
       [['BYMONTH' => 5,
-        'BYDAY' => '1SU',
-        'OFFSET' => 0
+        'BYDAY' => '1SU'
       ],
       '2019-05-05'],
 
       [['BYMONTH' => 5,
-        'BYDAY' => '2SU',
-        'OFFSET' => 0
+        'BYDAY' => '2SU'
       ],
       '2019-05-12'],
 
       [['BYMONTH' => 5,
-        'BYDAY' => '3SU',
-        'OFFSET' => 0
+        'BYDAY' => '3SU'
       ],
       '2019-05-19'],
 
       [['BYMONTH' => 6,
-        'BYDAY' => '1SU',
-        'OFFSET' => 0
+        'BYDAY' => '1SU'
       ],
       '2019-06-02'],
 
       [['BYMONTH' => 7,
-        'BYDAY' => '1SU',
-        'OFFSET' => 0
+        'BYDAY' => '1SU'
       ],
       '2019-07-07'],
 
@@ -131,38 +126,32 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   {
     return [
       [['BYMONTH' => 5,
-        'BYDAY' => '1SA',
-        'OFFSET' => 0
+        'BYDAY' => '1SA'
       ],
       '2019-05-04'],
 
       [['BYMONTH' => 5,
-        'BYDAY' => '2SA',
-        'OFFSET' => 0
+        'BYDAY' => '2SA'
       ],
       '2019-05-11'],
 
       [['BYMONTH' => 5,
-        'BYDAY' => '3SA',
-        'OFFSET' => 0
+        'BYDAY' => '3SA'
       ],
       '2019-05-18'],
 
       [['BYMONTH' => 5,
-        'BYDAY' => '4SA',
-        'OFFSET' => 0
+        'BYDAY' => '4SA'
       ],
       '2019-05-25'],
 
       [['BYMONTH' => 6,
-        'BYDAY' => '1SA',
-        'OFFSET' => 0
+        'BYDAY' => '1SA'
       ],
       '2019-06-01'],
 
       [['BYMONTH' => 6,
-        'BYDAY' => '1MO',
-        'OFFSET' => 0
+        'BYDAY' => '1MO'
       ],
       '2019-06-03'],
 
@@ -227,18 +216,15 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   {
     return [
       [['BYMONTH' => 5,
-        'BYDAY' => '-1SU',
-        'OFFSET' => 0
+        'BYDAY' => '-1SU'
       ], '2019-05-26'],
 
       [['BYMONTH' => 6,
-        'BYDAY' => '-1SU',
-        'OFFSET' => 0
+        'BYDAY' => '-1SU'
       ], '2019-06-30'],
 
       [['BYMONTH' => 6,
-      'BYDAY' => '-1SA',
-      'OFFSET' => 0
+      'BYDAY' => '-1SA'
     ], '2019-06-29'],
     ];
   }

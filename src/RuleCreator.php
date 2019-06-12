@@ -76,10 +76,14 @@ class RuleCreator
     }
 
     $day = strtoupper(substr($nextRefDay->format('D'), 0, -1));
+    $offset = $nextRefDay->diff($date)->format('%R%a');
 
     $rule['BYDAY'] = $count . $day;
-    $rule['BYMONTH'] = $nextRefDay->format('n');
-    $rule['OFFSET'] = $nextRefDay->diff($date)->format('%R%a');
+    $rule['BYMONTH'] = (int)$nextRefDay->format('n');
+    if (abs($offset) > 0)
+    {
+      $rule['OFFSET'] = (int)$offset;
+    }
 
     return $rule;
   }
@@ -112,10 +116,14 @@ class RuleCreator
     }
 
     $day = strtoupper(substr($nextRefDay->format('D'), 0, -1));
+    $offset = $nextRefDay->diff($date)->format('%R%a');
 
     $rule['BYDAY'] = '-1'. $day;
-    $rule['BYMONTH'] = $nextRefDay->format('n');
-    $rule['OFFSET'] = $nextRefDay->diff($date)->format('%R%a');
+    $rule['BYMONTH'] = (int)$nextRefDay->format('n');
+    if (abs($offset) > 0)
+    {
+      $rule['OFFSET'] = (int)$offset;
+    }
 
     return $rule;
   }
