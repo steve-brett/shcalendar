@@ -178,4 +178,180 @@ class RuleCreator
     return $rule;
   }
 
+  protected function calculateSpecial(int $year = null): array 
+  {
+      // default to current year if not set
+      $year = $year ?: date('Y');
+
+      $bankHols = array(); 
+
+      // New year's day:
+      $bankHols['newYear'] = "$year-01-01";
+      
+      // Palm Sunday:
+      $bankHols['palmSunday'] = date("Y-m-d", strtotime("+".(easter_days($year) - 7)." days", strtotime("$year-03-21 12:00:00")));
+   
+      /*
+      // Good friday:
+      $bankHols['goodFriday'] = date("Y-m-d", strtotime("+".(easter_days($year) - 2)." days", strtotime("$year-03-21 12:00:00")));
+      */
+
+      // Easter:
+      $bankHols['easter'] = date("Y-m-d", strtotime("+".easter_days($year)." days", strtotime("$year-03-21 12:00:00")));
+
+      /*
+      // Easter Monday:
+      $bankHols['easterMonday'] = date("Y-m-d", strtotime("+".(easter_days($year) + 1)." days", strtotime("$year-03-21 12:00:00")));
+      */
+
+      // May Day:
+      if ($year == 1995) {
+          $bankHols['mayDay'] = "1995-05-08"; // VE day 50th anniversary year exception
+      } else {
+          switch (date("w", strtotime("$year-05-01 12:00:00"))) {
+              case 0:
+                  $bankHols['mayDay'] = "$year-05-02";
+                  break;
+              case 1:
+                  $bankHols['mayDay'] = "$year-05-01";
+                  break;
+              case 2:
+                  $bankHols['mayDay'] = "$year-05-07";
+                  break;
+              case 3:
+                  $bankHols['mayDay'] = "$year-05-06";
+                  break;
+              case 4:
+                  $bankHols['mayDay'] = "$year-05-05";
+                  break;
+              case 5:
+                  $bankHols['mayDay'] = "$year-05-04";
+                  break;
+              case 6:
+                  $bankHols['mayDay'] = "$year-05-03";
+                  break;
+          }
+      }
+     
+
+      // Whitsun:
+      if ($year == 2002) { // Golden Jubilee exception year
+          $bankHols['whitsun'] = "2002-06-03";
+      } elseif ($year == 2012) { // Diamond Jubilee exception year
+          $bankHols['whitsun'] = "2012-06-04";
+      } else {
+          switch (date("w", strtotime("$year-05-31 12:00:00"))) {
+              case 0:
+                  $bankHols['whitsun'] = "$year-05-25";
+                  break;
+              case 1:
+                  $bankHols['whitsun'] = "$year-05-31";
+                  break;
+              case 2:
+                  $bankHols['whitsun'] = "$year-05-30";
+                  break;
+              case 3:
+                  $bankHols['whitsun'] = "$year-05-29";
+                  break;
+              case 4:
+                  $bankHols['whitsun'] = "$year-05-28";
+                  break;
+              case 5:
+                  $bankHols['whitsun'] = "$year-05-27";
+                  break;
+              case 6:
+                  $bankHols['whitsun'] = "$year-05-26";
+                  break;
+          }
+      }
+
+
+      // Independence Day
+      $bankHols['independence'] = "$year-07-04";
+    
+
+      // First fifth Sunday after the 4th July: (Young people's convention - SAB)
+      switch (date("w", strtotime("$year-07-04"))) {
+          case 0:
+              $bankHols['5SU47'] = "$year-08-29";
+              break;
+          case 1:
+              $bankHols['5SU47'] = "$year-07-31";
+              break;
+          case 2:
+              $bankHols['5SU47'] = "$year-07-30";
+              break;
+          case 3:
+              $bankHols['5SU47'] = "$year-07-29";
+              break;
+          case 4:
+              $bankHols['5SU47'] = "$year-09-29";
+              break;
+          case 5:
+              $bankHols['5SU47'] = "$year-08-31";
+              break;
+          case 6:
+              $bankHols['5SU47'] = "$year-08-30";
+              break;
+      }
+
+
+      // Summer Bank Holiday: (last Mon in Aug)
+      switch (date("w", strtotime("$year-08-31 12:00:00"))) {
+          case 0:
+              $bankHols['summer'] = "$year-08-25";
+              break;
+          case 1:
+              $bankHols['summer'] = "$year-08-31";
+              break;
+          case 2:
+              $bankHols['summer'] = "$year-08-30";
+              break;
+          case 3:
+              $bankHols['summer'] = "$year-08-29";
+              break;
+          case 4:
+              $bankHols['summer'] = "$year-08-28";
+              break;
+          case 5:
+              $bankHols['summer'] = "$year-08-27";
+              break;
+          case 6:
+              $bankHols['summer'] = "$year-08-26";
+              break;
+      }
+      
+
+      // Thanksgiving: (Fourth Thu in Nov)
+      switch (date("w", strtotime("$year-11-24 12:00:00"))) {
+          case 0:
+              $bankHols['thanksgiving'] = "$year-11-28";
+              break;
+          case 1:
+              $bankHols['thanksgiving'] = "$year-11-27";
+              break;
+          case 2:
+              $bankHols['thanksgiving'] = "$year-11-26";
+              break;
+          case 3:
+              $bankHols['thanksgiving'] = "$year-11-25";
+              break;
+          case 4:
+              $bankHols['thanksgiving'] = "$year-11-24";
+              break;
+          case 5:
+              $bankHols['thanksgiving'] = "$year-11-23";
+              break;
+          case 6:
+              $bankHols['thanksgiving'] = "$year-11-22";
+              break;
+      }
+      
+      // Christmas:
+      $bankHols['christmas'] = "$year-12-25";
+      $bankHols['boxingDay'] = "$year-12-26";
+
+      return $bankHols;
+  }
+
 }
