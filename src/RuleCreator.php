@@ -48,6 +48,10 @@ class RuleCreator
     {
       try {
         $output['LASTDAY'] = $this->lastDay($date);
+      if (isset($terms['STARTOFFSET']))
+      {
+        $output['LASTDAY']['STARTOFFSET'] = $terms['STARTOFFSET'];
+      }
       } catch (\Exception $e) { }
     }
 
