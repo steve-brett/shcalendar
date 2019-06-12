@@ -36,9 +36,12 @@ class RuleCreator
       $output['LASTSUN'] = $this->lastDay($date, 'Sun');
     } catch (\Exception $e) { }
 
-    try {
-      $output['LASTDAY'] = $this->lastDay($date);
-    } catch (\Exception $e) { }
+    if ($day != 7)
+    {
+      try {
+        $output['LASTDAY'] = $this->lastDay($date);
+      } catch (\Exception $e) { }
+    }
 
     return $output;
   }
