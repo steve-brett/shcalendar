@@ -21,7 +21,7 @@ class RuleCreator
       $output['NTHSUN'] = $this->nthDay($date, 'Sun');
       if (isset($terms['STARTOFFSET']))
       {
-        $output['NTHSUN']['STARTOFFSET'] =  $terms['STARTOFFSET'];
+        $output['NTHSUN']['STARTOFFSET'] = $terms['STARTOFFSET'];
       }
     } catch (\Exception $e) { }
     
@@ -76,7 +76,7 @@ class RuleCreator
 
     if (abs($diff) > 0)
     {
-      $output['START_OFFSET'] = (int)$diff;
+      $output['STARTOFFSET'] = (int)$diff;
     }
      
     $output['DATE'] = $end;
