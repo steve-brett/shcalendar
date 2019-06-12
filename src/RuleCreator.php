@@ -169,7 +169,9 @@ class RuleCreator
 
   public function special(\DateTime $date): array
   {
-    return [];
+    $rule['BYMONTH'] = 1;
+    $rule['SPECIAL'] = 'newYear';
+    return $rule;
   }
 
 }
