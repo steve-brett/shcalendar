@@ -363,4 +363,27 @@ public function testSpanThrowsException(array $inputValue): void
   $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) );
 }
 
+public function happyPathCreateDataProvider(): array
+  {
+    return [
+      [[
+        ['BYMONTH' => 5,
+        'BYDAY' => '2SU',
+        'OFFSET' => -1],
+        ['BYMONTH' => 5,
+        'BYDAY' => '2SA'],
+      ], 
+      ['start' => '2019-05-11T10:30:00+00:00',
+         'end' => '2019-05-11T16:00:00+00:00']],
+    ];
+  }
+
+  /**
+   * @dataProvider happyPathCreateDataProvider
+   */
+  public function testHappyPathCreate(array $expectedValue, array $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) ) );
+  }
+
 }
