@@ -23,6 +23,14 @@ class RuleCreator
       $output[] = $this->nthDay($date);
     } catch (\Exception $e) { }
 
+    try {
+      $output[] = $this->lastDay($date, 'Sun');
+    } catch (\Exception $e) { }
+
+    try {
+      $output[] = $this->lastDay($date);
+    } catch (\Exception $e) { }
+
     return $output;
   }
 
