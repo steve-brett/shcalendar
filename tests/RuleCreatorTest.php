@@ -296,6 +296,9 @@ public function testLastDayThrowsException(string $inputValue): void
 
       [['SPECIAL' => 'independence'
       ], '2019-07-04'],
+
+      [['SPECIAL' => 'independence'
+    ], '2020-07-04'],
     ];
   }
 
