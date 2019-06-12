@@ -291,7 +291,7 @@ public function testLastDayThrowsException(string $inputValue): void
   $this->rule->lastDay(\DateTime::createFromFormat('Y-m-d', $inputValue));
 }
 
-public function happyPathCreatorDataProvider(): array
+public function happyPathSpanDataProvider(): array
   {
     return [
       [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
@@ -332,14 +332,14 @@ public function happyPathCreatorDataProvider(): array
   }
 
   /**
-   * @dataProvider happyPathCreatorDataProvider
+   * @dataProvider happyPathSpanDataProvider
    */
-  public function testHappyPathCreator(array $expectedValue, array $inputValue): void
+  public function testHappyPathSpan(array $expectedValue, array $inputValue): void
   {
     $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) ) );
   }
 
-  public function happyPathCreatorSingleDataProvider(): array
+  public function happyPathSpanSingleDataProvider(): array
   {
     return [
       [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
@@ -350,14 +350,14 @@ public function happyPathCreatorDataProvider(): array
   }
 
   /**
-   * @dataProvider happyPathCreatorSingleDataProvider
+   * @dataProvider happyPathSpanSingleDataProvider
    */
-  public function testHappyPathCreatorSingle(array $expectedValue, string $inputValue): void
+  public function testHappyPathSpanSingle(array $expectedValue, string $inputValue): void
   {
     $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue) ) );
   }
 
-  public function invalidDataCreator(): array
+  public function invalidDataSpan(): array
 {
   return [
     [['start' => '2005-08-01T15:52:01+00:00',
@@ -369,9 +369,9 @@ public function happyPathCreatorDataProvider(): array
 }
 
 /**
- * @dataProvider invalidDataCreator
+ * @dataProvider invalidDataSpan
  */
-public function testCreatorThrowsException(array $inputValue): void
+public function testSpanThrowsException(array $inputValue): void
 {
   $this->expectException(\InvalidArgumentException::class);
   $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) );
