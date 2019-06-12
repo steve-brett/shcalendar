@@ -285,10 +285,11 @@ public function testLastDayThrowsException(string $inputValue): void
   public function happyPathSpecialDataProvider(): array
   {
     return [
-      [['BYMONTH' => 1,
-        'SPECIAL' => 'newYear'
+      [['SPECIAL' => 'newYear'
       ], '2019-01-01'],
 
+      [['SPECIAL' => 'palmSunday'
+      ], '2019-04-14'],
     ];
   }
 
