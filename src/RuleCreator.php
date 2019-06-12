@@ -12,32 +12,32 @@ class RuleCreator
 
   public function create(\DateTime $start, \DateTime $end = null): array
   {
-    if ($start->diff($end)->format('%a') > 6)
+    // Time will mess with our calculations - set to midnight
+    $start->setTime(0,0,0);
+    $end->setTime(0,0,0);
+
+    $diff = $end->diff($start)->format('%r%a');
+
+    if (abs($diff) > 6)
     {
       throw new \InvalidArgumentException('Dates must not span more than a week. 
       Got [' . $start->format('Y-m-d') . ', ' . $end->format('Y-m-d') .']');
     }
     // Swap if end is before start
-    if ($start->diff($end)->format('%r'))
+    if ($diff > 0)
     {
-      $tmp=$start;
-      $start=$end;
-      $end=$tmp;
+        $tmp = $start;
+      $start = $end;
+        $end = $tmp;
+
+      $diff = -$diff;
     }
 
-    $output['START_OFFSET'] = -1;
-
-    if ($start == \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
-    '2019-06-13T15:52:01+00:00')) 
+    if (abs($diff) > 0)
     {
-      $output['START_OFFSET'] = -2;
+      $output['START_OFFSET'] = $diff;
     }
-    if ($start == \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
-    '2019-06-13T23:52:01+00:00')) 
-    {
-      $output['START_OFFSET'] = -2;
-    }
- 
+     
     $output['DATE'] = $end;
     return $output;
   }
