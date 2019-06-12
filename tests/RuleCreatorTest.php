@@ -323,11 +323,11 @@ public function happyPathCreatorDataProvider(): array
          'end' => '2019-06-13T15:52:01+00:00']],
                   
       [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
-                  '2019-06-15T00:00:00+00:00'),
-      'START_OFFSET' => -2
+                  '2019-10-27T00:00:00+00:00'),
+      'START_OFFSET' => -1
       ], 
-      ['start' => '2019-06-15T02:52:01+00:00',
-         'end' => '2019-06-13T23:52:01+00:00']],
+      ['start' => '2019-10-26T10:52:01+01:00',
+         'end' => '2019-10-27T17:52:01+00:00']],
     ];
   }
 
@@ -336,7 +336,7 @@ public function happyPathCreatorDataProvider(): array
    */
   public function testHappyPathCreator(array $expectedValue, array $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) ) );
+    $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) ) );
   }
 
 
@@ -357,7 +357,7 @@ public function happyPathCreatorDataProvider(): array
 public function testCreatorThrowsException(array $inputValue): void
 {
   $this->expectException(\InvalidArgumentException::class);
-  $this->rule->create(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) );
+  $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) );
 }
 
 }
