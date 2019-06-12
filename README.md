@@ -12,7 +12,10 @@ The current formula takes advantage of the PHP `DateTime` object's text-based [r
 ## Examples
 The Saturday before the second Sunday in May
 
-`(second Sunday in May,-1)`
+```['BYMONTH' => 5,
+      'BYDAY' => '2SU',
+     'OFFSET' => -1]
+```
 
 The second Saturday in February
 
