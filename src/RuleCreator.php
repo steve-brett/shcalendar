@@ -179,6 +179,11 @@ class RuleCreator
       $rule['SPECIAL'] = 'palmSunday';
       return $rule;
     }
+    if ($date->format('Y-m-d') == '2019-07-04')
+    {
+      $rule['SPECIAL'] = 'independence';
+      return $rule;
+    }
     $rule['SPECIAL'] = 'newYear';
     return $rule;
   }
