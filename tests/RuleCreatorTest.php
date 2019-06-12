@@ -290,6 +290,9 @@ public function testLastDayThrowsException(string $inputValue): void
 
       [['SPECIAL' => 'palmSunday'
       ], '2019-04-14'],
+
+      [['SPECIAL' => 'easter'
+      ], '2019-04-21'],
     ];
   }
 
