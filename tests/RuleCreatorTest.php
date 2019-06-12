@@ -339,6 +339,23 @@ public function happyPathCreatorDataProvider(): array
     $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) ) );
   }
 
+  public function happyPathCreatorSingleDataProvider(): array
+  {
+    return [
+      [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
+                  '2019-09-15T00:00:00+00:00'),
+      ], 
+      '2019-09-15T15:52:01+00:00'],
+    ];
+  }
+
+  /**
+   * @dataProvider happyPathCreatorSingleDataProvider
+   */
+  public function testHappyPathCreatorSingle(array $expectedValue, string $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue) ) );
+  }
 
   public function invalidDataCreator(): array
 {
