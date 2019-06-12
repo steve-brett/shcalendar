@@ -43,6 +43,7 @@ class RuleCreator
       {
         $rule['STARTOFFSET'] = $input['STARTOFFSET'];
       }
+      unset($rule);
     }
 
     return $output;
