@@ -169,22 +169,16 @@ class RuleCreator
 
   public function special(\DateTime $date): array
   {
-    if ($date->format('Y-m-d') == '2019-04-21')
+    $year = (int)$date->format('Y');
+    $special = $this->calculateSpecial($year);
+    $key = array_search($date->format('Y-m-d'), $special);
+
+    if($key == false )
     {
-      $rule['SPECIAL'] = 'easter';
-      return $rule;
+      return false;
     }
-    if ($date->format('Y-m-d') == '2019-04-14')
-    {
-      $rule['SPECIAL'] = 'palmSunday';
-      return $rule;
-    }
-    if ($date->format('m-d') == '07-04')
-    {
-      $rule['SPECIAL'] = 'independence';
-      return $rule;
-    }
-    $rule['SPECIAL'] = 'newYear';
+
+    $rule['SPECIAL'] = $key;
     return $rule;
   }
 
