@@ -375,6 +375,22 @@ public function happyPathCreateDataProvider(): array
       ], 
       ['start' => '2019-05-11T10:30:00+00:00',
          'end' => '2019-05-11T16:00:00+00:00']],
+
+      [[
+        ['BYMONTH' => 5,
+        'BYDAY' => '4SU',
+        'OFFSET' => -1],
+        ['BYMONTH' => 5,
+        'BYDAY' => '4SA'],
+        ['BYMONTH' => 5,
+        'BYDAY' => '-1SU',
+        'OFFSET' => -1],
+        ['BYMONTH' => 5,
+        'BYDAY' => '-1SA'],
+      ], 
+      ['start' => '2019-05-25T10:30:00+00:00',
+         'end' => '2019-05-25T16:00:00+00:00']],
+         
     ];
   }
 
