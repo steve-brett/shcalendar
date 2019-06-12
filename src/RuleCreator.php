@@ -12,8 +12,8 @@ class RuleCreator
 
   public function create(\DateTime $start, \DateTime $end = null): array
   {
-    $terms = $this->span($start, $end);
-    $date = $terms['DATE'];
+    $input = $this->span($start, $end);
+    $date = $input['DATE'];
 
     $day = $date->format('N');
 
@@ -37,11 +37,11 @@ class RuleCreator
     }
 
     // Add STARTOFFSET to each array
-    if (isset($terms['STARTOFFSET']))
+    if (isset($input['STARTOFFSET']))
     {
       foreach ($output as &$rule)
       {
-        $rule['STARTOFFSET'] = $terms['STARTOFFSET'];
+        $rule['STARTOFFSET'] = $input['STARTOFFSET'];
       }
     }
 
