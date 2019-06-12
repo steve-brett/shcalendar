@@ -29,6 +29,10 @@ class RuleCreator
     {
       try {
         $output['NTHDAY'] = $this->nthDay($date);
+      if (isset($terms['STARTOFFSET']))
+      {
+        $output['NTHDAY']['STARTOFFSET'] = $terms['STARTOFFSET'];
+      }
       } catch (\Exception $e) { }
     }
 
