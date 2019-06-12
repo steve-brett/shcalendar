@@ -10,7 +10,7 @@ This tool allows for human input of what could be a quite complex recurrence rul
 The current formula uses an array format that extends the [RFC 5545](https://icalendar.org/iCalendar-RFC-5545/3-8-5-3-recurrence-rule.html) format used by [rlanvin/php-rrule](https://github.com/rlanvin/php-rrule).
 
 * `OFFSET`
- How many days the event is from the reference day. For example, the Saturday before the nth 
+How many days the event is from the reference day. For example, the Saturday before the nth 
 Sunday has `OFFSET = -1`.
 * `STARTOFFSET`
 For multi-day events, how many days the start of the event is before the end.
@@ -19,7 +19,6 @@ The key of an array of special events.
 
 ## Examples
 The Saturday before the second Sunday in May
-
 ```php
 ['BYMONTH' => 5,
    'BYDAY' => '2SU',
@@ -27,14 +26,19 @@ The Saturday before the second Sunday in May
 ```
 
 The second Saturday in February
-
 ```php
 ['BYMONTH' => 2,
    'BYDAY' => '2SA']
 ```
 
-The Saturday after the Whitsun bank holiday
+The third Sunday in September and the Saturday before
+```php
+[   'BYMONTH' => 9,
+      'BYDAY' => '3SU',
+'STARTOFFSET' => -1]
+```
 
+The Saturday after the Whitsun bank holiday
 ```php
 ['SPECIAL' => 'whitsun',
   'OFFSET' => +5]
