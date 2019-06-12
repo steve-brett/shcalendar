@@ -400,6 +400,14 @@ public function happyPathCreateDataProvider(): array
       ['start' => '2019-06-29T10:30:00+00:00',
          'end' => '2019-06-29T16:00:00+00:00']],
                   
+      [[
+        'NTHSUN' => ['BYMONTH' => 5,
+                       'BYDAY' => '2SU'],
+      ], 
+      ['start' => '2019-05-12T10:30:00+00:00',
+         'end' => '2019-05-12T16:00:00+00:00']],
+       
+                  
       // [[
       //   'NTHSUN' => ['BYMONTH' => 9,
       //                  'BYDAY' => '3SU',
