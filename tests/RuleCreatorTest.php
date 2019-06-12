@@ -277,6 +277,65 @@ public function testLastDayThrowsException(string $inputValue): void
   $this->rule->lastDay(\DateTime::createFromFormat('Y-m-d', $inputValue));
 }
 
+
+  /**
+   * Special day tests -----------------------------------------------
+   */
+
+  public function happyPathSpecialDataProvider(): array
+  {
+    return [
+      [['BYMONTH' => 1,
+        'SPECIAL' => 'newYear'
+      ], '2019-01-01'],
+
+    ];
+  }
+
+  /**
+   * @dataProvider happyPathSpecialDataProvider
+   */
+  public function testHappyPathSpecial(array $expectedValue, string $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->special(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
+  }
+
+  public function happyPathSpecialOffsetDataProvider(): array
+  {
+    return [
+      // [['BYMONTH' => 5,
+      //   'BYDAY' => '-1SU',
+      //   'OFFSET' => -1
+      // ], 
+
+    ];
+  }
+
+  /**
+   * @dataProvider happyPathSpecialOffsetDataProvider
+   */
+  public function testHappyPathSpecialOffset(array $expectedValue, array $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->special(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
+  }
+
+
+  public function invalidDataSpecial(): array
+{
+  return [
+    // ['1799-12-31'],
+  ];
+}
+
+/**
+ * @dataProvider invalidDataSpecial
+ */
+public function testSpecialThrowsException(string $inputValue): void
+{
+  $this->expectException(\InvalidArgumentException::class);
+  $this->rule->special(\DateTime::createFromFormat('Y-m-d', $inputValue));
+}
+
 public function happyPathSpanDataProvider(): array
   {
     return [

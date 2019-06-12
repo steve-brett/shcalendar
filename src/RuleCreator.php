@@ -167,4 +167,9 @@ class RuleCreator
     return $rule;
   }
 
+  public function special(\DateTime $date): array
+  {
+    return [];
+  }
+
 }
