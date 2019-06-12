@@ -366,40 +366,47 @@ public function testSpanThrowsException(array $inputValue): void
 public function happyPathCreateDataProvider(): array
   {
     return [
-      [[
-        ['BYMONTH' => 5,
-        'BYDAY' => '2SU',
-        'OFFSET' => -1],
-        ['BYMONTH' => 5,
-        'BYDAY' => '2SA'],
+      [['NTHSUN' => ['BYMONTH' => 5,
+                       'BYDAY' => '2SU',
+                      'OFFSET' => -1],
+       'NTHDAY' => ['BYMONTH' => 5,
+                       'BYDAY' => '2SA'],
       ], 
       ['start' => '2019-05-11T10:30:00+00:00',
          'end' => '2019-05-11T16:00:00+00:00']],
 
       [[
-        ['BYMONTH' => 5,
-        'BYDAY' => '4SU',
-        'OFFSET' => -1],
-        ['BYMONTH' => 5,
-        'BYDAY' => '4SA'],
-        ['BYMONTH' => 5,
-        'BYDAY' => '-1SU',
-        'OFFSET' => -1],
-        ['BYMONTH' => 5,
-        'BYDAY' => '-1SA'],
+        'NTHSUN' => ['BYMONTH' => 5,
+                       'BYDAY' => '4SU',
+                      'OFFSET' => -1],
+        'NTHDAY' => ['BYMONTH' => 5,
+                       'BYDAY' => '4SA'],
+        'LASTSUN' => ['BYMONTH' => 5,
+                       'BYDAY' => '-1SU',
+                      'OFFSET' => -1],
+        'LASTDAY' => ['BYMONTH' => 5,
+                       'BYDAY' => '-1SA'],
       ], 
       ['start' => '2019-05-25T10:30:00+00:00',
          'end' => '2019-05-25T16:00:00+00:00']],
          
       [[
-        ['BYMONTH' => 6,
-        'BYDAY' => '-1SU',
-        'OFFSET' => -1],
-        ['BYMONTH' => 6,
-        'BYDAY' => '-1SA'],
+        'LASTSUN' => ['BYMONTH' => 6,
+                       'BYDAY' => '-1SU',
+                      'OFFSET' => -1],
+        'LASTDAY' => ['BYMONTH' => 6,
+                       'BYDAY' => '-1SA'],
       ], 
       ['start' => '2019-06-29T10:30:00+00:00',
          'end' => '2019-06-29T16:00:00+00:00']],
+                  
+      // [[
+      //   'NTHSUN' => ['BYMONTH' => 9,
+      //                  'BYDAY' => '3SU',
+      //            'STARTOFFSET' => -1],
+      // ], 
+      // ['start' => '2019-09-14T10:30:00+00:00',
+      //    'end' => '2019-09-15T16:00:00+00:00']],
          
     ];
   }
