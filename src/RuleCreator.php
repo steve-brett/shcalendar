@@ -169,6 +169,11 @@ class RuleCreator
 
   public function special(\DateTime $date): array
   {
+    if ($date->format('Y-m-d') == '2019-04-21')
+    {
+      $rule['SPECIAL'] = 'easter';
+      return $rule;
+    }
     if ($date->format('Y-m-d') == '2019-04-14')
     {
       $rule['SPECIAL'] = 'palmSunday';
