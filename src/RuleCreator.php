@@ -15,20 +15,29 @@ class RuleCreator
     $terms = $this->span($start, $end);
     $date = $terms['DATE'];
 
+    $day = $date->format('N');
+
     try {
-      $output[] = $this->nthDay($date, 'Sun');
+      $output['NTHSUN'] = $this->nthDay($date, 'Sun');
+      if (isset($terms['STARTOFFSET']))
+      {
+        $output['NTHSUN']['STARTOFFSET'] =  $terms['STARTOFFSET'];
+      }
+    } catch (\Exception $e) { }
+    
+    if ($day != 7)
+    {
+      try {
+        $output['NTHDAY'] = $this->nthDay($date);
+      } catch (\Exception $e) { }
+    }
+
+    try {
+      $output['LASTSUN'] = $this->lastDay($date, 'Sun');
     } catch (\Exception $e) { }
 
     try {
-      $output[] = $this->nthDay($date);
-    } catch (\Exception $e) { }
-
-    try {
-      $output[] = $this->lastDay($date, 'Sun');
-    } catch (\Exception $e) { }
-
-    try {
-      $output[] = $this->lastDay($date);
+      $output['LASTDAY'] = $this->lastDay($date);
     } catch (\Exception $e) { }
 
     return $output;
