@@ -282,35 +282,35 @@ public function happyPathSpanDataProvider(): array
     return [
       [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
                   '2019-09-15T00:00:00+00:00'),
-        'START_OFFSET' => -1
+        'STARTOFFSET' => -1
       ], 
       ['start' => '2019-09-14T15:52:01+00:00',
          'end' => '2019-09-15T15:52:01+00:00']],
 
       [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
                   '2019-06-15T00:00:00+00:00'),
-      'START_OFFSET' => -1
+      'STARTOFFSET' => -1
       ], 
       ['start' => '2019-06-14T15:52:01+00:00',
          'end' => '2019-06-15T15:52:01+00:00']],
 
       [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
                   '2019-06-15T00:00:00+00:00'),
-      'START_OFFSET' => -1
+      'STARTOFFSET' => -1
       ], 
       ['start' => '2019-06-15T15:52:01+00:00',
          'end' => '2019-06-14T15:52:01+00:00']],
          
       [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
                   '2019-06-15T00:00:00+00:00'),
-      'START_OFFSET' => -2
+      'STARTOFFSET' => -2
       ], 
       ['start' => '2019-06-15T15:52:01+00:00',
          'end' => '2019-06-13T15:52:01+00:00']],
                   
       [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
                   '2019-10-27T00:00:00+00:00'),
-      'START_OFFSET' => -1
+      'STARTOFFSET' => -1
       ], 
       ['start' => '2019-10-26T10:52:01+01:00',
          'end' => '2019-10-27T17:52:01+00:00']],
@@ -415,15 +415,14 @@ public function happyPathCreateDataProvider(): array
       ], 
       ['start' => '2019-05-26T10:30:00+00:00',
          'end' => '2019-05-26T16:00:00+00:00']],
-       
-                  
-      // [[
-      //   'NTHSUN' => ['BYMONTH' => 9,
-      //                  'BYDAY' => '3SU',
-      //            'STARTOFFSET' => -1],
-      // ], 
-      // ['start' => '2019-09-14T10:30:00+00:00',
-      //    'end' => '2019-09-15T16:00:00+00:00']],
+                   
+      [[
+        'NTHSUN' => ['BYMONTH' => 9,
+                       'BYDAY' => '3SU',
+                 'STARTOFFSET' => -1],
+      ], 
+      ['start' => '2019-09-14T10:30:00+00:00',
+         'end' => '2019-09-15T16:00:00+00:00']],
          
     ];
   }
