@@ -19,40 +19,30 @@ class RuleCreator
 
     try {
       $output['NTHSUN'] = $this->nthDay($date, 'Sun');
-      if (isset($terms['STARTOFFSET']))
-      {
-        $output['NTHSUN']['STARTOFFSET'] = $terms['STARTOFFSET'];
-      }
     } catch (\Exception $e) { }
     
+    try {
+      $output['LASTSUN'] = $this->lastDay($date, 'Sun');
+    } catch (\Exception $e) { }
+
     if ($day != 7)
     {
       try {
         $output['NTHDAY'] = $this->nthDay($date);
-      if (isset($terms['STARTOFFSET']))
-      {
-        $output['NTHDAY']['STARTOFFSET'] = $terms['STARTOFFSET'];
-      }
+      } catch (\Exception $e) { }
+
+      try {
+        $output['LASTDAY'] = $this->lastDay($date);
       } catch (\Exception $e) { }
     }
 
-    try {
-      $output['LASTSUN'] = $this->lastDay($date, 'Sun');
-      if (isset($terms['STARTOFFSET']))
-      {
-        $output['LASTSUN']['STARTOFFSET'] = $terms['STARTOFFSET'];
-      }
-    } catch (\Exception $e) { }
-
-    if ($day != 7)
+    // Add STARTOFFSET to each array
+    if (isset($terms['STARTOFFSET']))
     {
-      try {
-        $output['LASTDAY'] = $this->lastDay($date);
-      if (isset($terms['STARTOFFSET']))
+      foreach ($output as &$rule)
       {
-        $output['LASTDAY']['STARTOFFSET'] = $terms['STARTOFFSET'];
+        $rule['STARTOFFSET'] = $terms['STARTOFFSET'];
       }
-      } catch (\Exception $e) { }
     }
 
     return $output;
