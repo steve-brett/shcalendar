@@ -34,6 +34,10 @@ class RuleCreator
 
     try {
       $output['LASTSUN'] = $this->lastDay($date, 'Sun');
+      if (isset($terms['STARTOFFSET']))
+      {
+        $output['LASTSUN']['STARTOFFSET'] = $terms['STARTOFFSET'];
+      }
     } catch (\Exception $e) { }
 
     if ($day != 7)
