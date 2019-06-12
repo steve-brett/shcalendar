@@ -14,6 +14,11 @@ class RuleCreator
   {
     // Time will mess with our calculations - set to midnight
     $start->setTime(0,0,0);
+    if ($end == null)
+    {
+      $output['DATE'] = $start;
+      return $output;
+    }
     $end->setTime(0,0,0);
 
     $diff = $end->diff($start)->format('%r%a');
