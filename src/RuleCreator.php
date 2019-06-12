@@ -10,7 +10,7 @@ class RuleCreator
     'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
   ];
 
-  public function create(\DateTime $start, \DateTime $end = null): array
+  public function span(\DateTime $start, \DateTime $end = null): array
   {
     // Time will mess with our calculations - set to midnight
     $start->setTime(0,0,0);
@@ -35,7 +35,7 @@ class RuleCreator
 
     if (abs($diff) > 0)
     {
-      $output['START_OFFSET'] = $diff;
+      $output['START_OFFSET'] = (int)$diff;
     }
      
     $output['DATE'] = $end;
