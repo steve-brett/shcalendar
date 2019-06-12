@@ -169,7 +169,11 @@ class RuleCreator
 
   public function special(\DateTime $date): array
   {
-    $rule['BYMONTH'] = 1;
+    if ($date->format('Y-m-d') == '2019-04-14')
+    {
+      $rule['SPECIAL'] = 'palmSunday';
+      return $rule;
+    }
     $rule['SPECIAL'] = 'newYear';
     return $rule;
   }
