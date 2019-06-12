@@ -32,6 +32,11 @@ class RuleCreator
     {
       $output['START_OFFSET'] = -2;
     }
+    if ($start == \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
+    '2019-06-13T23:52:01+00:00')) 
+    {
+      $output['START_OFFSET'] = -2;
+    }
  
     $output['DATE'] = $end;
     return $output;
