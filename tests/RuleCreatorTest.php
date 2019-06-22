@@ -302,7 +302,7 @@ public function testLastDayThrowsException(string $inputValue): void
 
       [['SPECIAL' => 'independence',
          'OFFSET' => '-1',
-       ], '2019-04-03'],
+       ], '2019-07-03'],
 
     ];
   }
@@ -548,4 +548,11 @@ public function happyPathCreateDataProvider(): array
     $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) ) );
   }
 
+  public function testYMDtoDate(): void
+  {
+    $this->assertEquals(['christmas' => \DateTime::createFromFormat('!Y-m-d', '2019-12-25') ], $this->rule->ymd_to_datetime( ['christmas' => '2019-12-25'] ) );
+  }
+
+
 }
+
