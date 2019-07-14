@@ -171,14 +171,13 @@ class RuleCreator
   {
     $year = (int)$date->format('Y');
     $special = $this->calculateSpecial($year);
-    $key = array_search($date->format('Y-m-d'), $special);
+    $special = $this->ymd_to_datetime($special);
+    $closest = $this->find_closest($date, $special);
 
-    if($key == false )
-    {
-      return false;
+    $rule['SPECIAL'] = $closest[0];
+    if ( $closest[1] != 0 ) {
+      $rule['OFFSET'] = $closest[1];
     }
-
-    $rule['SPECIAL'] = $key;
     return $rule;
   }
 
@@ -357,5 +356,33 @@ class RuleCreator
 
       return $bankHols;
   }
+
+  public function ymd_to_datetime(array $special) : array
+  {
+    foreach ($special as $k => $date )
+    {
+      $special[$k] = \DateTime::createFromFormat('!Y-m-d', $date);
+    }
+    return $special;
+  }
+
+  protected function find_closest(\DateTime $needle, array $haystack): array // TODO return type?
+  {
+      foreach ($haystack as $k => $hay) {
+          $interval[$k] = $hay->diff($needle)->format('%R%a');
+      }
+
+      uasort($interval, array($this, 'compare')); 
+      $closest = key($interval);
+
+      return [$closest,$interval[$closest]];
+  }
+
+  protected function compare($a, $b) {
+    if (abs($a) == abs($b)) {
+        return 0;
+    }
+    return (abs($a) < abs($b)) ? -1 : 1;
+}
 
 }
