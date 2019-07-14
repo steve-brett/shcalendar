@@ -169,6 +169,11 @@ class RuleCreator
 
   public function special(\DateTime $date): array
   {
+    if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
+      throw new \InvalidArgumentException('Date must be 1800-01-01 or after. 
+      Got [' . $date->format('Y-m-d') .']');
+    }
+    
     $year = (int)$date->format('Y');
     $special = $this->calculateSpecial($year);
     $special = $this->ymd_to_datetime($special);
@@ -372,13 +377,13 @@ class RuleCreator
           $interval[$k] = $hay->diff($needle)->format('%R%a');
       }
 
-      uasort($interval, array($this, 'compare')); 
+      uasort($interval, array($this, 'abs_compare')); 
       $closest = key($interval);
 
-      return [$closest,$interval[$closest]];
+      return [$closest, $interval[$closest]];
   }
 
-  protected function compare($a, $b) {
+  protected function abs_compare($a, $b) {
     if (abs($a) == abs($b)) {
         return 0;
     }
