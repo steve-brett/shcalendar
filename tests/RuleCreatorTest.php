@@ -307,38 +307,11 @@ public function testLastDayThrowsException(string $inputValue): void
     ];
   }
 
-  /**
-   * @dataProvider happyPathSpecialDataProvider
-   */
-  public function testHappyPathSpecial(array $expectedValue, string $inputValue): void
-  {
-    $this->assertEquals($expectedValue, $this->rule->special(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
-  }
-
-  public function happyPathSpecialOffsetDataProvider(): array
-  {
-    return [
-      // [['BYMONTH' => 5,
-      //   'BYDAY' => '-1SU',
-      //   'OFFSET' => -1
-      // ], 
-
-    ];
-  }
-
-  /**
-   * @dataProvider happyPathSpecialOffsetDataProvider
-   */
-  public function testHappyPathSpecialOffset(array $expectedValue, array $inputValue): void
-  {
-    $this->assertEquals($expectedValue, $this->rule->special(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']) );
-  }
-
 
   public function invalidDataSpecial(): array
 {
   return [
-    // ['1799-12-31'],
+    ['1799-12-31'],
   ];
 }
 
