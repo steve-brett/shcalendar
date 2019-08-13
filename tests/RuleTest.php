@@ -141,7 +141,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
   }
 
   
-  public function invalidDataReadable(): array
+  public function invalidData(): array
   {
     return [
       [['BYDAY' => '1SU',
@@ -176,7 +176,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
   }
   
   /**
-   * @dataProvider invalidDataReadable
+   * @dataProvider invalidData
    */
   public function testThrowsExceptionReadable(array $inputValue): void
   {
@@ -220,21 +220,10 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
   }
 
   
-  public function invalidData5545(): array
-  {
-    return [
-      // [['BYDAY' => '1SU',
-      // ]],
-      // [['BYMONTH' => 5,
-      // ]],
-     
-    ];
-  }
-  
   /**
-   * @dataProvider invalidData5545
+   * Uses same invalid data for all fns
+   * @dataProvider invalidData
    */
-  // TODO use same invalid data for all fns
   public function testThrowsException5545(array $inputValue): void
   {
     $this->expectException(\InvalidArgumentException::class);
