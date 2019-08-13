@@ -202,26 +202,26 @@ class RuleCreator
       $bankHols['newYear'] = "$year-01-01";
       
       // Palm Sunday:
-      $bankHols['palmSunday'] = date("Y-m-d", strtotime("+".(easter_days($year) - 7)." days", strtotime("$year-03-21 12:00:00")));
+      $bankHols['palmSunday'] = date("Y-m-d", strtotime("+".(easter_days($year) - 7)." days", strtotime("$year-03-21 00:00:00")));
    
       /*
       // Good friday:
-      $bankHols['goodFriday'] = date("Y-m-d", strtotime("+".(easter_days($year) - 2)." days", strtotime("$year-03-21 12:00:00")));
+      $bankHols['goodFriday'] = date("Y-m-d", strtotime("+".(easter_days($year) - 2)." days", strtotime("$year-03-21 00:00:00")));
       */
 
       // Easter:
-      $bankHols['easter'] = date("Y-m-d", strtotime("+".easter_days($year)." days", strtotime("$year-03-21 12:00:00")));
+      $bankHols['easter'] = date("Y-m-d", strtotime("+".easter_days($year)." days", strtotime("$year-03-21 00:00:00")));
 
       /*
       // Easter Monday:
-      $bankHols['easterMonday'] = date("Y-m-d", strtotime("+".(easter_days($year) + 1)." days", strtotime("$year-03-21 12:00:00")));
+      $bankHols['easterMonday'] = date("Y-m-d", strtotime("+".(easter_days($year) + 1)." days", strtotime("$year-03-21 00:00:00")));
       */
 
       // May Day:
       if ($year == 1995) {
           $bankHols['mayDay'] = "1995-05-08"; // VE day 50th anniversary year exception
       } else {
-          switch (date("w", strtotime("$year-05-01 12:00:00"))) {
+          switch (date("w", strtotime("$year-05-01 00:00:00"))) {
               case 0:
                   $bankHols['mayDay'] = "$year-05-02";
                   break;
@@ -253,7 +253,7 @@ class RuleCreator
       } elseif ($year == 2012) { // Diamond Jubilee exception year
           $bankHols['whitsun'] = "2012-06-04";
       } else {
-          switch (date("w", strtotime("$year-05-31 12:00:00"))) {
+          switch (date("w", strtotime("$year-05-31 00:00:00"))) {
               case 0:
                   $bankHols['whitsun'] = "$year-05-25";
                   break;
@@ -310,7 +310,7 @@ class RuleCreator
 
 
       // Summer Bank Holiday: (last Mon in Aug)
-      switch (date("w", strtotime("$year-08-31 12:00:00"))) {
+      switch (date("w", strtotime("$year-08-31 00:00:00"))) {
           case 0:
               $bankHols['summer'] = "$year-08-25";
               break;
@@ -336,7 +336,7 @@ class RuleCreator
       
 
       // Thanksgiving: (Fourth Thu in Nov)
-      switch (date("w", strtotime("$year-11-24 12:00:00"))) {
+      switch (date("w", strtotime("$year-11-24 00:00:00"))) {
           case 0:
               $bankHols['thanksgiving'] = "$year-11-28";
               break;
