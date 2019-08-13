@@ -310,6 +310,11 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         'BYDAY' => '1SU',
         'OFFSET' => -2
       ]],
+      ['FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=58,59,60,61,62,63,64,65',
+      ['BYMONTH' => 3,
+        'BYDAY' => '1SU',
+        'OFFSET' => -2
+      ]],
     ];
   }
 
