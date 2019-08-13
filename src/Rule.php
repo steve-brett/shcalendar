@@ -62,7 +62,10 @@ class Rule
       if ($rule['BYMONTH'] == 3) {
         return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=59,60,61,62,63,64,65,66';
       }
-      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=31,32,33,34,35,36,37';
+      if ($rule['BYMONTH'] == 2) {
+        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=31,32,33,34,35,36,37';
+      }
+      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-1,1,2,3,4,5,6';
     }
     return 'FREQ=YEARLY;INTERVAL=1;BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
   }
