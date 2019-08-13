@@ -10,6 +10,13 @@ class RuleCreator
     'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
   ];
 
+  /**
+   * Create array of possible rules from dates
+   *
+   * @param \DateTime $start
+   * @param \DateTime $end
+   * @return array of rrule arrays
+   */
   public function create(\DateTime $start, \DateTime $end = null): array
   {
     $input = $this->span($start, $end);
@@ -54,6 +61,16 @@ class RuleCreator
     return $output;
   }
 
+  /**
+   * Generate reference date from span of dates
+   *  
+   * ['DATE'] DateTime reference date
+   * ['STARTOFFSET'] int offset from ref date
+   *  
+   * @param \DateTime $start
+   * @param \DateTime $end
+   * @return array
+   */
   public function span(\DateTime $start, \DateTime $end = null): array
   {
     // Time will mess with our calculations - set to midnight
@@ -91,7 +108,15 @@ class RuleCreator
     return $output;
   }
 
-  // TODO change $refday to format 'N'
+  /**
+   * Generate rule based on nth day in month
+   * 
+   *  TODO change $refday to format 'N'?
+   *
+   * @param \DateTime $date
+   * @param string $refDay
+   * @return array
+   */
   public function nthDay(\DateTime $date, string $refDay = null): array
   {
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
@@ -132,7 +157,15 @@ class RuleCreator
     return $rule;
   }
 
-  // TODO change $refday to format 'N'
+  /**
+   * Generate rule based on last day in month
+   * 
+   *  TODO change $refday to format 'N'?
+   *
+   * @param \DateTime $date
+   * @param string $refDay
+   * @return array
+   */
   public function lastDay(\DateTime $date, string $refDay = null): array
   {
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
@@ -172,6 +205,12 @@ class RuleCreator
     return $rule;
   }
 
+  /**
+   * Generate rule based on proximity to special days, e.g. a bank holiday or Easter
+   *
+   * @param \DateTime $date
+   * @return array
+   */
   public function special(\DateTime $date): array
   {
     if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
@@ -196,6 +235,13 @@ class RuleCreator
     return $rule;
   }
 
+  /**
+   * Generates array of special days in a given year.
+   * Based on public domain work of David Scourfield.
+   *
+   * @param integer $year
+   * @return array
+   */
   public function calculateSpecial(int $year = null): array 
   {
       // default to current year if not set
@@ -372,6 +418,14 @@ class RuleCreator
       return $bankHols;
   }
 
+  /**
+   * Converts array of special days into array of DateTime objects
+   * 
+   * TODO control inputs and test
+   *
+   * @param array $special
+   * @return array
+   */
   public function ymd_to_datetime(array $special) : array
   {
     foreach ($special as $k => $date )
@@ -382,6 +436,13 @@ class RuleCreator
     return $special;
   }
 
+  /**
+   * Finds closest DateTime object in array to $needle
+   *
+   * @param \DateTime $needle
+   * @param array $haystack
+   * @return void
+   */
   protected function find_closest(\DateTime $needle, array $haystack): array // TODO return type?
   {
       foreach ($haystack as $k => $hay) {
@@ -394,6 +455,15 @@ class RuleCreator
       return ['date' => $closest, 'offset' => $interval[$closest]];
   }
 
+  /**
+   * Comparison function for uasort
+   * Orders by absolute value
+   * e.g 1,2,-3,4,-5...
+   *
+   * @param integer $a
+   * @param integer $b
+   * @return integer
+   */
   protected function abs_compare(int $a, int $b): int 
   {
     if (abs($a) == abs($b)) {
