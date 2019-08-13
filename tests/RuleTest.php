@@ -19,7 +19,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     $this->rule = new Rule();
   }
 
-  public function happyPathDataProvider(): array
+  public function happyPathReadableDataProvider(): array
   {
     return [
       ['The first Sunday in May',
@@ -133,15 +133,15 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
   }
 
   /**
-   * @dataProvider happyPathDataProvider
+   * @dataProvider happyPathReadableDataProvider
    */
-  public function testHappyPath(string $expectedValue, array $inputValue): void
+  public function testHappyPathReadable(string $expectedValue, array $inputValue): void
   {
     $this->assertEquals($expectedValue, $this->rule->readable($inputValue) );
   }
 
   
-  public function invalidData(): array
+  public function invalidDataReadable(): array
   {
     return [
       [['BYDAY' => '1SU',
@@ -176,13 +176,55 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
   }
   
   /**
-   * @dataProvider invalidData
+   * @dataProvider invalidDataReadable
    */
-  public function testThrowsException(array $inputValue): void
+  public function testThrowsExceptionReadable(array $inputValue): void
   {
     $this->expectException(\InvalidArgumentException::class);
     $this->rule->readable($inputValue);
   }
   
+
+  public function happyPath5545DataProvider(): array
+  {
+    return [
+      ['FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=1SU',
+      ['BYMONTH' => 5,
+        'BYDAY' => '1SU',
+        'OFFSET' => 0
+      ]],
+
+
+    ];
+  }
+
+  /**
+   * @dataProvider happyPath5545DataProvider
+   */
+  public function testHappyPath5545(string $expectedValue, array $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->rfc5545($inputValue) );
+  }
+
+  
+  public function invalidData5545(): array
+  {
+    return [
+      // [['BYDAY' => '1SU',
+      // ]],
+      // [['BYMONTH' => 5,
+      // ]],
+     
+    ];
+  }
+  
+  /**
+   * @dataProvider invalidData5545
+   */
+  public function testThrowsException5545(array $inputValue): void
+  {
+    $this->expectException(\InvalidArgumentException::class);
+    $this->rule->rfc5545($inputValue);
+  }
 }
  ?>

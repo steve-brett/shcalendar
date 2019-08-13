@@ -35,6 +35,11 @@ class Rule
 		0 => 'Sunday'
   );
 
+  public function rfc5545(array $rule): string
+  {
+      return '';
+  }
+  
   public function readable(array $rule): string
   {
     // TODO use a separate validate() function here?
