@@ -320,7 +320,7 @@ public function testLastDayThrowsException(string $inputValue): void
    */
   public function testHappyPathSpecial(array $expectedValue, string $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->special( \DateTime::createFromFormat('!Y-m-d', $inputValue) ) );
+    $this->assertEquals($expectedValue, $this->rule->special( \DateTime::createFromFormat('!Y-m-d', $inputValue, new \DateTimeZone('UTC')) ) );
   }
 
   public function invalidDataSpecial(): array
@@ -538,7 +538,7 @@ public function happyPathCreateDataProvider(): array
 
   public function testYMDtoDate(): void
   {
-    $this->assertEquals(['christmas' => \DateTime::createFromFormat('!Y-m-d', '2019-12-25') ], $this->rule->ymd_to_datetime( ['christmas' => '2019-12-25'] ) );
+    $this->assertEquals(['christmas' => \DateTime::createFromFormat('!Y-m-d', '2019-12-25', new \DateTimeZone('UTC')) ], $this->rule->ymd_to_datetime( ['christmas' => '2019-12-25'] ) );
   }
 
 
