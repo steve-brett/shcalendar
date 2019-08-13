@@ -80,10 +80,10 @@ $rrule = new RRule([
 ]);
 
 foreach ( $rrule as $occurrence ) {
-	echo $occurrence->format('D d M Y'),", " . PHP_EOL;
+	echo $occurrence->format('D d M Y'),", <br>" . PHP_EOL;
 }
 echo PHP_EOL;
-echo $rrule->rfcstring() . PHP_EOL;
+echo $rrule->rfcstring() . '<br><br>' . PHP_EOL;
 
 // first Sunday in July
 $rrule = new RRule([
@@ -96,10 +96,9 @@ $rrule = new RRule([
 ]);
 
 foreach ( $rrule as $occurrence ) {
-	echo $occurrence->format('D d M Y'),", ";
+	echo $occurrence->format('D d M Y'),", <br>" . PHP_EOL;
 }
-echo PHP_EOL;
-echo $rrule->rfcstring() . PHP_EOL;
+echo $rrule->rfcstring() . '<br><br>' . PHP_EOL;
 
 // Sat before first Sunday in July
 $rrule = new RRule([
@@ -113,10 +112,26 @@ $rrule = new RRule([
 ]);
 
 foreach ( $rrule as $occurrence ) {
-	echo $occurrence->format('D d M Y'),", ";
+	echo $occurrence->format('D d M Y'),", <br>". PHP_EOL;
 }
-echo PHP_EOL;
+echo $rrule->rfcstring() . '<br><br>' . PHP_EOL;
+
+// Sat before first Sunday in Feb
+$rrule = new RRule([
+	'FREQ' => 'YEARLY',
+	'INTERVAL' => 1,
+	'DTSTART' => '2020-02-01',
+  'BYYEARDAY' => '31,32,33,34,35,36,37',
+//   'BYMONTHDAY' => '-1,1,2,3,4,5,6',
+  'BYDAY' => 'SA',
+	'COUNT' => 10
+]);
+
+foreach ( $rrule as $occurrence ) {
+	echo $occurrence->format('D d M Y'),", <br>". PHP_EOL;
+}
 echo $rrule->rfcstring() . PHP_EOL;
+
 
 
 /*
