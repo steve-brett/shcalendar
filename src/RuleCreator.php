@@ -371,7 +371,8 @@ class RuleCreator
   {
     foreach ($special as $k => $date )
     {
-      $special[$k] = \DateTime::createFromFormat('!Y-m-d', $date);
+      // TODO pass timezone to this fn?
+      $special[$k] = \DateTime::createFromFormat('!Y-m-d', $date, new \DateTimeZone('UTC'));
     }
     return $special;
   }
