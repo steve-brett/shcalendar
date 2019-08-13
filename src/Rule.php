@@ -68,7 +68,7 @@ class Rule
     // Validate using RRule
     try 
     {
-      $rrule = new RRule([
+      new RRule([
         'FREQ' => 'YEARLY',
         'INTERVAL' => 1,
         'BYMONTH' => $rule['BYMONTH'],
