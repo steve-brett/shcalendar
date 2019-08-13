@@ -7,13 +7,9 @@ use RRule\RRule;
 class Rule
 {
   /**
-	 * Weekdays numbered from 1 (ISO-8601 or `date('N')`).
-	 * Used internally but public if a reference list is needed.
+	 * Weekdays with RFC5545 abbreviation as key
 	 *
-	 * @todo should probably be protected, with a static getter instead
-	 * to avoid unintended modification
-	 *
-	 * @var array The name as the key
+	 * @var array 
 	 */
 	protected static $week_day_abbrev = array(
 		'MO' => 'Monday',
@@ -25,6 +21,12 @@ class Rule
 		'SU' => 'Sunday'
   );
 
+  /**
+	 * Weekdays numbered from 1 (ISO-8601 or `date('N')`).
+	 * Used internally but public if a reference list is needed.
+	 *
+	 * @var array The name as the key
+	 */
   protected static $week_days = array(
 		1 => 'Monday',
 		2 => 'Tuesday',
@@ -35,6 +37,13 @@ class Rule
 		0 => 'Sunday'
   );
 
+  /**
+   * 
+   * Output RFC5545 RRULE string
+   *
+   * @param array $rule
+   * @return string
+   */
   public function rfc5545(array $rule): string
   {
     if ($rule['BYDAY'] == '4SU') {
@@ -49,6 +58,12 @@ class Rule
     return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=1SU';
   }
   
+  /**
+   * Ouput sentence description of rule
+   *
+   * @param array $rule 
+   * @return string Description of rule
+   */
   public function readable(array $rule): string
   {
     // TODO use a separate validate() function here?
