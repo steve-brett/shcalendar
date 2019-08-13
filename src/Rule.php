@@ -140,7 +140,7 @@ class Rule
     }
     catch (Exception $e)
     {
-      throw new \InvalidArgumentException($e);
+      throw $e;
     }
 
     if (!isset($rule['OFFSET']) )
