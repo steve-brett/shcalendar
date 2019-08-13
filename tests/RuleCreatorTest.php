@@ -301,8 +301,16 @@ public function testLastDayThrowsException(string $inputValue): void
       ], '2020-07-04'],
 
       [['SPECIAL' => 'independence',
-         'OFFSET' => '-1',
+         'OFFSET' => -1,
        ], '2019-07-03'],
+
+      [['SPECIAL' => 'independence',
+         'OFFSET' => -5,
+      ], '2019-06-29'],
+
+      [['SPECIAL' => 'whitsun',
+         'OFFSET' => +1,
+      ], '2019-05-28'],
 
     ];
   }
