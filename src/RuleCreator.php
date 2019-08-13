@@ -184,9 +184,9 @@ class RuleCreator
     $special = $this->ymd_to_datetime($special);
     $closest = $this->find_closest($date, $special);
 
-    $rule['SPECIAL'] = $closest[0];
-    if ( $closest[1] != 0 ) {
-      $rule['OFFSET'] = $closest[1];
+    $rule['SPECIAL'] = $closest['date'];
+    if ( $closest['offset'] != 0 ) {
+      $rule['OFFSET'] = $closest['offset'];
     }
     return $rule;
   }
@@ -386,7 +386,7 @@ class RuleCreator
       uasort($interval, array($this, 'abs_compare')); 
       $closest = key($interval);
 
-      return [$closest, $interval[$closest]];
+      return ['date' => $closest, 'offset' => $interval[$closest]];
   }
 
   protected function abs_compare(int $a, int $b): int 
