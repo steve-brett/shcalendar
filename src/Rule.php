@@ -53,6 +53,15 @@ class Rule
       throw $e;
     }
     if ($rule['OFFSET'] == -1) {
+      if ($rule['BYMONTH'] == 9) {
+        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=243,244,245,246,247,248,249,250';
+      }
+      if ($rule['BYMONTH'] == 8) {
+        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=212,213,214,215,216,217,218,219';
+      }
+      if ($rule['BYMONTH'] == 7) {
+        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=181,182,183,184,185,186,187,188';
+      }
       if ($rule['BYMONTH'] == 6) {
         return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=151,152,153,154,155,156,157,158';
       }
