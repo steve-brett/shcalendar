@@ -5,6 +5,11 @@ namespace SHCalendar;
 
 class RuleCreator
 {
+  /**
+   * Possible day formats for $refDay
+   *
+   * @var array
+   */
   private static $dayFormats = [
     'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun',
     'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
