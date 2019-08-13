@@ -172,6 +172,14 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
       'BYDAY' => '1SU',
       'OFFSET' => 1.4
       ]],
+      // Fine in year but not in month
+      // [['BYMONTH' => 5,
+      // 'BYDAY' => '6SU',
+      // ]],
+      // Not valid for Sacred Harp
+      // [['BYMONTH' => 5,
+      // 'BYDAY' => '-2SU',
+      // ]],
     ];
   }
   
