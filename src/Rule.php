@@ -52,16 +52,7 @@ class Rule
     } catch (\Exception $e) {
       throw $e;
     }
-    if ($rule['BYDAY'] == '4SU') {
-      return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=4SU';
-    }
-    if ($rule['BYDAY'] == '3SU') {
-      return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=3SU';
-    }
-    if ($rule['BYDAY'] == '2SU') {
-      return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=2SU';
-    }
-    return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=1SU';
+    return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=' . $rule['BYDAY'];
   }
   
   /**
