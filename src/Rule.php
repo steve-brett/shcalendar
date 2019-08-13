@@ -52,6 +52,12 @@ class Rule
     } catch (\Exception $e) {
       throw $e;
     }
+    if ($rule['BYMONTH'] == '7') {
+      return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=7;BYDAY=' . $rule['BYDAY'];
+    }
+    if ($rule['BYMONTH'] == '6') {
+      return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=6;BYDAY=' . $rule['BYDAY'];
+    }
     return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=' . $rule['BYDAY'];
   }
   
