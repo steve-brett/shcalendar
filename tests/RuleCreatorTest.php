@@ -307,6 +307,13 @@ public function testLastDayThrowsException(string $inputValue): void
     ];
   }
 
+  /**
+   * @dataProvider happyPathSpecialDataProvider
+   */
+  public function testHappyPathSpecial(array $expectedValue, string $inputValue): void
+  {
+    $this->assertEquals($expectedValue, $this->rule->special( \DateTime::createFromFormat('!Y-m-d', $inputValue) ) );
+  }
 
   public function invalidDataSpecial(): array
 {
