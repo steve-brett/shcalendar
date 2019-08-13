@@ -327,6 +327,7 @@ public function testLastDayThrowsException(string $inputValue): void
 {
   return [
     ['1799-12-31'],
+    ['2019-09-15']
   ];
 }
 
@@ -491,7 +492,7 @@ public function happyPathCreateDataProvider(): array
       [[
         'NTHSUN' => ['BYMONTH' => 9,
                        'BYDAY' => '3SU',
-                 'STARTOFFSET' => -1],   
+                 'STARTOFFSET' => -1],    
       ], 
       ['start' => '2019-09-14T10:30:00+00:00',
          'end' => '2019-09-15T16:00:00+00:00']],
