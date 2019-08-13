@@ -185,7 +185,12 @@ class RuleCreator
     $closest = $this->find_closest($date, $special);
 
     $rule['SPECIAL'] = $closest['date'];
-    if ( $closest['offset'] != 0 ) {
+    if ( abs($closest['offset']) > 7 ) {
+      // TODO Is this the right thing to do, or return false?
+      throw new \InvalidArgumentException('Not within a week of a special day. 
+      Got [' . $date->format('Y-m-d') .']');
+    }
+    if ( abs($closest['offset']) > 0 ) {
       $rule['OFFSET'] = $closest['offset'];
     }
     return $rule;
