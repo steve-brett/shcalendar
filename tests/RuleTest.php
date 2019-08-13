@@ -196,6 +196,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
   public function happyPath5545DataProvider(): array
   {
     return [
+      // Nth Sunday rules
       ['FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=1SU',
       ['BYMONTH' => 5,
         'BYDAY' => '1SU',
@@ -229,6 +230,12 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
       ['FREQ=YEARLY;INTERVAL=1;BYMONTH=7;BYDAY=1SU',
       ['BYMONTH' => 7,
         'BYDAY' => '1SU',
+        'OFFSET' => 0
+      ]],
+      // Nth day rules
+      ['FREQ=YEARLY;INTERVAL=1;BYMONTH=1;BYDAY=1SA',
+      ['BYMONTH' => 1,
+        'BYDAY' => '1SA',
         'OFFSET' => 0
       ]],
       // Sat before first Sunday
@@ -291,6 +298,12 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
       ['BYMONTH' => 12,
         'BYDAY' => '1SU',
         'OFFSET' => -1
+      ]],
+      // Friday before first Sun
+      ['FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-2,-1,1,2,3,4,5',
+      ['BYMONTH' => 1,
+        'BYDAY' => '1SU',
+        'OFFSET' => -2
       ]],
     ];
   }
