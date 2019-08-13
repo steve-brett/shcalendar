@@ -300,22 +300,22 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         'OFFSET' => -1
       ]],
       // Friday before first Sun
-      ['FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-2,-1,1,2,3,4,5',
+      ['FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=-2,-1,1,2,3,4,5',
       ['BYMONTH' => 1,
         'BYDAY' => '1SU',
         'OFFSET' => -2
       ]],
-      ['FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=30,31,32,33,34,35,36',
+      ['FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=30,31,32,33,34,35,36',
       ['BYMONTH' => 2,
         'BYDAY' => '1SU',
         'OFFSET' => -2
       ]],
-      ['FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=58,59,60,61,62,63,64,65',
+      ['FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=58,59,60,61,62,63,64,65',
       ['BYMONTH' => 3,
         'BYDAY' => '1SU',
         'OFFSET' => -2
       ]],
-      ['FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=333,334,335,336,337,338,339,340',
+      ['FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=333,334,335,336,337,338,339,340',
       ['BYMONTH' => 12,
         'BYDAY' => '1SU',
         'OFFSET' => -2

@@ -74,12 +74,12 @@ class Rule
     }
     if ($rule['OFFSET'] == -2) {
       if ($rule['BYMONTH'] == 3) {
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=58,59,60,61,62,63,64,65';
+        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=58,59,60,61,62,63,64,65';
       }
       if ($rule['BYMONTH'] == 2) {
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=30,31,32,33,34,35,36';
+        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=30,31,32,33,34,35,36';
       }
-      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-2,-1,1,2,3,4,5';
+      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=-2,-1,1,2,3,4,5';
     }
     if ($rule['OFFSET'] == -1) {
       if ($rule['BYMONTH'] == 1) {
