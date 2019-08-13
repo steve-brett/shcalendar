@@ -37,6 +37,9 @@ class Rule
 
   public function rfc5545(array $rule): string
   {
+    if ($rule['BYDAY'] == '3SU') {
+      return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=3SU';
+    }
     if ($rule['BYDAY'] == '2SU') {
       return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=2SU';
     }
