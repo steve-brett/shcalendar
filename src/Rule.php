@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace SHCalendar;
 use RRule\RRule;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Rule
 {
@@ -46,6 +47,11 @@ class Rule
    */
   public function rfc5545(array $rule): string
   {
+    try {
+      $rule = $this->validate($rule);
+    } catch (\Exception $e) {
+      throw $e;
+    }
     if ($rule['BYDAY'] == '4SU') {
       return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=4SU';
     }
@@ -66,7 +72,47 @@ class Rule
    */
   public function readable(array $rule): string
   {
-    // TODO use a separate validate() function here?
+    try {
+      $rule = $this->validate($rule);
+    } catch (\Exception $e) {
+      throw $e;
+    }
+
+    $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
+    $monthName = $dateObj->format('F');
+    $offset = '';
+
+    $dayName = $this::$week_day_abbrev[substr($rule['BYDAY'], -2)];
+
+     if ($rule['OFFSET'] !== 0)
+    {
+      $weekDay = $rule['OFFSET'] + \RRule\RRule::$week_days[substr($rule['BYDAY'], -2)];
+      $weekDay = ($weekDay + 7) % 7;
+
+      $offset = $this::$week_days[$weekDay] . ' before the ';
+    }
+
+    $ordinal = substr($rule['BYDAY'], 0, -2);
+    $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
+    $formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
+    $ordinal = $formatter->format($ordinal);
+
+    if (substr($rule['BYDAY'], 0, 1) == '-')
+    {
+      $ordinal = 'last';
+    }
+
+    return 'The ' . $offset . $ordinal . ' ' . $dayName . ' in ' . $monthName;
+  }
+
+  /**
+   * RRULE validator for Sacred Harp rules
+   *
+   * @param array $rule
+   * @return array $rule
+   */
+  protected function validate (array $rule): array
+  {
     if (!isset($rule['BYMONTH']) )
     {
       throw new \InvalidArgumentException('BYMONTH is required.');
@@ -109,31 +155,7 @@ class Rule
     {
       throw new \InvalidArgumentException('OFFSET must be between -7 and 7. Got [' . $rule['OFFSET'] . ']');
     }
-    $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
-    $monthName = $dateObj->format('F');
-    $offset = '';
-
-    $dayName = $this::$week_day_abbrev[substr($rule['BYDAY'], -2)];
-
-     if ($rule['OFFSET'] !== 0)
-    {
-      $weekDay = $rule['OFFSET'] + \RRule\RRule::$week_days[substr($rule['BYDAY'], -2)];
-      $weekDay = ($weekDay + 7) % 7;
-
-      $offset = $this::$week_days[$weekDay] . ' before the ';
-    }
-
-    $ordinal = substr($rule['BYDAY'], 0, -2);
-    $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
-    $formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
-    $ordinal = $formatter->format($ordinal);
-
-    if (substr($rule['BYDAY'], 0, 1) == '-')
-    {
-      $ordinal = 'last';
-    }
-
-    return 'The ' . $offset . $ordinal . ' ' . $dayName . ' in ' . $monthName;
+    return $rule;
   }
 
 }
