@@ -72,6 +72,9 @@ class Rule
     } catch (\Exception $e) {
       throw $e;
     }
+    if ($rule['OFFSET'] == -2) {
+      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-2,-1,1,2,3,4,5';
+    }
     if ($rule['OFFSET'] == -1) {
       if ($rule['BYMONTH'] == 1) {
         return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-1,1,2,3,4,5,6';
