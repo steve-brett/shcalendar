@@ -198,7 +198,11 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         'BYDAY' => '2SU',
         'OFFSET' => 0
       ]],
-
+      ['FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=3SU',
+      ['BYMONTH' => 5,
+        'BYDAY' => '3SU',
+        'OFFSET' => 0
+      ]],
 
     ];
   }
@@ -226,6 +230,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
   /**
    * @dataProvider invalidData5545
    */
+  // TODO use same invalid data for all fns
   public function testThrowsException5545(array $inputValue): void
   {
     $this->expectException(\InvalidArgumentException::class);
