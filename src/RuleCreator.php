@@ -36,6 +36,11 @@ class RuleCreator
       } catch (\Exception $e) { }
     }
 
+    try {
+      $output['SPECIAL'] = $this->special($date);
+    } catch (\Exception $e) { }
+
+
     // Add STARTOFFSET to each array
     if (isset($input['STARTOFFSET']))
     {
@@ -173,7 +178,7 @@ class RuleCreator
       throw new \InvalidArgumentException('Date must be 1800-01-01 or after. 
       Got [' . $date->format('Y-m-d') .']');
     }
-    
+
     $year = (int)$date->format('Y');
     $special = $this->calculateSpecial($year);
     $special = $this->ymd_to_datetime($special);
@@ -186,7 +191,7 @@ class RuleCreator
     return $rule;
   }
 
-  protected function calculateSpecial(int $year = null): array 
+  public function calculateSpecial(int $year = null): array 
   {
       // default to current year if not set
       $year = $year ?: date('Y');
@@ -374,7 +379,7 @@ class RuleCreator
   protected function find_closest(\DateTime $needle, array $haystack): array // TODO return type?
   {
       foreach ($haystack as $k => $hay) {
-          $interval[$k] = $hay->diff($needle)->format('%R%a');
+          $interval[$k] = (int)$hay->diff($needle)->format('%R%a');
       }
 
       uasort($interval, array($this, 'abs_compare')); 
@@ -383,11 +388,12 @@ class RuleCreator
       return [$closest, $interval[$closest]];
   }
 
-  protected function abs_compare($a, $b) {
+  protected function abs_compare(int $a, int $b): int 
+  {
     if (abs($a) == abs($b)) {
         return 0;
     }
     return (abs($a) < abs($b)) ? -1 : 1;
-}
+  }
 
 }
