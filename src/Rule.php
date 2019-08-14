@@ -73,16 +73,25 @@ class Rule
       throw $e;
     }
     if ($rule['OFFSET'] == -2) {
-      if ($rule['BYMONTH'] == 12) {
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=333,334,335,336,337,338,339,340';
+      if ($rule['BYMONTH'] == 1) {
+        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=-2,-1,1,2,3,4,5';
       }
-      if ($rule['BYMONTH'] == 3) {
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=58,59,60,61,62,63,64,65';
+      if ($rule['BYMONTH'] > 2) {
+        // Affected by leap year
+        $by_month_day = 'BYMONTHDAY=-2,-1,1,2,3,4,5;';
+        $year_day_limit = 8;
+      } else {
+        // Unaffected by leap year
+        $by_month_day = '';
+        $year_day_limit = 7;
       }
-      if ($rule['BYMONTH'] == 2) {
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=30,31,32,33,34,35,36';
+      $year_day = $this::$first_of_month[$rule['BYMONTH']] - 2;
+      $by_year_day = 'BYYEARDAY=';
+      for ($k = 0 ; $k < $year_day_limit; $k++) { 
+        $by_year_day .= $year_day + $k . ','; 
       }
-      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=-2,-1,1,2,3,4,5';
+      $by_year_day = substr($by_year_day, 0, -1);
+      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;' . $by_month_day . $by_year_day;
     }
     if ($rule['OFFSET'] == -1) {
       if ($rule['BYMONTH'] == 1) {
