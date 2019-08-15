@@ -82,16 +82,22 @@ class Rule
       throw $e;
     }
     if ($rule['OFFSET'] == -6) {
-      if ($rule['BYMONTH'] == 12) {
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;BYYEARDAY=329,330,331,332,333,334,335,336';
+      if ($rule['BYMONTH'] > 2) {
+        // Affected by leap year
+        $by_month_day = 'BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;';
+        $year_day_limit = 8;
+      } else {
+        // Unaffected by leap year
+        $by_month_day = '';
+        $year_day_limit = 7;
       }
-      if ($rule['BYMONTH'] == 3) {
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;BYYEARDAY=54,55,56,57,58,59,60,61';
+      $year_day = $this::$first_of_month[$rule['BYMONTH']] - 6;
+      $by_year_day = 'BYYEARDAY=';
+      for ($k = 0 ; $k < $year_day_limit; $k++) { 
+        $by_year_day .= $this->year_day($year_day, $k) . ','; 
       }
-      if ($rule['BYMONTH'] == 2) {
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=26,27,28,29,30,31,32';
-      }
-      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-6,-5,-4,-3,-2,-1,1';
+      $by_year_day = substr($by_year_day, 0, -1);
+      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;' . $by_month_day . $by_year_day;
     }
     if ($rule['OFFSET'] == -2) {
       if ($rule['BYMONTH'] > 2) {
