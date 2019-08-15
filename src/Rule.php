@@ -82,6 +82,9 @@ class Rule
       throw $e;
     }
     if ($rule['OFFSET'] == -6) {
+      if ($rule['BYMONTH'] == 3) {
+        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;BYYEARDAY=54,55,56,57,58,59,60,61';
+      }
       if ($rule['BYMONTH'] == 2) {
         return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=26,27,28,29,30,31,32';
       }
