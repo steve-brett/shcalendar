@@ -81,59 +81,28 @@ class Rule
     } catch (\Exception $e) {
       throw $e;
     }
-    if ($rule['OFFSET'] == -6) {
+    if ($rule['OFFSET'] && $rule['OFFSET'] != 0) {
       if ($rule['BYMONTH'] > 2) {
         // Affected by leap year
-        $by_month_day = 'BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;';
+        $by_month_day = 'BYMONTHDAY=';
+        for ($k = 0 ; $k < 7; $k++) { 
+          $by_month_day .= $this->year_day(1 + $rule['OFFSET'], $k) . ','; 
+        }
+        $by_month_day = substr($by_month_day, 0, -1) . ';';
         $year_day_limit = 8;
       } else {
         // Unaffected by leap year
         $by_month_day = '';
         $year_day_limit = 7;
       }
-      $year_day = $this::$first_of_month[$rule['BYMONTH']] - 6;
+      $year_day = $this::$first_of_month[$rule['BYMONTH']] + $rule['OFFSET'];
       $by_year_day = 'BYYEARDAY=';
       for ($k = 0 ; $k < $year_day_limit; $k++) { 
         $by_year_day .= $this->year_day($year_day, $k) . ','; 
       }
       $by_year_day = substr($by_year_day, 0, -1);
-      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;' . $by_month_day . $by_year_day;
-    }
-    if ($rule['OFFSET'] == -2) {
-      if ($rule['BYMONTH'] > 2) {
-        // Affected by leap year
-        $by_month_day = 'BYMONTHDAY=-2,-1,1,2,3,4,5;';
-        $year_day_limit = 8;
-      } else {
-        // Unaffected by leap year
-        $by_month_day = '';
-        $year_day_limit = 7;
-      }
-      $year_day = $this::$first_of_month[$rule['BYMONTH']] - 2;
-      $by_year_day = 'BYYEARDAY=';
-      for ($k = 0 ; $k < $year_day_limit; $k++) { 
-        $by_year_day .= $this->year_day($year_day, $k) . ','; 
-      }
-      $by_year_day = substr($by_year_day, 0, -1);
-      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;' . $by_month_day . $by_year_day;
-    }
-    if ($rule['OFFSET'] == -1) {
-      if ($rule['BYMONTH'] > 2) {
-        // Affected by leap year
-        $by_month_day = 'BYMONTHDAY=-1,1,2,3,4,5,6;';
-        $year_day_limit = 8;
-      } else {
-        // Unaffected by leap year
-        $by_month_day = '';
-        $year_day_limit = 7;
-      }
-      $year_day = $this::$first_of_month[$rule['BYMONTH']] - 1;
-      $by_year_day = 'BYYEARDAY=';
-      for ($k = 0 ; $k < $year_day_limit; $k++) { 
-        $by_year_day .= $this->year_day($year_day, $k) . ','; 
-      }
-      $by_year_day = substr($by_year_day, 0, -1);
-      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;' . $by_month_day . $by_year_day;
+      $by_day = 'BYDAY=' . array_reverse(array_keys($this::$week_day_abbrev))[abs($rule['OFFSET'])] . ';';
+      return 'FREQ=YEARLY;INTERVAL=1;'. $by_day . $by_month_day . $by_year_day;
     }
     return 'FREQ=YEARLY;INTERVAL=1;BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
   }
