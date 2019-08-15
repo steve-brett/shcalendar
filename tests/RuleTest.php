@@ -320,6 +320,12 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         'BYDAY' => '1SU',
         'OFFSET' => -2
       ]],
+      // Monday before first Sun
+      ['FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-6,-5,-4,-3,-2,-1,1',
+      ['BYMONTH' => 1,
+        'BYDAY' => '1SU',
+        'OFFSET' => -6
+      ]],
     ];
   }
 
