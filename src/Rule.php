@@ -58,6 +58,15 @@ class Rule
     12 => 335
   );
 
+  private function year_day(int $year_day, int $k): int
+  {
+    $sum = $year_day + $k;
+    if ($sum <= 0 ) {
+      return $sum - 1;
+    }
+    return $sum;
+  }
+
   /**
    * 
    * Output RFC5545 RRULE string
@@ -73,9 +82,6 @@ class Rule
       throw $e;
     }
     if ($rule['OFFSET'] == -2) {
-      if ($rule['BYMONTH'] == 1) {
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=-2,-1,1,2,3,4,5';
-      }
       if ($rule['BYMONTH'] > 2) {
         // Affected by leap year
         $by_month_day = 'BYMONTHDAY=-2,-1,1,2,3,4,5;';
@@ -88,15 +94,12 @@ class Rule
       $year_day = $this::$first_of_month[$rule['BYMONTH']] - 2;
       $by_year_day = 'BYYEARDAY=';
       for ($k = 0 ; $k < $year_day_limit; $k++) { 
-        $by_year_day .= $year_day + $k . ','; 
+        $by_year_day .= $this->year_day($year_day, $k) . ','; 
       }
       $by_year_day = substr($by_year_day, 0, -1);
       return 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;' . $by_month_day . $by_year_day;
     }
     if ($rule['OFFSET'] == -1) {
-      if ($rule['BYMONTH'] == 1) {
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-1,1,2,3,4,5,6';
-      }
       if ($rule['BYMONTH'] > 2) {
         // Affected by leap year
         $by_month_day = 'BYMONTHDAY=-1,1,2,3,4,5,6;';
@@ -109,7 +112,7 @@ class Rule
       $year_day = $this::$first_of_month[$rule['BYMONTH']] - 1;
       $by_year_day = 'BYYEARDAY=';
       for ($k = 0 ; $k < $year_day_limit; $k++) { 
-        $by_year_day .= $year_day + $k . ','; 
+        $by_year_day .= $this->year_day($year_day, $k) . ','; 
       }
       $by_year_day = substr($by_year_day, 0, -1);
       return 'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;' . $by_month_day . $by_year_day;
