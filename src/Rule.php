@@ -81,6 +81,9 @@ class Rule
     } catch (\Exception $e) {
       throw $e;
     }
+    if ($rule['OFFSET'] == -6) {
+      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-6,-5,-4,-3,-2,-1,1';
+    }
     if ($rule['OFFSET'] == -2) {
       if ($rule['BYMONTH'] > 2) {
         // Affected by leap year
