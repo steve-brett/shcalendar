@@ -207,9 +207,9 @@ class Rule
     {
       throw new \InvalidArgumentException('OFFSET format incorrect. Got [' . $rule['OFFSET'] . ']');
     }
-    if (abs($rule['OFFSET']) > 7 )
+    if (abs($rule['OFFSET']) >= 7 )
     {
-      throw new \InvalidArgumentException('OFFSET must be between -7 and 7. Got [' . $rule['OFFSET'] . ']');
+      throw new \InvalidArgumentException('OFFSET must be between -6 and 6. Got [' . $rule['OFFSET'] . ']');
     }
     return $rule;
   }
