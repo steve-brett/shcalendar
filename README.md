@@ -53,11 +53,11 @@ The Saturday before the first fifth Sunday after the 4th July (yes, this is a re
 
 
 ## Issues
-[ ] - Comment code properly and review
-[x] - ~Review simplicity of functions in singingFormula and interpretFormula classes~
-[ ] - Extend `RuleCreator::special()` to all special days within a week instead of just nearest
+- [ ] Comment code properly and review
+- [x] ~Review simplicity of functions in singingFormula and interpretFormula classes~
+- [ ] Extend `RuleCreator::special()` to all special days within a week instead of just nearest
 
 ## Future plans
-[ ] - iCalendar output
-[x] - multi-day events
-[ ] - Incorporate fifth Sundays into formulae (as special days)
+- [ ] iCalendar output
+- [x] multi-day events
+- [ ] Incorporate fifth Sundays into formulae (as special days)
