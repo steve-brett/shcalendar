@@ -7,24 +7,49 @@ Annual Sacred Harp singings are organised using date formulae, usually relating 
 
 This tool allows for human input of what could be a quite complex recurrence rule by finding all likely formulae for a specific date. The user can then choose their singing formula from a list of options, and then generate future dates.
 
-The current formula takes advantage of the PHP `DateTime` object's text-based [relative formats](http://php.net/manual/en/datetime.formats.relative.php). However, I may change this to an array that more closely resembles [RFC 5545](https://icalendar.org/iCalendar-RFC-5545/3-8-5-3-recurrence-rule.html) when revising for iCalendar output.
+The current formula uses an array format that extends the [RFC 5545](https://icalendar.org/iCalendar-RFC-5545/3-8-5-3-recurrence-rule.html) format used by [rlanvin/php-rrule](https://github.com/rlanvin/php-rrule).
+
+* `OFFSET`
+How many days the event is from the reference day. For example, the Saturday before the nth 
+Sunday has `OFFSET = -1`.
+* `STARTOFFSET`
+For multi-day events, how many days the start of the event is before the end.
+* `SPECIAL`
+The key of an array of special events.
 
 ## Examples
 The Saturday before the second Sunday in May
-
-`(second Sunday in May,-1)`
+```php
+['BYMONTH' => 5,
+   'BYDAY' => '2SU',
+  'OFFSET' => -1]
+```
 
 The second Saturday in February
+```php
+['BYMONTH' => 2,
+   'BYDAY' => '2SA']
+```
 
-`(second Saturday in February)`
+The third Sunday in September and the Saturday before
+```php
+[   'BYMONTH' => 9,
+      'BYDAY' => '3SU',
+'STARTOFFSET' => -1]
+```
 
 The Saturday after the Whitsun bank holiday
-
-`(special4,5)`
+```php
+['SPECIAL' => 'whitsun',
+  'OFFSET' => +5]
+```
 
 The Saturday before the first fifth Sunday after the 4th July (yes, this is a real singing!)
 
-`(special6,-1)`
+```php
+['SPECIAL' => '5SU47',
+  'OFFSET' => -1]
+```
 
 
 ## Issues
