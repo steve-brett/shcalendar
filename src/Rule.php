@@ -81,6 +81,9 @@ class Rule
     } catch (\Exception $e) {
       throw $e;
     }
+    if ($rule['OFFSET'] == 1) {
+      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=2,3,4,5,6,7,8';
+    }
     if ($rule['OFFSET'] && $rule['OFFSET'] !== 0) {
       
       $offset = $rule['OFFSET'];
