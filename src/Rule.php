@@ -108,17 +108,12 @@ class Rule
       }
       $by_year_day = substr($by_year_day, 0, -1);
 
-      $by_day = 'BYDAY=' . array_reverse(array_keys($this::$week_day_abbrev))[abs($offset)] . ';';
-
-      if ($rule['OFFSET'] == 6) {
-        $by_day = 'BYDAY=SA;';
+      if ($offset < 0) {
+        $by_day = array_reverse(array_keys($this::$week_day_abbrev))[abs($offset)];
+      } else {
+        $by_day = array_keys($this::$week_day_abbrev)[$offset - 1];
       }
-      if ($rule['OFFSET'] == 2) {
-        $by_day = 'BYDAY=TU;';
-      }
-      if ($rule['OFFSET'] == 1) {
-        $by_day = 'BYDAY=MO;';
-      }
+      $by_day = 'BYDAY=' . $by_day . ';';
 
       return 'FREQ=YEARLY;INTERVAL=1;'. $by_day . $by_month_day . $by_year_day;
     }
