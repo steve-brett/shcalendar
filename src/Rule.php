@@ -81,9 +81,7 @@ class Rule
     } catch (\Exception $e) {
       throw $e;
     }
-    if ($rule['OFFSET'] == 1) {
-      return 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=2,3,4,5,6,7,8';
-    }
+
     if ($rule['OFFSET'] && $rule['OFFSET'] !== 0) {
       
       $offset = $rule['OFFSET'];
@@ -111,6 +109,10 @@ class Rule
       $by_year_day = substr($by_year_day, 0, -1);
 
       $by_day = 'BYDAY=' . array_reverse(array_keys($this::$week_day_abbrev))[abs($offset)] . ';';
+
+      if ($rule['OFFSET'] == 1) {
+        $by_day = 'BYDAY=MO;';
+      }
 
       return 'FREQ=YEARLY;INTERVAL=1;'. $by_day . $by_month_day . $by_year_day;
     }
