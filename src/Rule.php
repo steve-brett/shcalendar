@@ -110,6 +110,9 @@ class Rule
 
       $by_day = 'BYDAY=' . array_reverse(array_keys($this::$week_day_abbrev))[abs($offset)] . ';';
 
+      if ($rule['OFFSET'] == 6) {
+        $by_day = 'BYDAY=SA;';
+      }
       if ($rule['OFFSET'] == 2) {
         $by_day = 'BYDAY=TU;';
       }
