@@ -12,8 +12,8 @@ $start = isset($_GET['start']) ? $_GET['start'] : '';
 
 // maybe pass values to validator function in a try/catch
 // instead of doing it here
-$start_object = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $start);
-  $end_object = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $end);
+$start_object = \DateTime::createFromFormat(\DateTime::ATOM, $start);
+  $end_object = \DateTime::createFromFormat(\DateTime::ATOM, $end);
 
 if ( ($start_object == false) || ($end_object == false) )
 {

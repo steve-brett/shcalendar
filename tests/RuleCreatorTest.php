@@ -343,35 +343,35 @@ public function testSpecialThrowsException(string $inputValue): void
 public function happyPathSpanDataProvider(): array
   {
     return [
-      [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
+      [['DATE' => \DateTime::createFromFormat(\DateTime::ATOM, 
                   '2019-09-15T00:00:00+00:00'),
         'STARTOFFSET' => -1
       ], 
       ['start' => '2019-09-14T15:52:01+00:00',
          'end' => '2019-09-15T15:52:01+00:00']],
 
-      [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
+      [['DATE' => \DateTime::createFromFormat(\DateTime::ATOM, 
                   '2019-06-15T00:00:00+00:00'),
       'STARTOFFSET' => -1
       ], 
       ['start' => '2019-06-14T15:52:01+00:00',
          'end' => '2019-06-15T15:52:01+00:00']],
 
-      [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
+      [['DATE' => \DateTime::createFromFormat(\DateTime::ATOM, 
                   '2019-06-15T00:00:00+00:00'),
       'STARTOFFSET' => -1
       ], 
       ['start' => '2019-06-15T15:52:01+00:00',
          'end' => '2019-06-14T15:52:01+00:00']],
          
-      [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
+      [['DATE' => \DateTime::createFromFormat(\DateTime::ATOM, 
                   '2019-06-15T00:00:00+00:00'),
       'STARTOFFSET' => -2
       ], 
       ['start' => '2019-06-15T15:52:01+00:00',
          'end' => '2019-06-13T15:52:01+00:00']],
                   
-      [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
+      [['DATE' => \DateTime::createFromFormat(\DateTime::ATOM, 
                   '2019-10-27T00:00:00+00:00'),
       'STARTOFFSET' => -1
       ], 
@@ -385,13 +385,13 @@ public function happyPathSpanDataProvider(): array
    */
   public function testHappyPathSpan(array $expectedValue, array $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) ) );
+    $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTime::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTime::ATOM, $inputValue['end']) ) );
   }
 
   public function happyPathSpanSingleDataProvider(): array
   {
     return [
-      [['DATE' => \DateTime::createFromFormat(\DateTimeInterface::ATOM, 
+      [['DATE' => \DateTime::createFromFormat(\DateTime::ATOM, 
                   '2019-09-15T00:00:00+00:00'),
       ], 
       '2019-09-15T15:52:01+00:00'],
@@ -403,7 +403,7 @@ public function happyPathSpanDataProvider(): array
    */
   public function testHappyPathSpanSingle(array $expectedValue, string $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue) ) );
+    $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTime::ATOM, $inputValue) ) );
   }
 
   public function invalidDataSpan(): array
@@ -423,7 +423,7 @@ public function happyPathSpanDataProvider(): array
 public function testSpanThrowsException(array $inputValue): void
 {
   $this->expectException(\InvalidArgumentException::class);
-  $this->rule->span(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) );
+  $this->rule->span(\DateTime::createFromFormat(\DateTime::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTime::ATOM, $inputValue['end']) );
 }
 
 public function happyPathCreateDataProvider(): array
@@ -544,7 +544,7 @@ public function happyPathCreateDataProvider(): array
    */
   public function testHappyPathCreate(array $expectedValue, array $inputValue): void
   {
-    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTimeInterface::ATOM, $inputValue['end']) ) );
+    $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat(\DateTime::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTime::ATOM, $inputValue['end']) ) );
   }
 
   public function testYMDtoDate(): void

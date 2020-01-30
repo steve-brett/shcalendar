@@ -43,13 +43,13 @@ function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d')
     return $dates;
 }
 
-$start = \DateTime::createFromFormat(\DateTimeInterface::ATOM, '2019-07-27T10:00:00+01:00');
+$start = \DateTime::createFromFormat(\DateTime::ATOM, '2019-07-27T10:00:00+01:00');
 $formulaeTest = new singingFormula($start);
 $formulaeTest = $formulaeTest->createFormulae();
 
 foreach ($formulaeTest as $k => $formula) 
 {
-	echo $start->format(\DateTimeInterface::ATOM) . '<br/>' . PHP_EOL;
+	echo $start->format(\DateTime::ATOM) . '<br/>' . PHP_EOL;
 	// echo $formula . '<br/>' . PHP_EOL;
 	$output = new interpretFormula($formula, $start->format('Y'));
 	// echo var_dump($formula) . '<br/>' . PHP_EOL;
@@ -63,7 +63,7 @@ $formulaeTest = $formulaeTest->createFormulae();
 
 foreach ($formulaeTest as $k => $formula) 
 {
-	echo $start->format(\DateTimeInterface::ATOM) . '<br/>' . PHP_EOL;
+	echo $start->format(\DateTime::ATOM) . '<br/>' . PHP_EOL;
 	// echo $formula . '<br/>' . PHP_EOL;
 	$output = new interpretFormula($formula, $start->format('Y'));
 	// echo var_dump($formula) . '<br/>' . PHP_EOL;
