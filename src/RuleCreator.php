@@ -274,8 +274,10 @@ class RuleCreator
       */
 
       // May Day:
-      if ($year == 1995) {
-          $bankHols['mayDay'] = "1995-05-08"; // VE day 50th anniversary year exception
+      if ($yr == 1995) {
+        $bankHols[] = "1995-05-08"; // VE day 50th anniversary year exception
+      } elseif ($yr == 2020) {
+        $bankHols[] = "2020-05-08"; // VE day 75th anniversary year exception
       } else {
           switch (date("w", strtotime("$year-05-01 00:00:00"))) {
               case 0:
