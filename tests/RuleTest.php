@@ -267,6 +267,9 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
             // [['BYMONTH' => 5,
             // 'BYDAY' => '-2SU',
             // ]],
+            [[
+                'SPECIAL' => 'garbage',
+            ]],
         ];
     }
 
