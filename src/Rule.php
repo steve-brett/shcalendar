@@ -68,6 +68,14 @@ class Rule
 		'newYear' => 'New Year\'s Day',
 		'palmSunday' => 'Palm Sunday',
 		'easter' => 'Easter',
+		'mayDay' => 'May Day bank holiday',
+		'whitsun' => 'the Whitsun bank holiday',
+		'independence' => 'Independence Day',
+		'5SU47' => 'the first fifth Sunday after the 4th July',
+		'summer' => 'the summer bank holiday',
+		'thanksgiving' => 'Thanksgiving',
+		'christmas' => 'Christmas Day',
+		'boxingDay' => 'Boxing Day',
 
 	);
 
