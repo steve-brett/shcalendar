@@ -63,6 +63,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   public function happyPathSundayOffsetDataProvider(): array
   {
     return [
+      // Day before first sunday
       [['BYMONTH' => 5,
         'BYDAY' => '1SU',
         'OFFSET' => -1
@@ -70,7 +71,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
       [ 'date' => '2019-05-04',
         'refday' => 'Sun'
       ]],
-
+      // Day before nth sunday
       [['BYMONTH' => 5,
         'BYDAY' => '2SU',
         'OFFSET' => -1
@@ -78,7 +79,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
       [ 'date' => '2019-05-11',
         'refday' => 'Sun'
       ]],
-
+      // First sunday is 1st of the month
       [['BYMONTH' => 7,
         'BYDAY' => '1SU',
         'OFFSET' => -1
@@ -86,7 +87,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
       [ 'date' => '2018-06-30',
         'refday' => 'Sun'
       ]],
-
+      // First Sunday is 1st Jan
       [['BYMONTH' => 1,
         'BYDAY' => '1SU',
         'OFFSET' => -1
@@ -94,7 +95,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
       [ 'date' => '2016-12-31',
         'refday' => 'Sun'
       ]],
-
+      // Two days before first Sunday
       [['BYMONTH' => 5,
         'BYDAY' => '1SU',
         'OFFSET' => -2
@@ -102,7 +103,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
       [ 'date' => '2019-05-03',
         'refday' => 'Sun'
       ]],
-
+      // Six days before first Sunday
       [['BYMONTH' => 5,
         'BYDAY' => '1SU',
         'OFFSET' => -6
@@ -125,31 +126,38 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   public function happyPathDayDataProvider(): array
   {
     return [
+      // First Saturday
       [['BYMONTH' => 5,
         'BYDAY' => '1SA'
       ],
       '2019-05-04'],
 
+      // Second Saturday
       [['BYMONTH' => 5,
         'BYDAY' => '2SA'
       ],
       '2019-05-11'],
 
+      // Third Saturday
       [['BYMONTH' => 5,
         'BYDAY' => '3SA'
       ],
       '2019-05-18'],
 
+      // Fourth Saturday
       [['BYMONTH' => 5,
         'BYDAY' => '4SA'
       ],
       '2019-05-25'],
 
+      // Different month
       [['BYMONTH' => 6,
         'BYDAY' => '1SA'
       ],
       '2019-06-01'],
 
+      // First Monday
+      // TODO Unnecessary?
       [['BYMONTH' => 6,
         'BYDAY' => '1MO'
       ],
@@ -169,6 +177,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
   public function invalidData(): array
   {
     return [
+      // Before 1800
       ['1799-12-31'],
       ['2019-06-30'],
     ];
@@ -326,6 +335,7 @@ public function testLastDayThrowsException(string $inputValue): void
   public function invalidDataSpecial(): array
 {
   return [
+    // before 1800
     ['1799-12-31'],
     ['2019-09-15']
   ];
