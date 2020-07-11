@@ -144,6 +144,11 @@ class Rule
 			throw $e;
 		}
 
+		if ( isset($rule['SPECIAL']) )
+		{
+			return $this::$specials[$rule['SPECIAL']];
+		}
+
 		$dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
 		$monthName = $dateObj->format('F');
 		$offset = '';
@@ -179,10 +184,28 @@ class Rule
 	 */
 	protected function validate (array $rule): array
 	{
-		if (!isset($rule['BYMONTH']) )
+		if (!isset($rule['OFFSET']) )
 		{
-			throw new \InvalidArgumentException('BYMONTH is required.');
+			$rule['OFFSET'] = 0;
 		}
+		if ( is_int($rule['OFFSET']) == false )
+		{
+			throw new \InvalidArgumentException('OFFSET format incorrect. Got [' . $rule['OFFSET'] . ']');
+		}
+		if (abs($rule['OFFSET']) >= 7 )
+		{
+			throw new \InvalidArgumentException('OFFSET must be between -6 and 6. Got [' . $rule['OFFSET'] . ']');
+		}
+
+		if ( isset($rule['SPECIAL']) )
+		{
+			// if ( !array_key_exists( $rule['SPECIAL'], $this::$specials ) ) 
+			// {
+			// 	throw new \InvalidArgumentException('SPECIAL key not valid. Got [' . $rule['SPECIAL'] . ']');
+			// }
+			return $rule;
+		} 
+
 		if (!isset($rule['BYDAY']) )
 		{
 			throw new \InvalidArgumentException('BYDAY is required.');
@@ -191,7 +214,12 @@ class Rule
 		{
 			throw new \InvalidArgumentException('BYDAY format incorrect. Got [' . $rule['BYDAY'] . ']');
 		}
-		
+		if (!isset($rule['BYMONTH']))
+		{
+			throw new \InvalidArgumentException('BYMONTH is required.');
+		}
+
+
 		// Validate using RRule
 		try 
 		{
@@ -209,18 +237,6 @@ class Rule
 			throw $e;
 		}
 
-		if (!isset($rule['OFFSET']) )
-		{
-			$rule['OFFSET'] = 0;
-		}
-		if ( is_int($rule['OFFSET']) == false )
-		{
-			throw new \InvalidArgumentException('OFFSET format incorrect. Got [' . $rule['OFFSET'] . ']');
-		}
-		if (abs($rule['OFFSET']) >= 7 )
-		{
-			throw new \InvalidArgumentException('OFFSET must be between -6 and 6. Got [' . $rule['OFFSET'] . ']');
-		}
 		return $rule;
 	}
 

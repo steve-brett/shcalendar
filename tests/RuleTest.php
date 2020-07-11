@@ -198,7 +198,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     {
         return [
             [
-                'New Year\'s day',
+                'New Year\'s Day',
                 [
                     'SPECIAL' => 'newYear',
                 ]
