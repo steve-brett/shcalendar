@@ -218,6 +218,64 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 ]
             ],
 
+            [
+                'May Day bank holiday',
+                [
+                    'SPECIAL' => 'mayDay',
+                ]
+            ],
+
+            [
+                'the Whitsun bank holiday',
+                [
+                    'SPECIAL' => 'whitsun',
+                ]
+            ],
+
+            [
+                'Independence Day',
+                [
+                    'SPECIAL' => 'independence',
+                ]
+            ],
+
+            [
+                'the first fifth Sunday after the 4th July',
+                [
+                    'SPECIAL' => '5SU47',
+                ]
+            ],
+
+            [
+                'the summer bank holiday',
+                [
+                    'SPECIAL' => 'summer',
+                ]
+            ],
+
+            [
+                'Thanksgiving',
+                [
+                    'SPECIAL' => 'thanksgiving',
+                ]
+            ],
+
+            [
+                'Christmas Day',
+                [
+                    'SPECIAL' => 'christmas',
+                ]
+            ],
+
+            [
+                'Boxing Day',
+                [
+                    'SPECIAL' => 'boxingDay',
+                ]
+            ],
+
+
+
 
         ];
     }
