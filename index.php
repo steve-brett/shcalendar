@@ -4,9 +4,16 @@
  * Needs better structure                     *
  * Steve Brett November 2018                  *
  **********************************************/
-use SHCalendar\singingFormula;
-use SHCalendar\interpretFormula;
-include('src/dateFormula.php');
+namespace SHCalendar;
+
+use SHCalendar\Rule;
+use SHCalendar\RuleCreator;
+include 'src/Rule.php';
+include 'src/RuleCreator.php';
+// For validateDate()
+include 'src/handyFunctions.php';
+// Composer
+include 'vendor/autoload.php';
 
 // Check if form has been submitted, regardless of method (button, return key, etc)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -83,9 +90,9 @@ if ($formSuccess === true) {
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
         <h1 class="govuk-fieldset__heading govuk-heading-xl">
         <?php
-        $date = new DateTime($date, new DateTimeZone('UTC'));
-        $formulae = new singingFormula($date);
-        $formulae = $formulae->createFormulae();
+        $date = new \DateTime($date, new \DateTimeZone('UTC'));
+        $creator = new RuleCreator;
+        $formulae = $creator->create($date);
         echo $date->format('l jS F Y') . PHP_EOL;
         ?>
         </h1>
@@ -95,13 +102,17 @@ if ($formSuccess === true) {
         If you are not presented with a correct formula, please <a href="mailto:steve.brett.design@gmail.com">email me</a>.
       </span>
       <div class="govuk-radios govuk-radios--conditional" data-module="radios">
-        <?php foreach ($formulae as $k => $formula) {
-            ?>
+        <?php foreach ($formulae as $k => $formula) {?>
+            <pre>
+              <?php var_dump($formula);?>
+            </pre>
         <div class="govuk-radios__item">
           <input class="govuk-radios__input" id="dateFormula-<?php echo $k; ?>" name="dateFormula" type="radio" value="<?php print_r(implode(",", $formula))?>">
           <label class="govuk-label govuk-radios__label" for="dateFormula-<?php echo $k; ?>">
-            <?php   $output = new interpretFormula($formula, $date->format('Y'));
-            echo $output->text() . PHP_EOL; ?>
+            <?php   
+            $rule = new Rule;
+            echo $rule->readable($formula);
+            ?>
           </label>
         </div>
         <?php
