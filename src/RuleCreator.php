@@ -236,7 +236,8 @@ class RuleCreator
     /**
      * Generates array of special days in a given year.
      * Based on public domain work of David Scourfield.
-     *
+     * @see Rule::$specials for keys.
+     * 
      * @param integer $year
      * @return array
      */

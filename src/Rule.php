@@ -58,6 +58,16 @@ class Rule
 		12 => 335
 	);
 
+	/**
+	 * Array of special day keys
+	 * @see RuleCreator::calculateSpecial()
+	 * 
+	 * @var array
+	 */
+	private static $specials = array(
+		'newYear' => 'New Year\'s Day',
+	);
+
 	private function year_day(int $year_day, int $k): int
 	{
 		$sum = $year_day + $k;
