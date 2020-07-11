@@ -67,6 +67,7 @@ class Rule
 	private static $specials = array(
 		'newYear' => 'New Year\'s Day',
 		'palmSunday' => 'Palm Sunday',
+		'easter' => 'Easter',
 
 	);
 
