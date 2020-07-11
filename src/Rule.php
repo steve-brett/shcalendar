@@ -66,6 +66,7 @@ class Rule
 	 */
 	private static $specials = array(
 		'newYear' => 'New Year\'s Day',
+		'palmSunday' => 'Palm Sunday',
 	);
 
 	private function year_day(int $year_day, int $k): int
