@@ -204,6 +204,13 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 ]
             ],
 
+            [
+                'Palm Sunday',
+                [
+                    'SPECIAL' => 'palmSunday',
+                ]
+            ],
+
 
         ];
     }
