@@ -194,6 +194,27 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
     }
 
+    public function happyPathReadableSpecialDataProvider(): array
+    {
+        return [
+            [
+                'New Year\'s day',
+                [
+                    'SPECIAL' => 'newYear',
+                ]
+            ],
+
+
+        ];
+    }
+
+    /**
+     * @dataProvider happyPathReadableSpecialDataProvider
+     */
+    public function testHappyPathReadableSpecial(string $expectedValue, array $inputValue): void
+    {
+        $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
+    }
 
     public function invalidData(): array
     {
