@@ -67,6 +67,7 @@ class Rule
 	private static $specials = array(
 		'newYear' => 'New Year\'s Day',
 		'palmSunday' => 'Palm Sunday',
+
 	);
 
 	private function year_day(int $year_day, int $k): int
@@ -200,10 +201,10 @@ class Rule
 
 		if ( isset($rule['SPECIAL']) )
 		{
-			// if ( !array_key_exists( $rule['SPECIAL'], $this::$specials ) ) 
-			// {
-			// 	throw new \InvalidArgumentException('SPECIAL key not valid. Got [' . $rule['SPECIAL'] . ']');
-			// }
+			if ( !array_key_exists( $rule['SPECIAL'], $this::$specials ) ) 
+			{
+				throw new \InvalidArgumentException('SPECIAL key not valid. Got [' . $rule['SPECIAL'] . ']');
+			}
 			return $rule;
 		} 
 
