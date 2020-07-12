@@ -80,6 +80,27 @@ class Rule
 	);
 
 	/**
+	 * Array of special day rules
+	 * @see RuleCreator::calculateSpecial()
+	 * 
+	 * @var array
+	 */
+	private static $special_rules = array(
+		'newYear' => 'BYMONTH=1;BYMONTHDAY=1',
+		'palmSunday' => '',
+		'easter' => '',
+		'mayDay' => 'BYMONTH=5;BYDAY=1MO',
+		'whitsun' => 'BYMONTH=5;BYDAY=-1MO',
+		'independence' => 'BYMONTH=7;BYMONTHDAY=4',
+		'5SU47' => 'BYDAY=SU;BYYEARDAY=-156,-155,-154,-125,-124,-123,-94',
+		'summer' => 'BYMONTH=8;BYDAY=-1MO',
+		'thanksgiving' => 'BYMONTH=11;BYDAY=4TH',
+		'christmas' => 'BYMONTH=12;BYMONTHDAY=25',
+		'boxingDay' => 'BYMONTH=12;BYMONTHDAY=26',
+
+	);
+
+	/**
 	 * Addition function for days that span months or years.
 	 * 
 	 * Allows progression along a number line without zero:
@@ -117,10 +138,13 @@ class Rule
 
 		if ( isset( $rule['SPECIAL'] ) )
 		{
-			if ( $rule['SPECIAL'] == 'mayDay' ){
-				return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=1MO';
+			if ('easter' === $rule['SPECIAL']
+			|| 'palmSunday' === $rule['SPECIAL'])
+			{
+				throw new \InvalidArgumentException('palmSunday and easter cannot give reccurence rules yet.');
 			}
-			return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=1;BYMONTHDAY=1';
+
+			return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']];
 		}
 
 		if ( !isset( $rule['OFFSET'] ) )
