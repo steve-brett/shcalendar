@@ -170,7 +170,10 @@ class Rule
 
 		if ( isset( $rule['OFFSET'] ) )
 		{
-			$offset = 'The ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . ' before ';
+			$offset_sign = (int) substr($rule['OFFSET'], 0, -2);
+			$modifier = ( $offset_sign > 0 ) ? ' after ' : ' before '; 
+
+			$offset = 'The ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
 		}
 
 		if ( isset($rule['SPECIAL']) )
