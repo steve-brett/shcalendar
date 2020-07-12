@@ -609,6 +609,12 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
 
 
             // Specials
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYMONTH=1;BYMONTHDAY=1',
+                [
+                    'SPECIAL' => 'newYear',
+                ]
+            ],
 
             // Multi-day
         ];
