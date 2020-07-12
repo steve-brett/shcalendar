@@ -262,6 +262,14 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 ]
             ],
 
+            [
+                'The Saturday before New Year\'s Day',
+                [
+                    'SPECIAL' => 'newYear',
+                    'OFFSET' => '-1SA',
+                ]
+            ],
+
 
 
 
