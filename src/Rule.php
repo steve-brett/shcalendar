@@ -166,22 +166,22 @@ class Rule
 		} catch (\Exception $e) {
 			throw $e;
 		}
+		$offset = '';
+
+		if ( isset( $rule['OFFSET'] ) )
+		{
+			$offset = 'The ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . ' before ';
+		}
 
 		if ( isset($rule['SPECIAL']) )
 		{
-			return $this::$specials[$rule['SPECIAL']];
+			return $offset . $this::$specials[$rule['SPECIAL']];
 		}
 
 		$dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
 		$monthName = $dateObj->format('F');
-		$offset = '';
 
 		$dayName = $this::$week_day_abbrev[substr($rule['BYDAY'], -2)];
-
-		if ( isset( $rule['OFFSET'] ) )
-		{
-			$offset = $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . ' before the ';
-		}
 
 		$ordinal = substr($rule['BYDAY'], 0, -2);
 		$formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
@@ -193,7 +193,7 @@ class Rule
 			$ordinal = 'last';
 		}
 
-		return 'The ' . $offset . $ordinal . ' ' . $dayName . ' in ' . $monthName;
+		return ucfirst( $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName );
 	}
 
 	/**
