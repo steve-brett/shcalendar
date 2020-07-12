@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <?php var_dump($formula); ?>
                                         </pre>
                                         <div class="govuk-radios__item">
-                                            <input class="govuk-radios__input" id="dateFormula-<?php echo $k; ?>" name="dateFormula" type="radio" value="<?php print_r(implode(",", $formula)) ?>">
+                                            <input class="govuk-radios__input" id="dateFormula-<?php echo $k; ?>" name="dateFormula" type="radio" value="<?php echo htmlspecialchars(json_encode($formula), ENT_QUOTES, 'UTF-8'); ?>">
                                             <label class="govuk-label govuk-radios__label" for="dateFormula-<?php echo $k; ?>">
                                                 <?php
                                                 $rule = new Rule;
