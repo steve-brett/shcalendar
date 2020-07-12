@@ -365,7 +365,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
     /**
      * Special day tests -----------------------------------------------
      */
-
+    // TODO: change offset to -MO, SU etc 
     public function happyPathSpecialDataProvider(): array
     {
         return [
@@ -381,8 +381,8 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [[
                 'SPECIAL' => 'independence',
-                'OFFSET' => -1,
-            ], '2019-07-03'],
+                'OFFSET' => '-1SA',
+            ], '2021-07-03'],
 
             [[
                 'SPECIAL' => 'independence',
