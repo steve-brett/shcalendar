@@ -78,24 +78,24 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
     public function happyPathSundayOffsetDataProvider(): array
     {
         return [
-            // Day before first sunday
+            // Saturday before first sunday
             [
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ],
                 [
                     'date' => '2019-05-04',
                     'refday' => 'Sun'
                 ]
             ],
-            // Day before nth sunday
+            // Saturday before nth sunday
             [
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '2SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ],
                 [
                     'date' => '2019-05-11',
@@ -107,7 +107,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 7,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ],
                 [
                     'date' => '2018-06-30',
@@ -119,19 +119,19 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ],
                 [
                     'date' => '2016-12-31',
                     'refday' => 'Sun'
                 ]
             ],
-            // Two days before first Sunday
+            // Friday before first Sunday
             [
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -2
+                    'OFFSET' => '-1FR'
                 ],
                 [
                     'date' => '2019-05-03',
@@ -143,7 +143,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -6
+                    'OFFSET' => '-1MO'
                 ],
                 [
                     'date' => '2019-04-29',
@@ -323,7 +323,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '-1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ],
                 [
                     'date' => '2019-05-25',
@@ -365,7 +365,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
     /**
      * Special day tests -----------------------------------------------
      */
-
+    // TODO: change offset to -MO, SU etc 
     public function happyPathSpecialDataProvider(): array
     {
         return [
@@ -381,18 +381,18 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [[
                 'SPECIAL' => 'independence',
-                'OFFSET' => -1,
-            ], '2019-07-03'],
+                'OFFSET' => '-1SA',
+            ], '2021-07-03'],
 
             [[
                 'SPECIAL' => 'independence',
-                'OFFSET' => -5,
-            ], '2019-06-29'],
+                'OFFSET' => '-1SU',
+            ], '2021-06-27'],
 
             [[
                 'SPECIAL' => 'whitsun',
-                'OFFSET' => +1,
-            ], '2019-05-28'],
+                'OFFSET' => '1SA',
+            ], '2019-06-01'],
 
         ];
     }
@@ -559,7 +559,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                     'NTHSUN' => [
                         'BYMONTH' => 5,
                         'BYDAY' => '2SU',
-                        'OFFSET' => -1
+                        'OFFSET' => '-1SA',
                     ],
                     'NTHDAY' => [
                         'BYMONTH' => 5,
@@ -567,7 +567,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                     ],
                     'SPECIAL' => [
                         'SPECIAL' => 'mayDay',
-                        'OFFSET' => +5
+                        'OFFSET' => '1SA'
                     ],
                 ],
                 [
@@ -581,7 +581,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                     'NTHSUN' => [
                         'BYMONTH' => 5,
                         'BYDAY' => '4SU',
-                        'OFFSET' => -1
+                        'OFFSET' => '-1SA'
                     ],
                     'NTHDAY' => [
                         'BYMONTH' => 5,
@@ -590,7 +590,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                     'LASTSUN' => [
                         'BYMONTH' => 5,
                         'BYDAY' => '-1SU',
-                        'OFFSET' => -1
+                        'OFFSET' => '-1SA'
                     ],
                     'LASTDAY' => [
                         'BYMONTH' => 5,
@@ -598,7 +598,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                     ],
                     'SPECIAL' => [
                         'SPECIAL' => 'whitsun',
-                        'OFFSET' => -2
+                        'OFFSET' => '-1SA'
                     ],
                 ],
                 [
@@ -612,7 +612,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                     'LASTSUN' => [
                         'BYMONTH' => 6,
                         'BYDAY' => '-1SU',
-                        'OFFSET' => -1
+                        'OFFSET' => '-1SA'
                     ],
                     'LASTDAY' => [
                         'BYMONTH' => 6,
@@ -620,7 +620,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                     ],
                     'SPECIAL' => [
                         'SPECIAL' => 'independence',
-                        'OFFSET' => -5
+                        'OFFSET' => '-1SA'
                     ],
                 ],
                 [
@@ -637,7 +637,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                     ],
                     'SPECIAL' => [
                         'SPECIAL' => 'mayDay',
-                        'OFFSET' => +6
+                        'OFFSET' => '1SU'
                     ],
                 ],
                 [
@@ -658,7 +658,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                     ],
                     'SPECIAL' => [
                         'SPECIAL' => 'whitsun',
-                        'OFFSET' => -1
+                        'OFFSET' => '-1SU'
                     ],
                 ],
                 [
@@ -695,14 +695,14 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             //    [[
             //     'NTHSUN' => ['BYMONTH' => 5,
             //                    'BYDAY' => '4SU',
-            //                   'OFFSET' => -2,
+            //                   'OFFSET' => '-1FR',
             //              'STARTOFFSET' => -1],
             //     'NTHDAY' => ['BYMONTH' => 5,
             //                    'BYDAY' => '4FR',
             //              'STARTOFFSET' => -1],
             //     'LASTSUN' => ['BYMONTH' => 5,
             //                    'BYDAY' => '-1SU',
-            //                   'OFFSET' => -2,
+            //                   'OFFSET' => '-1FR',
             //              'STARTOFFSET' => -1],
             //   ], 
             //   ['start' => '2019-05-23T10:30:00+00:00',
@@ -711,7 +711,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             //    [[
             //     'NTHSUN' => ['BYMONTH' => 6,
             //                    'BYDAY' => '1SU',
-            //                   'OFFSET' => -2,
+            //                   'OFFSET' => '-1FR',
             //              'STARTOFFSET' => -2],
             //    'LASTDAY' => ['BYMONTH' => 5,
             //                    'BYDAY' => '-1FR',

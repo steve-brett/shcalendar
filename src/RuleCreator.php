@@ -20,10 +20,10 @@ class RuleCreator
      * Create array of possible rules from dates
      *
      * @param \DateTime $start
-     * @param \DateTime $end
+     * @param \DateTime|null $end
      * @return array of rrule arrays
      */
-    public function create(\DateTime $start, \DateTime $end = null): array
+    public function create(\DateTime $start, ?\DateTime $end = null): array
     {
         $input = $this->span($start, $end);
         $date = $input['DATE'];
@@ -76,10 +76,10 @@ class RuleCreator
      * ['STARTOFFSET'] int offset from ref date
      *  
      * @param \DateTime $start
-     * @param \DateTime $end
+     * @param \DateTime|null $end
      * @return array
      */
-    public function span(\DateTime $start, \DateTime $end = null): array
+    public function span(\DateTime $start, ?\DateTime $end = null): array
     {
         // Time will mess with our calculations - set to midnight
         $start->setTime(0, 0, 0);
@@ -152,7 +152,7 @@ class RuleCreator
         $rule['BYDAY'] = $count . $day;
         $rule['BYMONTH'] = (int)$nextRefDay->format('n');
         if (abs($offset) > 0) {
-            $rule['OFFSET'] = (int)$offset;
+            $rule['OFFSET'] = '-1' . strtoupper(substr($date->format('D'), 0, -1));
         }
 
         return $rule;
@@ -197,7 +197,7 @@ class RuleCreator
         $rule['BYDAY'] = '-1' . $day;
         $rule['BYMONTH'] = (int)$nextRefDay->format('n');
         if (abs($offset) > 0) {
-            $rule['OFFSET'] = (int)$offset;
+            $rule['OFFSET'] = '-1' . strtoupper(substr($date->format('D'), 0, -1));
         }
 
         return $rule;
@@ -220,15 +220,16 @@ class RuleCreator
         $special = $this->calculateSpecial($year);
         $special = $this->ymd_to_datetime($special);
         $closest = $this->find_closest($date, $special);
+        $offset = $closest['offset'];
 
         $rule['SPECIAL'] = $closest['date'];
-        if (abs($closest['offset']) > 7) {
+        if ( abs( $offset ) > 7 ) {
             // TODO Is this the right thing to do, or return false?
             throw new \InvalidArgumentException('Not within a week of a special day. 
       Got [' . $date->format('Y-m-d') . ']');
         }
-        if (abs($closest['offset']) > 0) {
-            $rule['OFFSET'] = $closest['offset'];
+        if ( abs( $offset ) > 0 ) {
+            $rule['OFFSET'] = $this->sign($offset) . strtoupper(substr($date->format('D'), 0, -1));
         }
         return $rule;
     }
@@ -472,5 +473,16 @@ class RuleCreator
             return 0;
         }
         return (abs($a) < abs($b)) ? -1 : 1;
+    }
+
+    /**
+     * Get sign of number.
+     *
+     * @param integer $n Number. Could be a float too if needed.
+     * @return integer
+     */
+    protected function sign(int $n) : int
+    {
+        return ($n > 0) - ($n < 0);
     }
 }

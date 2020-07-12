@@ -27,7 +27,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -36,7 +35,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '2SU',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -45,7 +43,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '3SU',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -54,7 +51,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '4SU',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -63,7 +59,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '-1SU',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -72,7 +67,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 6,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -81,7 +75,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 7,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -90,7 +83,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 8,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -99,7 +91,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 8,
                     'BYDAY' => '-1SU',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -108,7 +99,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SA',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -117,7 +107,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1MO',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -126,7 +115,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '-1TU',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -135,7 +123,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
 
@@ -144,7 +132,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1MO',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SU'
                 ]
             ],
 
@@ -153,7 +141,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1TU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1MO'
                 ]
             ],
 
@@ -162,7 +150,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -2
+                    'OFFSET' => '-1FR'
                 ]
             ],
 
@@ -171,7 +159,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -3
+                    'OFFSET' => '-1TH'
                 ]
             ],
 
@@ -299,11 +287,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 'OFFSET' => 7
             ]],
             [[
-                'BYMONTH' => 5,
-                'BYDAY' => '1SU',
-                'OFFSET' => -7
-            ]],
-            [[
                 'BYMONTH' => 13,
                 'BYDAY' => '1SU',
             ]],
@@ -322,7 +305,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
             [[
                 'BYMONTH' => 5,
                 'BYDAY' => '1SU',
-                'OFFSET' => 1.4
+                'OFFSET' => 'garbage'
             ]],
             // Fine in year but not in month
             // [['BYMONTH' => 5,
@@ -357,7 +340,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 0
                 ]
             ],
             [
@@ -365,7 +347,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '2SU',
-                    'OFFSET' => 0
                 ]
             ],
             [
@@ -373,7 +354,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '3SU',
-                    'OFFSET' => 0
                 ]
             ],
             [
@@ -381,7 +361,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '4SU',
-                    'OFFSET' => 0
                 ]
             ],
             [
@@ -389,7 +368,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '-1SU',
-                    'OFFSET' => 0
                 ]
             ],
             [
@@ -397,7 +375,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 6,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 0
                 ]
             ],
             [
@@ -405,7 +382,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 7,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 0
                 ]
             ],
             // Nth day rules
@@ -414,7 +390,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1SA',
-                    'OFFSET' => 0
                 ]
             ],
             // Sat before first Sunday
@@ -423,7 +398,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -431,7 +406,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 2,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -439,7 +414,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 3,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -447,7 +422,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 4,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -455,7 +430,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -463,7 +438,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 6,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -471,7 +446,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 7,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -479,7 +454,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 8,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -487,7 +462,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 9,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -495,7 +470,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 10,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -503,7 +478,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 11,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             [
@@ -511,7 +486,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 12,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -1
+                    'OFFSET' => '-1SA'
                 ]
             ],
             // Friday before first Sun
@@ -520,7 +495,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -2
+                    'OFFSET' => '-1FR'
                 ]
             ],
             [
@@ -528,7 +503,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 2,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -2
+                    'OFFSET' => '-1FR'
                 ]
             ],
             [
@@ -536,7 +511,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 3,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -2
+                    'OFFSET' => '-1FR'
                 ]
             ],
             [
@@ -544,7 +519,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 12,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -2
+                    'OFFSET' => '-1FR'
                 ]
             ],
             // Monday before first Sun
@@ -553,7 +528,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -6
+                    'OFFSET' => '-1MO'
                 ]
             ],
             [
@@ -561,7 +536,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 2,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -6
+                    'OFFSET' => '-1MO'
                 ]
             ],
             [
@@ -569,7 +544,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 3,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -6
+                    'OFFSET' => '-1MO'
                 ]
             ],
             [
@@ -577,7 +552,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 12,
                     'BYDAY' => '1SU',
-                    'OFFSET' => -6
+                    'OFFSET' => '-1MO'
                 ]
             ],
             // Positive offsets
@@ -586,7 +561,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 1
+                    'OFFSET' => '1MO'
                 ]
             ],
             [
@@ -594,7 +569,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 3,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 1
+                    'OFFSET' => '1MO'
                 ]
             ],
             [
@@ -602,7 +577,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 2
+                    'OFFSET' => '1TU'
                 ]
             ],
             [
@@ -610,7 +585,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1SU',
-                    'OFFSET' => 6
+                    'OFFSET' => '1SA'
                 ]
             ],
 
@@ -620,7 +595,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1MO',
-                    'OFFSET' => 0
                 ]
             ],
 
@@ -648,5 +622,69 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->rule->rfc5545($inputValue);
+    }
+
+    public function calculateOffsetDataProvider(): array
+    {
+        return [
+            // Same week
+            [
+                -1,
+                'TU',
+                '-1MO'
+            ],
+            [
+                -2,
+                'WE',
+                '-1MO'
+            ],
+            [
+                -6,
+                'SU',
+                '-1MO'
+            ],
+            // Different week
+            [
+                -6,
+                'MO',
+                '-1TU'
+            ],
+            [
+                -1,
+                'MO',
+                '-1SU'
+            ],
+            // Positive offset
+            [
+                1,
+                'MO',
+                '1TU'
+            ],
+            [
+                6,
+                'MO',
+                '1SU'
+            ],
+            // Different week
+            [
+                6,
+                'TU',
+                '1MO'
+            ],
+            [
+                1,
+                'SU',
+                '1MO'
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider calculateOffsetDataProvider
+     */
+    public function testCalculateOffset(string $expectedValue, string $day, string $offset): void
+    {
+        $this->assertEquals($expectedValue, $this->rule->calculate_offset_days($day, $offset));
     }
 }
