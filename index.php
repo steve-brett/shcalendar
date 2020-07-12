@@ -105,9 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </span>
                                 <div class="govuk-radios govuk-radios--conditional" data-module="radios">
                                     <?php foreach ($formulae as $k => $formula) { ?>
-                                        <pre>
-                                        <?php var_dump($formula); ?>
-                                        </pre>
+                    
                                         <div class="govuk-radios__item">
                                             <input class="govuk-radios__input" id="dateFormula-<?php echo $k; ?>" name="dateFormula" type="radio" value="<?php echo htmlspecialchars(json_encode($formula), ENT_QUOTES, 'UTF-8'); ?>">
                                             <label class="govuk-label govuk-radios__label" for="dateFormula-<?php echo $k; ?>">
@@ -116,6 +114,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 echo $rule->readable($formula);
                                                 ?>
                                             </label>
+                                            <pre>
+                                            <?php var_dump($formula); ?>
+                                            </pre>
+                                            <p><?php 
+                                            try 
+                                            {
+                                                echo $rule->rfc5545($formula);
+                                            } 
+                                            catch (\Exception $e) 
+                                            {
+                                                echo $e;
+                                            }
+                                             ?></p>
                                         </div>
                                     <?php
                                     } ?>
@@ -193,31 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Submit
                     </button>
                 </form>
-
-            <?php } else {
-                // Start of third page section -------------------------------
-                $output = new interpretFormula($dateFormula);
-            ?>
-                <span class="govuk-caption-xl">
-                    <?php echo $output->text() . PHP_EOL; ?>
-                </span>
-                <h1 class="govuk-heading-xl">Next five singings</h1>
-                <ul class="govuk-list">
-                    <?php
-
-                    $years = range(date('Y'), date('Y') + 4);
-                    foreach ($years as $year) {
-                    ?>
-                        <li>
-                            <?php $output->year($year);
-                            echo $output->date()->format('l jS F Y') . PHP_EOL; ?>
-                        </li>
-                    <?php
-                    } ?>
-                </ul>
-                <p class="govuk-body">Coming soon: Google Calendar integration!</p>
             <?php
-                // End of third page section -------------------------------
             } ?>
 
         </main>
