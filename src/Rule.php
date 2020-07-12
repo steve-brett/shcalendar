@@ -117,6 +117,9 @@ class Rule
 
 		if ( isset( $rule['SPECIAL'] ) )
 		{
+			if ( $rule['SPECIAL'] == 'mayDay' ){
+				return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=1MO';
+			}
 			return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=1;BYMONTHDAY=1';
 		}
 
