@@ -615,12 +615,55 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'SPECIAL' => 'newYear',
                 ]
             ],
-            // Palm Sunday/Easter are tricky for RRULE
+            // TODO: Palm Sunday/Easter are tricky for RRULE
             
             [
                 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=1MO',
                 [
                     'SPECIAL' => 'mayDay',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=-1MO',
+                [
+                    'SPECIAL' => 'whitsun',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYMONTH=7;BYMONTHDAY=4',
+                [
+                    'SPECIAL' => 'independence',
+                ]
+            ],
+            [
+                // Negative BYYEARDAY to deal w leap years
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SU;BYYEARDAY=-156,-155,-154,-125,-124,-123,-94',
+                [
+                    'SPECIAL' => '5SU47',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYMONTH=8;BYDAY=-1MO',
+                [
+                    'SPECIAL' => 'summer',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYMONTH=11;BYDAY=4TH',
+                [
+                    'SPECIAL' => 'thanksgiving',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYMONTH=12;BYMONTHDAY=25',
+                [
+                    'SPECIAL' => 'christmas',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYMONTH=12;BYMONTHDAY=26',
+                [
+                    'SPECIAL' => 'boxingDay',
                 ]
             ],
 
