@@ -615,6 +615,14 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'SPECIAL' => 'newYear',
                 ]
             ],
+            // Palm Sunday/Easter are tricky for RRULE
+            
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=1MO',
+                [
+                    'SPECIAL' => 'mayDay',
+                ]
+            ],
 
             // Multi-day
         ];
