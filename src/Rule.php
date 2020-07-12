@@ -115,13 +115,20 @@ class Rule
 			throw $e;
 		}
 
-		if ( !isset( $rule['OFFSET'] ) ){
+		if ( isset( $rule['SPECIAL'] ) )
+		{
+			return 'FREQ=YEARLY;INTERVAL=1;BYMONTH=1;BYMONTHDAY=1';
+		}
+
+		if ( !isset( $rule['OFFSET'] ) )
+		{
 			return 'FREQ=YEARLY;INTERVAL=1;BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
 		}
 			
 		$offset = $this->calculate_offset_days( substr($rule['BYDAY'], -2), $rule['OFFSET'] );
 
-		if ($rule['BYMONTH'] > 2) {
+		if ($rule['BYMONTH'] > 2) 
+		{
 			// Affected by leap year
 			$by_month_day = 'BYMONTHDAY=';
 			for ($k = 0 ; $k < 7; $k++) { 
@@ -129,7 +136,9 @@ class Rule
 			}
 			$by_month_day = substr($by_month_day, 0, -1) . ';';
 			$year_day_limit = 8;
-		} else {
+		} 
+		else 
+		{
 			// Unaffected by leap year
 			$by_month_day = '';
 			$year_day_limit = 7;
@@ -143,9 +152,12 @@ class Rule
 		}
 		$by_year_day = substr($by_year_day, 0, -1);
 
-		if ($offset < 0) {
+		if ($offset < 0) 
+		{
 			$by_day = array_reverse(array_keys($this::$week_day_abbrev))[abs($offset)];
-		} else {
+		} 
+		else 
+		{
 			$by_day = array_keys($this::$week_day_abbrev)[$offset - 1];
 		}
 		$by_day = 'BYDAY=' . $by_day . ';';
