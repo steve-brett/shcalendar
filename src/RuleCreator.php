@@ -20,10 +20,10 @@ class RuleCreator
      * Create array of possible rules from dates
      *
      * @param \DateTime $start
-     * @param \DateTime $end
+     * @param \DateTime|null $end
      * @return array of rrule arrays
      */
-    public function create(\DateTime $start, \DateTime $end = null): array
+    public function create(\DateTime $start, ?\DateTime $end = null): array
     {
         $input = $this->span($start, $end);
         $date = $input['DATE'];
@@ -76,10 +76,10 @@ class RuleCreator
      * ['STARTOFFSET'] int offset from ref date
      *  
      * @param \DateTime $start
-     * @param \DateTime $end
+     * @param \DateTime|null $end
      * @return array
      */
-    public function span(\DateTime $start, \DateTime $end = null): array
+    public function span(\DateTime $start, ?\DateTime $end = null): array
     {
         // Time will mess with our calculations - set to midnight
         $start->setTime(0, 0, 0);
