@@ -79,6 +79,18 @@ class Rule
 
 	);
 
+	/**
+	 * Addition function for days that span months or years.
+	 * 
+	 * Allows progression along a number line without zero:
+	 * e.g 3,2,1,-1,-2,-3
+	 * 
+	 * TODO: rename
+	 *
+	 * @param integer $year_day
+	 * @param integer $k
+	 * @return integer
+	 */
 	private function year_day(int $year_day, int $k): int
 	{
 		$sum = $year_day + $k;
