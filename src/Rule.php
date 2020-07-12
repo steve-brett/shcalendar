@@ -303,12 +303,12 @@ class Rule
 		$offset = $offset_sign * \RRule\RRule::$week_days[substr($offset, -2)];
 
 		// I can only explain this maths by diagram!
-		if ( ($offset - $offset_sign * $day) > 0 ) 
+		if ( ($offset - $offset_sign * $day) < 0 ) 
 		{
-			return ($offset_sign * $offset) - $day;
+			$offset += 7;		
 		}
 
-		return $offset_sign * ($offset + 7) - $day;
+		return ($offset_sign * $offset) - $day;
 	}
 
 }
