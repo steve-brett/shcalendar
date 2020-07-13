@@ -146,7 +146,8 @@ class Rule
 
 			if ( isset( $rule['OFFSET'] ) )
 			{
-				return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7';
+				$day = substr($rule['OFFSET'], -2);
+				return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=-1,-2,-3,-4,-5,-6,-7';
 			}
 
 			return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']];
