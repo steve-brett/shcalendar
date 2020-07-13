@@ -144,21 +144,7 @@ class Rule
 				throw new \InvalidArgumentException('palmSunday and easter cannot give reccurence rules yet.');
 			}
 
-			if ( isset( $rule['OFFSET'] ) )
-			{
-				$day = substr($rule['OFFSET'], -2);
-				
-				if ( substr($rule['OFFSET'], 0, 1) === '-' )
-				{
-					// Offset before
-					return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=-1,-2,-3,-4,-5,-6,-7';
-				}
-
-				// Offset after
-				return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=2,3,4,5,6,7,8';
-			}
-
-			return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']];
+			return $this->rfc5545_special($rule);
 		}
 
 		if ( !isset( $rule['OFFSET'] ) )
@@ -250,6 +236,31 @@ class Rule
 		}
 
 		return ucfirst( $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName );
+	}
+
+	/**
+	 * Returns RFC5545 valid reccurence rules for special dates
+	 *
+	 * @param array $rule
+	 * @return string
+	 */
+	protected function rfc5545_special( array $rule ): string
+	{
+		if ( isset( $rule['OFFSET'] ) )
+		{
+			$day = substr($rule['OFFSET'], -2);
+			
+			if ( substr($rule['OFFSET'], 0, 1) === '-' )
+			{
+				// Offset before
+				return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=-1,-2,-3,-4,-5,-6,-7';
+			}
+
+			// Offset after
+			return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=2,3,4,5,6,7,8';
+		}
+
+		return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']];
 	}
 
 	/**
