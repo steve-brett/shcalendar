@@ -679,6 +679,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->rfc5545($inputValue));
     }
 
+
     public function RFC5545ReturnsSpecialWithOffsetDataProvider(): array
     {
         return [
@@ -690,9 +691,15 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '-1MO',
                 ]
             ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=TU;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7',
+                [
+                    'SPECIAL' => 'newYear',
+                    'OFFSET' => '-1TU',
+                ]
+            ],
         ];
     }
-
 
     /**
      * @dataProvider RFC5545ReturnsSpecialWithOffsetDataProvider
@@ -701,6 +708,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     {
         $this->assertEquals($expectedValue, $this->rule->rfc5545($inputValue));
     }
+
 
     /**
      * Uses same invalid data for all fns
