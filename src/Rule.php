@@ -249,6 +249,11 @@ class Rule
 		if ( isset( $rule['OFFSET'] ) )
 		{
 			$day = substr($rule['OFFSET'], -2);
+
+			if ( 'mayDay' === $rule['SPECIAL'] )
+			{
+            	return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=-252,-251,-250,-249,-248,-247,-246';
+			}
 			
 			if ( substr($rule['OFFSET'], 0, 1) === '-' )
 			{
