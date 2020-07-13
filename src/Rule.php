@@ -144,6 +144,11 @@ class Rule
 				throw new \InvalidArgumentException('palmSunday and easter cannot give reccurence rules yet.');
 			}
 
+			if ( isset( $rule['OFFSET'] ) )
+			{
+				return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7';
+			}
+
 			return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']];
 		}
 
