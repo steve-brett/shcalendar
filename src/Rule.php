@@ -252,11 +252,10 @@ class Rule
 
 			if ( 'mayDay' === $rule['SPECIAL'] )
 			{
-				$days = array(-245, -244, -243, -242, -241, -240, -239);
+				$year_days = array(-245, -244, -243, -242, -241, -240, -239);
 				$offset_n = $this->calculate_offset_days( 'MO', $rule['OFFSET'] );
-				var_dump($offset_n);
 
-            	return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=' . $this->offset_days( $days, $offset_n );
+            	return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
 			}
 			
 			if ( substr($rule['OFFSET'], 0, 1) === '-' )
@@ -272,7 +271,14 @@ class Rule
 		return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']];
 	}
 
-	protected function offset_days( array $days, int $offset ) : string
+	/**
+	 * Offset a BYYEARDAY sequence.
+	 *
+	 * @param integer[] $days 	Array of BYYEARDAY values.
+	 * @param integer $offset	Offset amount <= +/-7.
+	 * @return string
+	 */
+	protected function offset_byyearday( array $days, int $offset ) : string
 	{
 		// Add offset to each day.
 		foreach ($days as &$value) 
