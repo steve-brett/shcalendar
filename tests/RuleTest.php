@@ -706,6 +706,14 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '1MO',
                 ]
             ],
+            // May Day
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=-252,-251,-250,-249,-248,-247,-246',
+                [
+                    'SPECIAL' => 'mayDay',
+                    'OFFSET' => '-1MO',
+                ]
+            ],
 
         ];
     }
