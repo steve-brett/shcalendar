@@ -252,7 +252,11 @@ class Rule
 
 			if ( 'mayDay' === $rule['SPECIAL'] )
 			{
-            	return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=-252,-251,-250,-249,-248,-247,-246';
+				$days = array(-245, -244, -243, -242, -241, -240, -239);
+				$offset_n = $this->calculate_offset_days( 'MO', $rule['OFFSET'] );
+				var_dump($offset_n);
+
+            	return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=' . $this->offset_days( $days, $offset_n );
 			}
 			
 			if ( substr($rule['OFFSET'], 0, 1) === '-' )
@@ -266,6 +270,16 @@ class Rule
 		}
 
 		return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']];
+	}
+
+	protected function offset_days( array $days, int $offset ) : string
+	{
+		// Add offset to each day.
+		foreach ($days as &$value) 
+		{
+			$value += $offset;
+		}
+		return implode(',', $days);
 	}
 
 	/**
@@ -372,7 +386,13 @@ class Rule
 	{
 		$day = \RRule\RRule::$week_days[$day];
 		$offset_sign = (int) substr($offset, 0, -2);
-		$offset = $offset_sign * \RRule\RRule::$week_days[substr($offset, -2)];
+		$offset_value = \RRule\RRule::$week_days[substr($offset, -2)];
+		$offset = $offset_sign * $offset_value;
+
+		if ($day === $offset_value)
+		{
+			return $offset_sign * 7;
+		}
 
 		// I can only explain this maths by diagram!
 		if ( ($offset - $offset_sign * $day) < 0 ) 
