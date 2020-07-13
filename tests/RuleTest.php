@@ -683,7 +683,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     public function RFC5545ReturnsSpecialWithOffsetDataProvider(): array
     {
         return [
-            // Offset
+            // Before
             [
                 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7',
                 [
@@ -698,6 +698,15 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '-1TU',
                 ]
             ],
+            // After
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=2,3,4,5,6,7,8',
+                [
+                    'SPECIAL' => 'newYear',
+                    'OFFSET' => '1MO',
+                ]
+            ],
+
         ];
     }
 
