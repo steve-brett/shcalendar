@@ -275,7 +275,7 @@ class Rule
 				}
 	
 				// Offset after
-				// return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=2,3,4,5,6,7,8';
+				return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-180,-179,-178,-177,-176,-175,-174';
 			}
 			
 			if ( substr($rule['OFFSET'], 0, 1) === '-' )
