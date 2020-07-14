@@ -786,6 +786,15 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '1SU',
                 ]
             ],
+            // Summer bank hol
+            // -129,-128,-127,-126,-125,-124,-123
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-136,-135,-134,-133,-132,-131,-130',
+                [
+                    'SPECIAL' => 'summer',
+                    'OFFSET' => '-1MO',
+                ]
+            ],
         ];
     }
 
