@@ -301,6 +301,18 @@ class Rule
 				// Offset after
 				return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-180,-179,-178,-177,-176,-175,-174';
 			}
+
+			if ( 'christmas' === $rule['SPECIAL'] )
+			{
+				if ( substr($rule['OFFSET'], 0, 1) === '-' )
+				{
+					// Offset before
+					return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-14,-13,-12,-11,-10,-9,-8';
+				}
+	
+				// Offset after
+				return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-6,-5,-4,-3,-2,-1,1';
+			}
 			
 			if ( substr($rule['OFFSET'], 0, 1) === '-' )
 			{
