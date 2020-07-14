@@ -13,3 +13,7 @@ background-color:#ffffff;
 .govuk-heading-xl {
   line-height: normal;
 }
+
+pre {
+  white-space: pre-wrap;
+}

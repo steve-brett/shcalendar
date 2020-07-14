@@ -20,9 +20,6 @@ include 'vendor/autoload.php';
 
 // Check if form has been submitted, regardless of method (button, return key, etc)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['dateFormula'])) {
-        $dateFormula = explode(",", $_POST['dateFormula']);
-    }
     if (isset($_POST['singDate-day']) && strlen($_POST['singDate-day']) > 0) {
         $day = $_POST['singDate-day'];
     } else {
@@ -82,19 +79,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="govuk-width-container">
         <main class="govuk-main-wrapper app-main-class" id="main-content" role="main">
             
-            <?php if (!isset($dateFormula)) { ?>
+            <?php if (!isset($dateFormula)) : ?>
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <?php if ($formSuccess === true) {
+                    <?php if ($formSuccess === true) :?>
+                        <?php
                         // Start of second page section -------------------------------
-                    ?>
+                        $date = new \DateTime($date, new \DateTimeZone('UTC'));
+                        $creator = new RuleCreator;
+                        $formulae = $creator->create($date);
+                        ?>
                         <div class="govuk-form-group">
                             <fieldset class="govuk-fieldset">
                                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
                                     <h1 class="govuk-fieldset__heading govuk-heading-xl">
                                         <?php
-                                        $date = new \DateTime($date, new \DateTimeZone('UTC'));
-                                        $creator = new RuleCreator;
-                                        $formulae = $creator->create($date);
                                         echo $date->format('l jS F Y') . PHP_EOL;
                                         ?>
                                     </h1>
@@ -104,43 +102,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     If you are not presented with a correct formula, please <a href="mailto:steve.brett.design@gmail.com">email me</a>.
                                 </span>
                                 <div class="govuk-radios govuk-radios--conditional" data-module="radios">
-                                    <?php foreach ($formulae as $k => $formula) { ?>
+                                    <?php foreach ($formulae as $k => $formula) : ?>
                     
                                         <div class="govuk-radios__item">
-                                            <input class="govuk-radios__input" id="dateFormula-<?php echo $k; ?>" name="dateFormula" type="radio" value="<?php echo htmlspecialchars(json_encode($formula), ENT_QUOTES, 'UTF-8'); ?>">
+                                            <input class="govuk-radios__input dateFormula" id="dateFormula-<?php echo $k; ?>" data-key="<?php echo $k; ?>" name="dateFormula" type="radio" value="<?php echo htmlspecialchars(json_encode($formula), ENT_QUOTES, 'UTF-8'); ?>">
                                             <label class="govuk-label govuk-radios__label" for="dateFormula-<?php echo $k; ?>">
                                                 <?php
                                                 $rule = new Rule;
                                                 echo $rule->readable($formula);
                                                 ?>
                                             </label>
-                                            <pre>
-                                            <?php var_dump($formula); ?>
-                                            </pre>
-                                            <p><?php 
-                                            try 
-                                            {
-                                                echo $rule->rfc5545($formula);
-                                            } 
-                                            catch (\Exception $e) 
-                                            {
-                                                echo $e;
-                                            }
-                                             ?></p>
                                         </div>
-                                    <?php
-                                    } ?>
+                                    <?php endforeach; ?>
                                 </div>
-
                             </fieldset>
                         </div>
+                            
+
+                        <section class="results">
+                            <h2 class="govuk-heading-l">Next five singings:</h2>
+
+                            <?php foreach ($formulae as $k => $formula) : ?>
+                                <div id="results__item--<?php echo $k; ?>" class="results__item" hidden>
+                                    <ol class="govuk-list govuk-list--bullet">
+                                        <?php 
+                                        try 
+                                        {
+                                            $rrule = new \RRule\RRule($rule->rfc5545($formula) . ';COUNT=5' );
+                                            foreach ($rrule as $occurrence ) {
+                                                echo '<li>' . $occurrence->format('j M Y') . '</li>',"\n";
+                                            }
+                                        } 
+                                        catch (\Exception $e) 
+                                        {
+                                            echo $e;
+                                        }
+                                        ?>
+                                    </ol>
+                                    <pre>
+                                        <?php var_dump($formula); ?>
+                                        <?php var_dump($rule->rfc5545($formula)); ?>
+                                    </pre>
+                                </div>
+                            <?php endforeach; ?>
+                        </section>
 
                         <p><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="govuk-link">Choose a different date.</a></p>
 
 
-                    <?php } else {
+                    <?php else : ?>
+                        <?php
                         // Start of first page section -------------------------------
-                    ?>
+                        ?>
                         <div class="govuk-form-group<?php if (isset($errors)) {
                                                         echo ' govuk-form-group--error';
                                                     } ?>">
@@ -195,24 +208,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                             </fieldset>
                         </div>
-                    <?php
+
+                        <button type="submit" class="govuk-button">
+                            Submit
+                        </button>
+
+                        <?php
                         // End of first page section -------------------------------
-                    } ?>
-
-
-                    <button type="submit" class="govuk-button">
-                        Submit
-                    </button>
+                        ?>
+                    <?php endif;?>
                 </form>
-            <?php
-            } ?>
+            <?php endif; ?>
 
         </main>
     </div>
 
     <script src="javascript/govuk-frontend-2.3.0.min.js"></script>
     <script>
-        window.GOVUKFrontend.initAll()
+        window.GOVUKFrontend.initAll();
+    </script>
+    <script>
+        function showResults(option) {
+            let key = option.dataset.key;
+            const results = document.querySelectorAll('.results__item');
+            const result = document.querySelector('#results__item--' + key);
+
+            results.forEach(element => element.setAttribute('hidden', 'true'));
+            result.removeAttribute('hidden');
+        }
+        const options = document.querySelectorAll('.dateFormula');
+        options.forEach(item => {
+            item.addEventListener('click', event => {
+                showResults(event.target);
+            })
+        });
+
     </script>
 </body>
 
