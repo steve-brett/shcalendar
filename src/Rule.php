@@ -104,11 +104,13 @@ class Rule
 		'mayDay' => array(
 			'rule' => 'BYMONTH=5;BYDAY=1MO',
 			'byyearday' => array(-245,-244,-243,-242,-241,-240,-239),
+			'byday' => 'MO',
 			'category' => 'fixedDay'),
 
 		'whitsun' => array(
 			'rule' => 'BYMONTH=5;BYDAY=-1MO',
 			'byyearday' => array(-221,-220,-219,-218,-217,-216,-215),
+			'byday' => 'MO',
 			'category' => 'fixedDay'),
 
 		'independence' => array(
@@ -119,16 +121,19 @@ class Rule
 		'5SU47' => array(
 			'rule' => 'BYDAY=SU;BYYEARDAY=-156,-155,-154,-125,-124,-123,-94',
 			'byyearday' => array(-156,-155,-154,-125,-124,-123,-94),
+			'byday' => 'SU',
 			'category' => 'fixedDay'),
 
 		'summer' => array(
 			'rule' => 'BYMONTH=8;BYDAY=-1MO',
 			'byyearday' => array(-129,-128,-127,-126,-125,-124,-123),
+			'byday' => 'MO',
 			'category' => 'fixedDay'),
 
 		'thanksgiving' => array(
 			'rule' => 'BYMONTH=11;BYDAY=4TH',
 			'byyearday' => array(-40,-39,-38,-37,-36,-35,-34),
+			'byday' => 'TH',
 			'category' => 'fixedDay'),
 
 		'christmas' => array(
@@ -293,42 +298,11 @@ class Rule
 		{
 			$day = substr($rule['OFFSET'], -2);
 
-			if ( 'mayDay' === $rule['SPECIAL'] )
+			if ( 'fixedDay' === $this::$special_rules[$rule['SPECIAL']]['category'] )
 			{
-				$year_days = array(-245, -244, -243, -242, -241, -240, -239);
-				$offset_n = $this->calculate_offset_days( 'MO', $rule['OFFSET'] );
-
-            	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
-			}
-
-			if ( 'whitsun' === $rule['SPECIAL'] )
-			{
-				$year_days = array(-221,-220,-219,-218,-217,-216,-215);
-				$offset_n = $this->calculate_offset_days( 'MO', $rule['OFFSET'] );
-
-            	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
-			}
-
-			if ( '5SU47' === $rule['SPECIAL'] )
-			{
-				$year_days = array(-156,-155,-154,-125,-124,-123,-94);
-				$offset_n = $this->calculate_offset_days( 'SU', $rule['OFFSET'] );
-
-            	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
-			}
-
-			if ( 'summer' === $rule['SPECIAL'] )
-			{
-				$year_days = array(-129,-128,-127,-126,-125,-124,-123);
-				$offset_n = $this->calculate_offset_days( 'MO', $rule['OFFSET'] );
-
-            	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
-			}
-
-			if ( 'thanksgiving' === $rule['SPECIAL'] )
-			{
-				$year_days = array(-40,-39,-38,-37,-36,-35,-34);
-				$offset_n = $this->calculate_offset_days( 'TH', $rule['OFFSET'] );
+				$year_days = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
+				$special_day = $this::$special_rules[$rule['SPECIAL']]['byday'];
+				$offset_n = $this->calculate_offset_days( $special_day, $rule['OFFSET'] );
 
             	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
 			}
