@@ -685,14 +685,14 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         return [
             // Before
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7',
                 [
                     'SPECIAL' => 'newYear',
                     'OFFSET' => '-1MO',
                 ]
             ],
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=TU;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7',
                 [
                     'SPECIAL' => 'newYear',
                     'OFFSET' => '-1TU',
@@ -700,7 +700,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
             ],
             // After
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=2,3,4,5,6,7,8',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=2,3,4,5,6,7,8',
                 [
                     'SPECIAL' => 'newYear',
                     'OFFSET' => '1MO',
@@ -708,21 +708,21 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
             ],
             // May Day
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=-252,-251,-250,-249,-248,-247,-246',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-252,-251,-250,-249,-248,-247,-246',
                 [
                     'SPECIAL' => 'mayDay',
                     'OFFSET' => '-1MO',
                 ]
             ],
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=TU;BYYEARDAY=-251,-250,-249,-248,-247,-246,-245',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=-251,-250,-249,-248,-247,-246,-245',
                 [
                     'SPECIAL' => 'mayDay',
                     'OFFSET' => '-1TU',
                 ]
             ],
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=SU;BYYEARDAY=-246,-245,-244,-243,-242,-241,-240',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SU;BYYEARDAY=-246,-245,-244,-243,-242,-241,-240',
                 [
                     'SPECIAL' => 'mayDay',
                     'OFFSET' => '-1SU',
@@ -730,14 +730,14 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
             ],
             // After
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=TU;BYYEARDAY=-244,-243,-242,-241,-240,-239,-238',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=-244,-243,-242,-241,-240,-239,-238',
                 [
                     'SPECIAL' => 'mayDay',
                     'OFFSET' => '1TU',
                 ]
             ],
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=-238,-237,-236,-235,-234,-233,-232',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-238,-237,-236,-235,-234,-233,-232',
                 [
                     'SPECIAL' => 'mayDay',
                     'OFFSET' => '1MO',
