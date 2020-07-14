@@ -769,6 +769,15 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '1MO',
                 ]
             ],
+            // First fifth Sunday after the 4th July
+            // -156,-155,-154,-125,-124,-123,-94
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-157,-156,-155,-126,-125,-124,-95',
+                [
+                    'SPECIAL' => '5SU47',
+                    'OFFSET' => '-1SA',
+                ]
+            ],
         ];
     }
 
