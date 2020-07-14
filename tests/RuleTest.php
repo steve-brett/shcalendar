@@ -795,6 +795,15 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '-1MO',
                 ]
             ],
+            // Thanksgiving
+            // -40,-39,-38,-37,-36,-35,-34
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=TH;BYYEARDAY=-47,-46,-45,-44,-43,-42,-41',
+                [
+                    'SPECIAL' => 'thanksgiving',
+                    'OFFSET' => '-1TH',
+                ]
+            ],
         ];
     }
 
