@@ -255,17 +255,17 @@ class Rule
 				$year_days = array(-245, -244, -243, -242, -241, -240, -239);
 				$offset_n = $this->calculate_offset_days( 'MO', $rule['OFFSET'] );
 
-            	return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
+            	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
 			}
 			
 			if ( substr($rule['OFFSET'], 0, 1) === '-' )
 			{
 				// Offset before
-				return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=-1,-2,-3,-4,-5,-6,-7';
+				return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-1,-2,-3,-4,-5,-6,-7';
 			}
 
 			// Offset after
-			return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=2,3,4,5,6,7,8';
+			return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=2,3,4,5,6,7,8';
 		}
 
 		return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']];
