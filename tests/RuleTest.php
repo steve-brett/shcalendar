@@ -804,6 +804,15 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '-1TH',
                 ]
             ],
+            // Christmas
+            // -7
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-14,-13,-12,-11,-10,-9,-8',
+                [
+                    'SPECIAL' => 'christmas',
+                    'OFFSET' => '-1MO',
+                ]
+            ],
         ];
     }
 
