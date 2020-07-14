@@ -274,6 +274,14 @@ class Rule
             	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
 			}
 
+			if ( 'summer' === $rule['SPECIAL'] )
+			{
+				$year_days = array(-129,-128,-127,-126,-125,-124,-123);
+				$offset_n = $this->calculate_offset_days( 'MO', $rule['OFFSET'] );
+
+            	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
+			}
+
 			if ( 'independence' === $rule['SPECIAL'] )
 			{
 				if ( substr($rule['OFFSET'], 0, 1) === '-' )
