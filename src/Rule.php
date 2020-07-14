@@ -257,6 +257,14 @@ class Rule
 
             	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
 			}
+
+			if ( 'whitsun' === $rule['SPECIAL'] )
+			{
+				$year_days = array(-221,-220,-219,-218,-217,-216,-215);
+				$offset_n = $this->calculate_offset_days( 'MO', $rule['OFFSET'] );
+
+            	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
+			}
 			
 			if ( substr($rule['OFFSET'], 0, 1) === '-' )
 			{
