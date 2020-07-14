@@ -86,17 +86,60 @@ class Rule
 	 * @var array
 	 */
 	private static $special_rules = array(
-		'newYear' => 'BYMONTH=1;BYMONTHDAY=1',
-		'palmSunday' => '',
-		'easter' => '',
-		'mayDay' => 'BYMONTH=5;BYDAY=1MO',
-		'whitsun' => 'BYMONTH=5;BYDAY=-1MO',
-		'independence' => 'BYMONTH=7;BYMONTHDAY=4',
-		'5SU47' => 'BYDAY=SU;BYYEARDAY=-156,-155,-154,-125,-124,-123,-94',
-		'summer' => 'BYMONTH=8;BYDAY=-1MO',
-		'thanksgiving' => 'BYMONTH=11;BYDAY=4TH',
-		'christmas' => 'BYMONTH=12;BYMONTHDAY=25',
-		'boxingDay' => 'BYMONTH=12;BYMONTHDAY=26',
+		'newYear' => array(
+			'rule' => 'BYMONTH=1;BYMONTHDAY=1',
+			'byyearday' => 1,
+			'category' => 'fixedDate'),
+
+		'palmSunday' => array(
+			'rule' => '',
+			'byyearday' => '',
+			'category' => 'easter'),
+
+		'easter' => array(
+			'rule' => '',
+			'byyearday' => '',
+			'category' => 'easter'),
+
+		'mayDay' => array(
+			'rule' => 'BYMONTH=5;BYDAY=1MO',
+			'byyearday' => array(-245,-244,-243,-242,-241,-240,-239),
+			'category' => 'fixedDay'),
+
+		'whitsun' => array(
+			'rule' => 'BYMONTH=5;BYDAY=-1MO',
+			'byyearday' => array(-221,-220,-219,-218,-217,-216,-215),
+			'category' => 'fixedDay'),
+
+		'independence' => array(
+			'rule' => 'BYMONTH=7;BYMONTHDAY=4',
+			'byyearday' => -181,
+			'category' => 'fixedDate'),
+
+		'5SU47' => array(
+			'rule' => 'BYDAY=SU;BYYEARDAY=-156,-155,-154,-125,-124,-123,-94',
+			'byyearday' => array(-156,-155,-154,-125,-124,-123,-94),
+			'category' => 'fixedDay'),
+
+		'summer' => array(
+			'rule' => 'BYMONTH=8;BYDAY=-1MO',
+			'byyearday' => array(-129,-128,-127,-126,-125,-124,-123),
+			'category' => 'fixedDay'),
+
+		'thanksgiving' => array(
+			'rule' => 'BYMONTH=11;BYDAY=4TH',
+			'byyearday' => array(-40,-39,-38,-37,-36,-35,-34),
+			'category' => 'fixedDay'),
+
+		'christmas' => array(
+			'rule' => 'BYMONTH=12;BYMONTHDAY=25',
+			'byyearday' => -7,
+			'category' => 'fixedDate'),
+
+		'boxingDay' => array(
+			'rule' => 'BYMONTH=12;BYMONTHDAY=26',
+			'byyearday' => -6,
+			'category' => 'fixedDate'),
 
 	);
 
@@ -336,7 +379,7 @@ class Rule
 			return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=2,3,4,5,6,7,8';
 		}
 
-		return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']];
+		return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']]['rule'];
 	}
 
 	/**
