@@ -265,6 +265,18 @@ class Rule
 
             	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
 			}
+
+			if ( 'independence' === $rule['SPECIAL'] )
+			{
+				if ( substr($rule['OFFSET'], 0, 1) === '-' )
+				{
+					// Offset before
+					return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-188,-187,-186,-185,-184,-183,-182';
+				}
+	
+				// Offset after
+				// return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=2,3,4,5,6,7,8';
+			}
 			
 			if ( substr($rule['OFFSET'], 0, 1) === '-' )
 			{
