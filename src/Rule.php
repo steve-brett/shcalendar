@@ -282,6 +282,14 @@ class Rule
             	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
 			}
 
+			if ( 'thanksgiving' === $rule['SPECIAL'] )
+			{
+				$year_days = array(-40,-39,-38,-37,-36,-35,-34);
+				$offset_n = $this->calculate_offset_days( 'TH', $rule['OFFSET'] );
+
+            	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
+			}
+
 			if ( 'independence' === $rule['SPECIAL'] )
 			{
 				if ( substr($rule['OFFSET'], 0, 1) === '-' )
