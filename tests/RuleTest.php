@@ -816,7 +816,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
             // Boxing Day
             // -6
             [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-5,-4,-3,-2,-1,1,2',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SU;BYYEARDAY=-5,-4,-3,-2,-1,1,2',
                 [
                     'SPECIAL' => 'boxingDay',
                     'OFFSET' => '1SU',
