@@ -266,6 +266,14 @@ class Rule
             	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
 			}
 
+			if ( '5SU47' === $rule['SPECIAL'] )
+			{
+				$year_days = array(-156,-155,-154,-125,-124,-123,-94);
+				$offset_n = $this->calculate_offset_days( 'SU', $rule['OFFSET'] );
+
+            	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
+			}
+
 			if ( 'independence' === $rule['SPECIAL'] )
 			{
 				if ( substr($rule['OFFSET'], 0, 1) === '-' )
