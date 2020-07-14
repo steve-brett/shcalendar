@@ -743,7 +743,15 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '1MO',
                 ]
             ],
-
+            // Whitsun
+            // -221,-220,-219,-218,-217,-216,-215
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-228,-227,-226,-225,-224,-223,-222',
+                [
+                    'SPECIAL' => 'whitsun',
+                    'OFFSET' => '-1MO',
+                ]
+            ],
         ];
     }
 
