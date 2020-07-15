@@ -685,14 +685,14 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         return [
             // Before
             [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-7,-6,-5,-4,-3,-2,-1',
                 [
                     'SPECIAL' => 'newYear',
                     'OFFSET' => '-1MO',
                 ]
             ],
             [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=-7,-6,-5,-4,-3,-2,-1',
                 [
                     'SPECIAL' => 'newYear',
                     'OFFSET' => '-1TU',

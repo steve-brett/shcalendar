@@ -351,20 +351,20 @@ class Rule
 	
 		$output = array();
 		$limit = 7;
+
 		for ($i = 1; $i<=$limit; $i++) 
 		{
 			$value = $year_day + $i * $offset;
 			
+			// Skip 0 if crossing year end. 
 			if ($value !== 0) {
 				$output[] = $year_day + $i * $offset;
 			} else {
-				// Skip 0 if crossing year end. 
 				$limit++;
 			}
 		}
 	
-		// This is just because I wrote my tests backwards.
-		// TODO: fix tests.
+		// Standardise order to largest absolute value first.
 		if ( $offset < 0 ) 
 		{
 			$output = array_reverse($output);
