@@ -839,16 +839,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     }
 
 
-    /**
-     * Uses same invalid data for all fns
-     * @dataProvider invalidData
-     */
-    public function testThrowsException5545(array $inputValue): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->rule->rfc5545($inputValue);
-    }
-
     public function calculateOffsetDataProvider(): array
     {
         return [
