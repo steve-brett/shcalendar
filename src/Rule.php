@@ -307,50 +307,13 @@ class Rule
             	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $this->offset_byyearday( $year_days, $offset_n );
 			}
 
-			if ( 'independence' === $rule['SPECIAL'] )
-			{
-				if ( substr($rule['OFFSET'], 0, 1) === '-' )
-				{
-					// Offset before
-					return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-188,-187,-186,-185,-184,-183,-182';
-				}
-	
-				// Offset after
-				return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-180,-179,-178,-177,-176,-175,-174';
-			}
+			// Category = fixedDate
+			$offset_sign = (int) substr($rule['OFFSET'], 0, -2);
+			$year_day = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
+			$year_days = $this->offset_byyearday_fixed_date( $year_day, $offset_sign );
 
-			if ( 'christmas' === $rule['SPECIAL'] )
-			{
-				if ( substr($rule['OFFSET'], 0, 1) === '-' )
-				{
-					// Offset before
-					return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-14,-13,-12,-11,-10,-9,-8';
-				}
-	
-				// Offset after
-				return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-6,-5,-4,-3,-2,-1,1';
-			}
-
-			if ( 'boxingDay' === $rule['SPECIAL'] )
-			{
-				if ( substr($rule['OFFSET'], 0, 1) === '-' )
-				{
-					// Offset before
-					return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-13,-12,-11,-10,-9,-8,-7';
-				}
-	
-				// Offset after
-				return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-5,-4,-3,-2,-1,1,2';
-			}
+			return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
 			
-			if ( substr($rule['OFFSET'], 0, 1) === '-' )
-			{
-				// Offset before
-				return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=-1,-2,-3,-4,-5,-6,-7';
-			}
-
-			// Offset after
-			return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=2,3,4,5,6,7,8';
 		}
 
 		return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']]['rule'];
@@ -371,6 +334,42 @@ class Rule
 			$value += $offset;
 		}
 		return implode(',', $days);
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param integer $year_day
+	 * @param integer $offset
+	 * @return string
+	 */
+	protected function offset_byyearday_fixed_date( int $year_day, int $offset ) : string
+	{
+		if (abs($offset) !== 1) {
+			throw new \InvalidArgumentException('Offset should be 1 or -1. Got [' . $offset . ']');
+		}
+	
+		$output = array();
+		$limit = 7;
+		for ($i = 1; $i<=$limit; $i++) 
+		{
+			$value = $year_day + $i * $offset;
+			
+			if ($value !== 0) {
+				$output[] = $year_day + $i * $offset;
+			} else {
+				// Skip 0 if crossing year end. 
+				$limit++;
+			}
+		}
+	
+		// This is just because I wrote my tests backwards.
+		// TODO: fix tests.
+		if ( $offset < 0 ) 
+		{
+			$output = array_reverse($output);
+		}
+		return implode(',', $output);
 	}
 
 	/**
