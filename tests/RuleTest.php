@@ -327,6 +327,11 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
             [[
                 'SPECIAL' => 'garbage',
             ]],
+            // Offset more than a week
+            [[
+                'SPECIAL' => 'mayDay',
+                'OFFSET' => '2TU',
+            ]]
         ];
     }
 
