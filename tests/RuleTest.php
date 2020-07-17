@@ -423,194 +423,196 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '-1SA'
                 ]
             ],
+            // First week of March:
+            // -306,-305,-304,-303,-302,-301,-300
             [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=59,60,61,62,63,64,65,66',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-307,-306,-305,-304,-303,-302,-301',
                 [
                     'BYMONTH' => 3,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1SA'
                 ]
             ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=90,91,92,93,94,95,96,97',
-                [
-                    'BYMONTH' => 4,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=120,121,122,123,124,125,126,127',
-                [
-                    'BYMONTH' => 5,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=151,152,153,154,155,156,157,158',
-                [
-                    'BYMONTH' => 6,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=181,182,183,184,185,186,187,188',
-                [
-                    'BYMONTH' => 7,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=212,213,214,215,216,217,218,219',
-                [
-                    'BYMONTH' => 8,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=243,244,245,246,247,248,249,250',
-                [
-                    'BYMONTH' => 9,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=273,274,275,276,277,278,279,280',
-                [
-                    'BYMONTH' => 10,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=304,305,306,307,308,309,310,311',
-                [
-                    'BYMONTH' => 11,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=334,335,336,337,338,339,340,341',
-                [
-                    'BYMONTH' => 12,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            // Friday before first Sun
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=-2,-1,1,2,3,4,5',
-                [
-                    'BYMONTH' => 1,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1FR'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=30,31,32,33,34,35,36',
-                [
-                    'BYMONTH' => 2,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1FR'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=58,59,60,61,62,63,64,65',
-                [
-                    'BYMONTH' => 3,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1FR'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=333,334,335,336,337,338,339,340',
-                [
-                    'BYMONTH' => 12,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1FR'
-                ]
-            ],
-            // Monday before first Sun
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-6,-5,-4,-3,-2,-1,1',
-                [
-                    'BYMONTH' => 1,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1MO'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=26,27,28,29,30,31,32',
-                [
-                    'BYMONTH' => 2,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1MO'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;BYYEARDAY=54,55,56,57,58,59,60,61',
-                [
-                    'BYMONTH' => 3,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1MO'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;BYYEARDAY=329,330,331,332,333,334,335,336',
-                [
-                    'BYMONTH' => 12,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1MO'
-                ]
-            ],
-            // Positive offsets
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=2,3,4,5,6,7,8',
-                [
-                    'BYMONTH' => 1,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '1MO'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=2,3,4,5,6,7,8;BYYEARDAY=61,62,63,64,65,66,67,68',
-                [
-                    'BYMONTH' => 3,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '1MO'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=3,4,5,6,7,8,9',
-                [
-                    'BYMONTH' => 1,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '1TU'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=7,8,9,10,11,12,13',
-                [
-                    'BYMONTH' => 1,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '1SA'
-                ]
-            ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=90,91,92,93,94,95,96,97',
+            //     [
+            //         'BYMONTH' => 4,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1SA'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=120,121,122,123,124,125,126,127',
+            //     [
+            //         'BYMONTH' => 5,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1SA'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=151,152,153,154,155,156,157,158',
+            //     [
+            //         'BYMONTH' => 6,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1SA'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=181,182,183,184,185,186,187,188',
+            //     [
+            //         'BYMONTH' => 7,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1SA'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=212,213,214,215,216,217,218,219',
+            //     [
+            //         'BYMONTH' => 8,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1SA'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=243,244,245,246,247,248,249,250',
+            //     [
+            //         'BYMONTH' => 9,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1SA'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=273,274,275,276,277,278,279,280',
+            //     [
+            //         'BYMONTH' => 10,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1SA'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=304,305,306,307,308,309,310,311',
+            //     [
+            //         'BYMONTH' => 11,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1SA'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=334,335,336,337,338,339,340,341',
+            //     [
+            //         'BYMONTH' => 12,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1SA'
+            //     ]
+            // ],
+            // // Friday before first Sun
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=-2,-1,1,2,3,4,5',
+            //     [
+            //         'BYMONTH' => 1,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1FR'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=30,31,32,33,34,35,36',
+            //     [
+            //         'BYMONTH' => 2,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1FR'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=58,59,60,61,62,63,64,65',
+            //     [
+            //         'BYMONTH' => 3,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1FR'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=333,334,335,336,337,338,339,340',
+            //     [
+            //         'BYMONTH' => 12,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1FR'
+            //     ]
+            // ],
+            // // Monday before first Sun
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-6,-5,-4,-3,-2,-1,1',
+            //     [
+            //         'BYMONTH' => 1,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1MO'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=26,27,28,29,30,31,32',
+            //     [
+            //         'BYMONTH' => 2,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1MO'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;BYYEARDAY=54,55,56,57,58,59,60,61',
+            //     [
+            //         'BYMONTH' => 3,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1MO'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;BYYEARDAY=329,330,331,332,333,334,335,336',
+            //     [
+            //         'BYMONTH' => 12,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '-1MO'
+            //     ]
+            // ],
+            // // Positive offsets
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=2,3,4,5,6,7,8',
+            //     [
+            //         'BYMONTH' => 1,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '1MO'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=2,3,4,5,6,7,8;BYYEARDAY=61,62,63,64,65,66,67,68',
+            //     [
+            //         'BYMONTH' => 3,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '1MO'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=3,4,5,6,7,8,9',
+            //     [
+            //         'BYMONTH' => 1,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '1TU'
+            //     ]
+            // ],
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=7,8,9,10,11,12,13',
+            //     [
+            //         'BYMONTH' => 1,
+            //         'BYDAY' => '1SU',
+            //         'OFFSET' => '1SA'
+            //     ]
+            // ],
 
-            // 1SA, 1FR etc
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYMONTH=1;BYDAY=1MO',
-                [
-                    'BYMONTH' => 1,
-                    'BYDAY' => '1MO',
-                ]
-            ],
+            // // 1SA, 1FR etc
+            // [
+            //     'FREQ=YEARLY;INTERVAL=1;BYMONTH=1;BYDAY=1MO',
+            //     [
+            //         'BYMONTH' => 1,
+            //         'BYDAY' => '1MO',
+            //     ]
+            // ],
 
 
             // Specials
@@ -901,5 +903,56 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     public function testCalculateOffset(string $expectedValue, string $day, string $offset): void
     {
         $this->assertEquals($expectedValue, $this->rule->calculate_offset_days($day, $offset));
+    }
+
+    public function offsetBYYEARDAYDataProvider(): array
+    {
+        return [
+            [
+                '1,2,3,4,5,6,7',
+                [2,3,4,5,6,7,8],
+                -1
+            ],
+            [
+                '-10,-9,-8,-7,-6,-5,-4',
+                [-9,-8,-7,-6,-5,-4,-3],
+                -1
+            ],
+            [
+                '-1,1,2,3,4,5,6',
+                [1,2,3,4,5,6,7],
+                -1
+            ],
+            [
+                '-1,1,2,3,4,5,6',
+                [7,8,9,10,11,12,13],
+                -7
+            ],
+            [
+                '3,4,5,6,7,8,9',
+                [2,3,4,5,6,7,8],
+                1
+            ],
+            [
+                '-6,-5,-4,-3,-2,-1,1',
+                [-7,-6,-5,-4,-3,-2,-1],
+                1
+            ],
+            [
+                '-3,-2,-1,1,2,3,4',
+                [-7,-6,-5,-4,-3,-2,-1],
+                4
+            ],
+            
+
+        ];
+    }
+
+    /**
+    * @dataProvider offsetBYYEARDAYDataProvider
+    */
+    public function testOffsetBYYEARDAY(string $expectedValue, array $days, int $offset): void
+    {
+        $this->assertEquals($expectedValue, $this->rule->offset_byyearday($days, $offset));
     }
 }
