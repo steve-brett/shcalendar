@@ -951,8 +951,8 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     /**
     * @dataProvider offsetBYYEARDAYDataProvider
     */
-    public function testOffsetBYYEARDAY(string $expectedValue, array $days, int $offset): void
-    {
-        $this->assertEquals($expectedValue, $this->rule->offset_byyearday($days, $offset));
-    }
+    // public function testOffsetBYYEARDAY(string $expectedValue, array $days, int $offset): void
+    // {
+    //     $this->assertEquals($expectedValue, $this->rule->offset_byyearday($days, $offset));
+    // }
 }

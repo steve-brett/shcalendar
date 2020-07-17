@@ -299,7 +299,7 @@ class Rule
 	 * @param integer $offset	Offset amount <= +/-7.
 	 * @return string
 	 */
-	public function offset_byyearday( array $days, int $offset ) : string
+	protected function offset_byyearday( array $days, int $offset ) : string
 	{
 		// Add offset to each day.
 		foreach ($days as &$value) 
