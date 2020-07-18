@@ -535,14 +535,57 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 ]
             ],
 
-            // // 1SA, 1FR etc
-            // [
-            //     'FREQ=YEARLY;INTERVAL=1;BYMONTH=1;BYDAY=1MO',
-            //     [
-            //         'BYMONTH' => 1,
-            //         'BYDAY' => '1MO',
-            //     ]
-            // ],
+            // 2SU
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYMONTH=1;BYDAY=2SU',
+                [
+                    'BYMONTH' => 1,
+                    'BYDAY' => '2SU',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=7,8,9,10,11,12,13',
+                [
+                    'BYMONTH' => 1,
+                    'BYDAY' => '2SU',
+                    'OFFSET' => '-1SA'
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-300,-299,-298,-297,-296,-295,-294',
+                [
+                    'BYMONTH' => 3,
+                    'BYDAY' => '2SU',
+                    'OFFSET' => '-1SA'
+                ]
+            ],
+            // 3SU
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-293,-292,-291,-290,-289,-288,-287',
+                [
+                    'BYMONTH' => 3,
+                    'BYDAY' => '3SU',
+                    'OFFSET' => '-1SA'
+                ]
+            ],
+            // 4SU
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-286,-285,-284,-283,-282,-281,-280',
+                [
+                    'BYMONTH' => 3,
+                    'BYDAY' => '4SU',
+                    'OFFSET' => '-1SA'
+                ]
+            ],
+            // -1SU
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-283,-282,-281,-280,-279,-278,-277',
+                [
+                    'BYMONTH' => 3,
+                    'BYDAY' => '-1SU',
+                    'OFFSET' => '-1SA'
+                ]
+            ],
 
 
             // Specials
