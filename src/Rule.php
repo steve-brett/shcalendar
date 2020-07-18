@@ -194,7 +194,8 @@ class Rule
 			 * The start of the last week of each month is 7 days before 
 			 * the first day of the next month.
 			 */
-			$year_day = $this::$first_of_month[$rule['BYMONTH'] + 1] -7;
+			$next_month = ($rule['BYMONTH'] + 1) % 12;
+			$year_day = $this->yearday_adder($this::$first_of_month[$next_month], -7);
 		}
 	
 		$week = $this->create_week($year_day);
