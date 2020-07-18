@@ -327,6 +327,11 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
             [[
                 'SPECIAL' => 'garbage',
             ]],
+            // Offset more than a week
+            [[
+                'SPECIAL' => 'mayDay',
+                'OFFSET' => '2TU',
+            ]]
         ];
     }
 
@@ -418,87 +423,48 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '-1SA'
                 ]
             ],
+            // First week of March:
+            // -306,-305,-304,-303,-302,-301,-300
             [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=59,60,61,62,63,64,65,66',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-307,-306,-305,-304,-303,-302,-301',
                 [
                     'BYMONTH' => 3,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1SA'
                 ]
             ],
+            // First week of April:
+            // -275,-274,-273,-272,-271,-270,-269
             [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=90,91,92,93,94,95,96,97',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-276,-275,-274,-273,-272,-271,-270',
                 [
                     'BYMONTH' => 4,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1SA'
                 ]
             ],
+            // First week of May:
+            // -245,-244,-243,-242,-241,-240,-239
             [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=120,121,122,123,124,125,126,127',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-246,-245,-244,-243,-242,-241,-240',
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1SA'
                 ]
             ],
+            // First week of June:
+            // -214,-213,-212,-211,-210,-209,-208
             [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=151,152,153,154,155,156,157,158',
+            'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-215,-214,-213,-212,-211,-210,-209',
                 [
                     'BYMONTH' => 6,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1SA'
                 ]
             ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=181,182,183,184,185,186,187,188',
-                [
-                    'BYMONTH' => 7,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=212,213,214,215,216,217,218,219',
-                [
-                    'BYMONTH' => 8,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=243,244,245,246,247,248,249,250',
-                [
-                    'BYMONTH' => 9,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=273,274,275,276,277,278,279,280',
-                [
-                    'BYMONTH' => 10,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=304,305,306,307,308,309,310,311',
-                [
-                    'BYMONTH' => 11,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYMONTHDAY=-1,1,2,3,4,5,6;BYYEARDAY=334,335,336,337,338,339,340,341',
-                [
-                    'BYMONTH' => 12,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1SA'
-                ]
-            ],
             // Friday before first Sun
+            // BYYEARDAY span
             [
                 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=-2,-1,1,2,3,4,5',
                 [
@@ -507,6 +473,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '-1FR'
                 ]
             ],
+            // Positive BYYEARDAY
             [
                 'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=30,31,32,33,34,35,36',
                 [
@@ -515,18 +482,11 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '-1FR'
                 ]
             ],
+            // Negative BYYEARDAY
             [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=58,59,60,61,62,63,64,65',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYYEARDAY=-308,-307,-306,-305,-304,-303,-302',
                 [
                     'BYMONTH' => 3,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1FR'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=FR;BYMONTHDAY=-2,-1,1,2,3,4,5;BYYEARDAY=333,334,335,336,337,338,339,340',
-                [
-                    'BYMONTH' => 12,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1FR'
                 ]
@@ -549,17 +509,9 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 ]
             ],
             [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;BYYEARDAY=54,55,56,57,58,59,60,61',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-312,-311,-310,-309,-308,-307,-306',
                 [
                     'BYMONTH' => 3,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '-1MO'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=-6,-5,-4,-3,-2,-1,1;BYYEARDAY=329,330,331,332,333,334,335,336',
-                [
-                    'BYMONTH' => 12,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1MO'
                 ]
@@ -573,30 +525,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'OFFSET' => '1MO'
                 ]
             ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTHDAY=2,3,4,5,6,7,8;BYYEARDAY=61,62,63,64,65,66,67,68',
-                [
-                    'BYMONTH' => 3,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '1MO'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=3,4,5,6,7,8,9',
-                [
-                    'BYMONTH' => 1,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '1TU'
-                ]
-            ],
-            [
-                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=7,8,9,10,11,12,13',
-                [
-                    'BYMONTH' => 1,
-                    'BYDAY' => '1SU',
-                    'OFFSET' => '1SA'
-                ]
-            ],
 
             // 1SA, 1FR etc
             [
@@ -604,6 +532,58 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [
                     'BYMONTH' => 1,
                     'BYDAY' => '1MO',
+                ]
+            ],
+
+            // 2SU
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYMONTH=1;BYDAY=2SU',
+                [
+                    'BYMONTH' => 1,
+                    'BYDAY' => '2SU',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=7,8,9,10,11,12,13',
+                [
+                    'BYMONTH' => 1,
+                    'BYDAY' => '2SU',
+                    'OFFSET' => '-1SA'
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-300,-299,-298,-297,-296,-295,-294',
+                [
+                    'BYMONTH' => 3,
+                    'BYDAY' => '2SU',
+                    'OFFSET' => '-1SA'
+                ]
+            ],
+            // 3SU
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-293,-292,-291,-290,-289,-288,-287',
+                [
+                    'BYMONTH' => 3,
+                    'BYDAY' => '3SU',
+                    'OFFSET' => '-1SA'
+                ]
+            ],
+            // 4SU
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-286,-285,-284,-283,-282,-281,-280',
+                [
+                    'BYMONTH' => 3,
+                    'BYDAY' => '4SU',
+                    'OFFSET' => '-1SA'
+                ]
+            ],
+            // -1SU
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-283,-282,-281,-280,-279,-278,-277',
+                [
+                    'BYMONTH' => 3,
+                    'BYDAY' => '-1SU',
+                    'OFFSET' => '-1SA'
                 ]
             ],
 
@@ -685,14 +665,14 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         return [
             // Before
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-7,-6,-5,-4,-3,-2,-1',
                 [
                     'SPECIAL' => 'newYear',
                     'OFFSET' => '-1MO',
                 ]
             ],
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=TU;BYYEARDAY=-1,-2,-3,-4,-5,-6,-7',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=-7,-6,-5,-4,-3,-2,-1',
                 [
                     'SPECIAL' => 'newYear',
                     'OFFSET' => '-1TU',
@@ -700,13 +680,128 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
             ],
             // After
             [
-                'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=MO;BYYEARDAY=2,3,4,5,6,7,8',
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=2,3,4,5,6,7,8',
                 [
                     'SPECIAL' => 'newYear',
                     'OFFSET' => '1MO',
                 ]
             ],
-
+            // May Day
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-252,-251,-250,-249,-248,-247,-246',
+                [
+                    'SPECIAL' => 'mayDay',
+                    'OFFSET' => '-1MO',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=-251,-250,-249,-248,-247,-246,-245',
+                [
+                    'SPECIAL' => 'mayDay',
+                    'OFFSET' => '-1TU',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SU;BYYEARDAY=-246,-245,-244,-243,-242,-241,-240',
+                [
+                    'SPECIAL' => 'mayDay',
+                    'OFFSET' => '-1SU',
+                ]
+            ],
+            // After
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=TU;BYYEARDAY=-244,-243,-242,-241,-240,-239,-238',
+                [
+                    'SPECIAL' => 'mayDay',
+                    'OFFSET' => '1TU',
+                ]
+            ],
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-238,-237,-236,-235,-234,-233,-232',
+                [
+                    'SPECIAL' => 'mayDay',
+                    'OFFSET' => '1MO',
+                ]
+            ],
+            // Whitsun
+            // -221,-220,-219,-218,-217,-216,-215
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-228,-227,-226,-225,-224,-223,-222',
+                [
+                    'SPECIAL' => 'whitsun',
+                    'OFFSET' => '-1MO',
+                ]
+            ],
+            // Independence
+            // -181
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-188,-187,-186,-185,-184,-183,-182',
+                [
+                    'SPECIAL' => 'independence',
+                    'OFFSET' => '-1MO',
+                ]
+            ],
+            // After
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-180,-179,-178,-177,-176,-175,-174',
+                [
+                    'SPECIAL' => 'independence',
+                    'OFFSET' => '1MO',
+                ]
+            ],
+            // First fifth Sunday after the 4th July
+            // -156,-155,-154,-125,-124,-123,-94
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-157,-156,-155,-126,-125,-124,-95',
+                [
+                    'SPECIAL' => '5SU47',
+                    'OFFSET' => '-1SA',
+                ]
+            ],
+            // After
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SU;BYYEARDAY=-149,-148,-147,-118,-117,-116,-87',
+                [
+                    'SPECIAL' => '5SU47',
+                    'OFFSET' => '1SU',
+                ]
+            ],
+            // Summer bank hol
+            // -129,-128,-127,-126,-125,-124,-123
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-136,-135,-134,-133,-132,-131,-130',
+                [
+                    'SPECIAL' => 'summer',
+                    'OFFSET' => '-1MO',
+                ]
+            ],
+            // Thanksgiving
+            // -40,-39,-38,-37,-36,-35,-34
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=TH;BYYEARDAY=-47,-46,-45,-44,-43,-42,-41',
+                [
+                    'SPECIAL' => 'thanksgiving',
+                    'OFFSET' => '-1TH',
+                ]
+            ],
+            // Christmas
+            // -7
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYYEARDAY=-14,-13,-12,-11,-10,-9,-8',
+                [
+                    'SPECIAL' => 'christmas',
+                    'OFFSET' => '-1MO',
+                ]
+            ],
+            // Boxing Day
+            // -6
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SU;BYYEARDAY=-5,-4,-3,-2,-1,1,2',
+                [
+                    'SPECIAL' => 'boxingDay',
+                    'OFFSET' => '1SU',
+                ]
+            ],
         ];
     }
 
@@ -718,16 +813,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->rfc5545($inputValue));
     }
 
-
-    /**
-     * Uses same invalid data for all fns
-     * @dataProvider invalidData
-     */
-    public function testThrowsException5545(array $inputValue): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->rule->rfc5545($inputValue);
-    }
 
     public function calculateOffsetDataProvider(): array
     {
@@ -792,4 +877,55 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
     {
         $this->assertEquals($expectedValue, $this->rule->calculate_offset_days($day, $offset));
     }
+
+    public function offsetBYYEARDAYDataProvider(): array
+    {
+        return [
+            [
+                '1,2,3,4,5,6,7',
+                [2,3,4,5,6,7,8],
+                -1
+            ],
+            [
+                '-10,-9,-8,-7,-6,-5,-4',
+                [-9,-8,-7,-6,-5,-4,-3],
+                -1
+            ],
+            [
+                '-1,1,2,3,4,5,6',
+                [1,2,3,4,5,6,7],
+                -1
+            ],
+            [
+                '-1,1,2,3,4,5,6',
+                [7,8,9,10,11,12,13],
+                -7
+            ],
+            [
+                '3,4,5,6,7,8,9',
+                [2,3,4,5,6,7,8],
+                1
+            ],
+            [
+                '-6,-5,-4,-3,-2,-1,1',
+                [-7,-6,-5,-4,-3,-2,-1],
+                1
+            ],
+            [
+                '-3,-2,-1,1,2,3,4',
+                [-7,-6,-5,-4,-3,-2,-1],
+                4
+            ],
+            
+
+        ];
+    }
+
+    /**
+    * @dataProvider offsetBYYEARDAYDataProvider
+    */
+    // public function testOffsetBYYEARDAY(string $expectedValue, array $days, int $offset): void
+    // {
+    //     $this->assertEquals($expectedValue, $this->rule->offset_byyearday($days, $offset));
+    // }
 }

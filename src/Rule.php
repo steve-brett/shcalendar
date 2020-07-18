@@ -39,23 +39,24 @@ class Rule
 	);
 
 	/**
-	 * The position of the first day of each month in a non-leap year
+	 * The position of the first day of each month.
+	 * Negative values from March account for both leap and non-leap years.
 	 *
 	 * @var array
 	 */
 	private static $first_of_month = array(
 		1 => 1,
 		2 => 32,
-		3 => 60,
-		4 => 91,
-		5 => 121,
-		6 => 152,
-		7 => 182,
-		8 => 213,
-		9 => 244,
-		10 => 274,
-		11 => 305,
-		12 => 335
+		3 => -306,
+		4 => -275,
+		5 => -245,
+		6 => -214,
+		7 => -184,
+		8 => -153,
+		9 => -122,
+		10 => -92,
+		11 => -61,
+		12 => -31,
 	);
 
 	/**
@@ -86,40 +87,68 @@ class Rule
 	 * @var array
 	 */
 	private static $special_rules = array(
-		'newYear' => 'BYMONTH=1;BYMONTHDAY=1',
-		'palmSunday' => '',
-		'easter' => '',
-		'mayDay' => 'BYMONTH=5;BYDAY=1MO',
-		'whitsun' => 'BYMONTH=5;BYDAY=-1MO',
-		'independence' => 'BYMONTH=7;BYMONTHDAY=4',
-		'5SU47' => 'BYDAY=SU;BYYEARDAY=-156,-155,-154,-125,-124,-123,-94',
-		'summer' => 'BYMONTH=8;BYDAY=-1MO',
-		'thanksgiving' => 'BYMONTH=11;BYDAY=4TH',
-		'christmas' => 'BYMONTH=12;BYMONTHDAY=25',
-		'boxingDay' => 'BYMONTH=12;BYMONTHDAY=26',
+		'newYear' => array(
+			'rule' => 'BYMONTH=1;BYMONTHDAY=1',
+			'byyearday' => 1,
+			'category' => 'fixedDate'),
+
+		'palmSunday' => array(
+			'rule' => '',
+			'byyearday' => '',
+			'category' => 'easter'),
+
+		'easter' => array(
+			'rule' => '',
+			'byyearday' => '',
+			'category' => 'easter'),
+
+		'mayDay' => array(
+			'rule' => 'BYMONTH=5;BYDAY=1MO',
+			'byyearday' => array(-245,-244,-243,-242,-241,-240,-239),
+			'byday' => 'MO',
+			'category' => 'fixedDay'),
+
+		'whitsun' => array(
+			'rule' => 'BYMONTH=5;BYDAY=-1MO',
+			'byyearday' => array(-221,-220,-219,-218,-217,-216,-215),
+			'byday' => 'MO',
+			'category' => 'fixedDay'),
+
+		'independence' => array(
+			'rule' => 'BYMONTH=7;BYMONTHDAY=4',
+			'byyearday' => -181,
+			'category' => 'fixedDate'),
+
+		'5SU47' => array(
+			'rule' => 'BYDAY=SU;BYYEARDAY=-156,-155,-154,-125,-124,-123,-94',
+			'byyearday' => array(-156,-155,-154,-125,-124,-123,-94),
+			'byday' => 'SU',
+			'category' => 'fixedDay'),
+
+		'summer' => array(
+			'rule' => 'BYMONTH=8;BYDAY=-1MO',
+			'byyearday' => array(-129,-128,-127,-126,-125,-124,-123),
+			'byday' => 'MO',
+			'category' => 'fixedDay'),
+
+		'thanksgiving' => array(
+			'rule' => 'BYMONTH=11;BYDAY=4TH',
+			'byyearday' => array(-40,-39,-38,-37,-36,-35,-34),
+			'byday' => 'TH',
+			'category' => 'fixedDay'),
+
+		'christmas' => array(
+			'rule' => 'BYMONTH=12;BYMONTHDAY=25',
+			'byyearday' => -7,
+			'category' => 'fixedDate'),
+
+		'boxingDay' => array(
+			'rule' => 'BYMONTH=12;BYMONTHDAY=26',
+			'byyearday' => -6,
+			'category' => 'fixedDate'),
 
 	);
 
-	/**
-	 * Addition function for days that span months or years.
-	 * 
-	 * Allows progression along a number line without zero:
-	 * e.g 3,2,1,-1,-2,-3
-	 * 
-	 * TODO: rename
-	 *
-	 * @param integer $year_day
-	 * @param integer $k
-	 * @return integer
-	 */
-	private function year_day(int $year_day, int $k): int
-	{
-		$sum = $year_day + $k;
-		if ($sum <= 0 ) {
-			return $sum - 1;
-		}
-		return $sum;
-	}
 
 	/**
 	 * 
@@ -151,45 +180,27 @@ class Rule
 		{
 			return 'FREQ=YEARLY;INTERVAL=1;BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
 		}
-			
+
+		$month_week = (int) substr($rule['BYDAY'], 0, -2);
+
+		$day = substr($rule['OFFSET'], -2);
 		$offset = $this->calculate_offset_days( substr($rule['BYDAY'], -2), $rule['OFFSET'] );
 
-		if ($rule['BYMONTH'] > 2) 
-		{
-			// Affected by leap year
-			$by_month_day = 'BYMONTHDAY=';
-			for ($k = 0 ; $k < 7; $k++) { 
-				$by_month_day .= $this->year_day(1 + $offset, $k) . ','; 
-			}
-			$by_month_day = substr($by_month_day, 0, -1) . ';';
-			$year_day_limit = 8;
-		} 
-		else 
-		{
-			// Unaffected by leap year
-			$by_month_day = '';
-			$year_day_limit = 7;
-		}
+		$offset_sign = (int) substr($rule['OFFSET'], 0, -2);
+		$year_day = $this::$first_of_month[$rule['BYMONTH']] + 7 * ($month_week -1);
 
-		$year_day = $this::$first_of_month[$rule['BYMONTH']] + $offset;
-		
-		$by_year_day = 'BYYEARDAY=';
-		for ($k = 0 ; $k < $year_day_limit; $k++) { 
-			$by_year_day .= $this->year_day($year_day, $k) . ','; 
+		if ($month_week === -1) {
+			/**
+			 * The start of the last week of each month is 7 days before 
+			 * the first day of the next month.
+			 */
+			$year_day = $this::$first_of_month[$rule['BYMONTH'] + 1] -7;
 		}
-		$by_year_day = substr($by_year_day, 0, -1);
+	
+		$week = $this->create_week($year_day);
+		$year_days = $this->offset_byyearday( $week, $offset );
 
-		if ($offset < 0) 
-		{
-			$by_day = array_reverse(array_keys($this::$week_day_abbrev))[abs($offset)];
-		} 
-		else 
-		{
-			$by_day = array_keys($this::$week_day_abbrev)[$offset - 1];
-		}
-		$by_day = 'BYDAY=' . $by_day . ';';
-
-		return 'FREQ=YEARLY;INTERVAL=1;'. $by_day . $by_month_day . $by_year_day;
+		return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days ;
 	}
 	
 	/**
@@ -249,18 +260,131 @@ class Rule
 		if ( isset( $rule['OFFSET'] ) )
 		{
 			$day = substr($rule['OFFSET'], -2);
-			
-			if ( substr($rule['OFFSET'], 0, 1) === '-' )
+
+			if ( 'fixedDay' === $this::$special_rules[$rule['SPECIAL']]['category'] )
 			{
-				// Offset before
-				return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=-1,-2,-3,-4,-5,-6,-7';
+				$year_days = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
+				$special_day = $this::$special_rules[$rule['SPECIAL']]['byday'];
+				$offset_n = $this->calculate_offset_days( $special_day, $rule['OFFSET'] );
+				$year_days = $this->offset_byyearday( $year_days, $offset_n );
+
+            	return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
 			}
 
-			// Offset after
-			return 'FREQ=YEARLY;INTERVAL=1;BYWEEKDAY=' . $day . ';BYYEARDAY=2,3,4,5,6,7,8';
+			// Category = fixedDate
+			$offset_sign = (int) substr($rule['OFFSET'], 0, -2);
+			$year_day = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
+			$year_days = $this->offset_byyearday_fixed_date( $year_day, $offset_sign );
+
+			return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
+			
 		}
 
-		return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']];
+		return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']]['rule'];
+	}
+
+	/**
+	 * Offset a BYYEARDAY sequence.
+	 *
+	 * @param integer[] $days 	Array of BYYEARDAY values.
+	 * @param integer $offset	Offset amount <= +/-7.
+	 * @return string
+	 */
+	protected function offset_byyearday( array $days, int $offset ) : string
+	{
+		// Add offset to each day.
+		foreach ($days as &$value) 
+		{
+			$value = $this->yearday_adder($value, $offset);
+		}
+		return implode(',', $days);
+	}
+
+	/**
+	 * Generate a week of year days.
+	 *
+	 * @param integer $year_day
+	 * @return array
+	 */
+	protected function create_week( int $year_day ) : array
+	{
+		$output = array();
+		$limit = 7;
+
+		for ($i = 0; $i<$limit; $i++) 
+		{
+			$output[] = $this->yearday_adder($year_day, $i);
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param integer $year_day
+	 * @param integer $offset
+	 * @return string
+	 */
+	protected function offset_byyearday_fixed_date( int $year_day, int $offset ) : string
+	{
+		if (abs($offset) !== 1) {
+			throw new \InvalidArgumentException('Offset should be 1 or -1. Got [' . $offset . ']');
+		}
+	
+		$output = array();
+		$limit = 7;
+
+		for ($i = 1; $i<=$limit; $i++) 
+		{
+			$output[] = $this->yearday_adder($year_day, $i * $offset);
+		}
+	
+		// Standardise order to largest absolute value first.
+		if ( $offset < 0 ) 
+		{
+			$output = array_reverse($output);
+		}
+		return implode(',', $output);
+	}
+
+	/**
+	 * Add a number to a yearday value. 
+	 * Takes the missing zero point into account.
+	 *
+	 * @param integer $yearday
+	 * @param integer $offset
+	 * @return integer
+	 */
+	protected function yearday_adder(int $yearday, int $offset) : int
+	{
+		$yearday_sign = $this->sign($yearday);
+		$offset_sign = $this->sign($offset);
+
+		// If values are same sign, return sum
+		if ($yearday_sign === $offset_sign) {
+			return $yearday + $offset;
+		}
+
+		$sign_change = $this->sign($yearday + $offset) !== $yearday_sign;
+		// If yearday doesn't change sign, return sum
+		if (!$sign_change) {
+			return $yearday + $offset;
+		}
+		
+		// Otherwise offset the value
+		return $yearday + $offset - $yearday_sign;
+	}
+
+	/**
+	 * Return the sign of an integer
+	 *
+	 * @param integer $a
+	 * @return integer
+	 */
+	protected function sign(int $a) : int
+	{
+		return ($a > 0) - ($a < 0);
 	}
 
 	/**
@@ -367,7 +491,13 @@ class Rule
 	{
 		$day = \RRule\RRule::$week_days[$day];
 		$offset_sign = (int) substr($offset, 0, -2);
-		$offset = $offset_sign * \RRule\RRule::$week_days[substr($offset, -2)];
+		$offset_value = \RRule\RRule::$week_days[substr($offset, -2)];
+		$offset = $offset_sign * $offset_value;
+
+		if ($day === $offset_value)
+		{
+			return $offset_sign * 7;
+		}
 
 		// I can only explain this maths by diagram!
 		if ( ($offset - $offset_sign * $day) < 0 ) 
