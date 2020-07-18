@@ -181,15 +181,26 @@ class Rule
 			return 'FREQ=YEARLY;INTERVAL=1;BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
 		}
 
+		$month_week = (int) substr($rule['BYDAY'], 0, -2);
+
 		$day = substr($rule['OFFSET'], -2);
 		$offset = $this->calculate_offset_days( substr($rule['BYDAY'], -2), $rule['OFFSET'] );
 
 		$offset_sign = (int) substr($rule['OFFSET'], 0, -2);
-		$year_day = $this::$first_of_month[$rule['BYMONTH']];
+		$year_day = $this::$first_of_month[$rule['BYMONTH']] + 7 * ($month_week -1);
+
+		if ($month_week === -1) {
+			/**
+			 * The start of the last week of each month is 7 days before 
+			 * the first day of the next month.
+			 */
+			$year_day = $this::$first_of_month[$rule['BYMONTH'] + 1] -7;
+		}
+	
 		$week = $this->create_week($year_day);
 		$year_days = $this->offset_byyearday( $week, $offset );
 
-		return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
+		return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days ;
 	}
 	
 	/**
