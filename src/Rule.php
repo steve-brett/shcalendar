@@ -170,7 +170,7 @@ class Rule
 			if ('easter' === $rule['SPECIAL']
 			|| 'palmSunday' === $rule['SPECIAL'])
 			{
-				throw new \InvalidArgumentException('palmSunday and easter cannot give reccurence rules yet.');
+				throw new \InvalidArgumentException('We are currently unable to calculate reccurence rules for Palm Sunday and Easter.');
 			}
 
 			return $this->rfc5545_special($rule);
