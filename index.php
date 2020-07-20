@@ -64,10 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8">
     <title>Sacred Harp calendar calculator</title>
     <!--[if !IE 8]><!-->
-    <link rel="stylesheet" href="stylesheets/govuk-frontend-2.3.0.min.css">
+    <link rel="stylesheet" href="stylesheets/govuk-frontend-3.7.0.min.css">
     <!--<![endif]-->
     <!--[if IE 8]>
-          <link rel="stylesheet" href="stylesheets/govuk-frontend-ie8-2.3.0.min.css">
+          <link rel="stylesheet" href="stylesheets/govuk-frontend-ie8-3.7.0.min.css">
         <![endif]-->
     <!--<link href="http://cdn.govstrap.io/v1/css/govstrap.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="stylesheets/override.css">
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
                                     <h1 class="govuk-fieldset__heading govuk-heading-xl">
                                         <?php
-                                        echo $date->format('l jS F Y') . PHP_EOL;
+                                        echo $date->format('l j F Y') . PHP_EOL;
                                         ?>
                                     </h1>
                                 </legend>
@@ -123,26 +123,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <h2 class="govuk-heading-l">Next five singings:</h2>
 
                             <?php foreach ($formulae as $k => $formula) : ?>
-                                <div id="results__item--<?php echo $k; ?>" class="results__item" hidden>
-                                    <ol class="govuk-list govuk-list--bullet">
-                                        <?php 
+                                <div id="results__item--<?php echo $k; ?>" class="govuk-grid-row results__item" hidden>
+                                    <div class="govuk-grid-column-two-thirds">
+                                    <dl class="govuk-summary-list">                                        <?php 
                                         try 
                                         {
                                             $rrule = new \RRule\RRule($rule->rfc5545($formula) . ';COUNT=5' );
                                             foreach ($rrule as $occurrence ) {
-                                                echo '<li>' . $occurrence->format('j M Y') . '</li>',"\n";
+                                                ?>
+                                                  <div class="govuk-summary-list__row">
+                                                    <dt class="govuk-summary-list__key">
+                                                    <?php echo $occurrence->format('Y');?>
+                                                    </dt>
+                                                    <dd class="govuk-summary-list__value">
+                                                    <?php echo $occurrence->format('l j F');?>
+                                                    </dd>
+                                                </div>
+                                                <?php
                                             }
                                         } 
                                         catch (\Exception $e) 
                                         {
-                                            echo $e;
+                                            ?>
+                                            <section class="govuk-error-summary">
+                                                <h2 class="govuk-error-summary__title">
+                                                    Not yet available
+                                                </h2>
+                                                <div class="govuk-error-summary__body">
+                                                    <p>
+                                                        <?php echo $e->getMessage();?>
+                                                    </p>
+                                                </div>
+                                            </section>
+                                            <?php
                                         }
                                         ?>
-                                    </ol>
-                                    <pre>
-                                        <?php var_dump($formula); ?>
-                                        <?php var_dump($rule->rfc5545($formula)); ?>
-                                    </pre>
+                                    </dl>
+                                    </div>
                                 </div>
                             <?php endforeach; ?>
                         </section>
