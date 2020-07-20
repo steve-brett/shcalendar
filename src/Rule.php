@@ -186,7 +186,6 @@ class Rule
 		$day = substr($rule['OFFSET'], -2);
 		$offset = $this->calculate_offset_days( substr($rule['BYDAY'], -2), $rule['OFFSET'] );
 
-		$offset_sign = (int) substr($rule['OFFSET'], 0, -2);
 		$year_day = $this::$first_of_month[$rule['BYMONTH']] + 7 * ($month_week -1);
 
 		if ($month_week === -1) {
@@ -321,7 +320,7 @@ class Rule
 	}
 
 	/**
-	 * Undocumented function
+	 * Create a string of BYYEARDAY values for the week before or after $year_day.
 	 *
 	 * @param integer $year_day
 	 * @param integer $offset
