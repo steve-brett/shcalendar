@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace SHCalendar;
 use RRule\RRule;
+use RRule\RSet;
 use phpDocumentor\Reflection\Types\Boolean;
 
 class Rule
@@ -78,6 +79,21 @@ class Rule
 		'christmas' => 'Christmas Day',
 		'boxingDay' => 'Boxing Day',
 
+	);
+
+	/**
+	 * Array of dates for Easter for the nineteen-year Metonic cycle.
+	 * Array key is the golden number: Y mod 19 + 1.
+	 * Valid for 1900 <= Y < 2200.
+	 *
+	 * @var array
+	 */
+	private static $easter_dates = array(
+		1 => array(
+			'BYYEARDAY' => array(-261,-260,-259,-258,-257,-256,-255),
+			'DTSTART' => '1900-04-15',
+			'UNTIL' => '2185-04-17',
+		),
 	);
 
 	/**
@@ -249,7 +265,7 @@ class Rule
 		return ucfirst( $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName );
 	}
 
-	public function get_dates( $rule, int $count ) : RRule
+	public function get_dates( $rule, int $count )
 	{
 		if (
 			$count < 1 ||
@@ -257,6 +273,26 @@ class Rule
 		) {
 			throw new \InvalidArgumentException('$count must be between 1 and 100. Got [' . $count . ']');
 		}
+
+		if ( 
+			isset( $rule['SPECIAL'] ) &&
+			('easter' === $rule['SPECIAL']
+			// || 'palmSunday' === $rule['SPECIAL'] 
+			)
+		)
+		{
+			return $this->rfc5545_easter($rule, 0);
+		}
+
+		if ( 
+			isset( $rule['SPECIAL'] ) &&
+			('palmSunday' === $rule['SPECIAL'] 
+			)
+		)
+		{
+			return $this->rfc5545_easter($rule, -7);
+		}
+
 
 		try{
 			$dates = new \RRule\RRule($this->rfc5545($rule) . ';COUNT=' . $count );
@@ -301,6 +337,255 @@ class Rule
 		}
 
 		return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']]['rule'];
+	}
+
+	protected function rfc5545_easter(array $rule, int $offset = 0)
+	{
+		$rset = new \RRule\RSet();
+		// 1
+		// DTSTART;VALUE=DATE:19000415
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=15,16,17,18,19,20,21;BYDAY=SU;UNTIL=21850417
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => $this->offset_byyearday(array(-261,-260,-259,-258,-257,-256,-255), $offset),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1900-04-15'),
+			'UNTIL' => date_create('2185-04-17'),
+
+		));
+		// 2
+		// DTSTART;VALUE=DATE:19010407
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=4,5,6,7,8,9,10;BYDAY=SU;UNTIL=21860409
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-272,-271,-270,-269,-268,-267,-266),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1901-04-07'),
+			'UNTIL' => date_create('2186-04-09'),
+
+		));
+		// 3
+		// DTSTART;VALUE=DATE:19020330
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=3;BYMONTHDAY=24,25,26,27,28,29,30;BYDAY=SU;UNTIL=21870325
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-283,-282,-281,-280,-279,-278,-277),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1902-03-30'),
+			'UNTIL' => date_create('2187-03-25'),
+
+		));
+		// 4
+		// DTSTART;VALUE=DATE:19030412
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=12,13,14,15,16,17,18;BYDAY=SU;UNTIL=21880413
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-264,-263,-262,-261,-260,-259,-258),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1903-04-12'),
+			'UNTIL' => date_create('2188-04-13'),
+
+		));
+		// 5
+		// DTSTART;VALUE=DATE:19040403
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=1,2,3,4,5,6,7;BYDAY=SU;UNTIL=21890405
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-275,-274,-273,-272,-271,-270,-269),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1904-04-03'),
+			'UNTIL' => date_create('2189-04-05'),
+
+		));
+		// 6
+		// DTSTART;VALUE=DATE:19050423
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=19,20,21,22,23,24,25;BYDAY=SU;UNTIL=21900425
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-257,-256,-255,-254,-253,-252,-251),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1905-04-23'),
+			'UNTIL' => date_create('2190-04-25'),
+		
+		));
+		// 7
+		// DTSTART;VALUE=DATE:19060415
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=9,10,11,12,13,14,15;BYDAY=SU;UNTIL=21910410
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-267,-266,-265,-264,-263,-262,-261),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1906-04-15'),
+			'UNTIL' => date_create('2191-04-10'),
+		
+		));
+		// 8
+		// DTSTART;VALUE=DATE:19070331
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=3;BYMONTHDAY=29,30,31;BYDAY=SU;UNTIL=21920429
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=1,2,3,4;BYDAY=SU;UNTIL=21730404
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => $this->offset_byyearday(array(-278,-277,-276,-275,-274,-273,-272), $offset),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1907-03-31'),
+			// should this be 2192-04-01?
+			'UNTIL' => date_create('2192-04-29'),
+		
+		));
+		// 9
+		// DTSTART;VALUE=DATE:19080419
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=17,18,19,20,21,22,23;BYDAY=SU;UNTIL=21930421
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => $this->offset_byyearday(array(-259,-258,-257,-256,-255,-254,-253), $offset),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1908-04-19'),
+			'UNTIL' => date_create('2193-04-21'),
+
+		));
+		// 10
+		// DTSTART;VALUE=DATE:19090411
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=6,7,8,9,10,11,12;BYDAY=SU;UNTIL=21940406
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => $this->offset_byyearday(array(-270,-269,-268,-267,-266,-265,-264), $offset),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1909-04-11'),
+			'UNTIL' => date_create('2194-04-06'),
+
+		));
+		// 11
+		// DTSTART;VALUE=DATE:19100327
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=3;BYMONTHDAY=26,27,28,29,30,31;BYDAY=SU;UNTIL=21950329
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=1;BYDAY=SU
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-281,-280,-279,-278,-277,-276,-275),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1910-03-27'),
+			'UNTIL' => date_create('2195-03-29'),
+
+		));
+		// 12
+		// DTSTART;VALUE=DATE:19110416
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=14,15,16,17,18,19,20;BYDAY=SU;UNTIL=21960417
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-262,-261,-260,-259,-258,-257,-256),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1911-04-16'),
+			'UNTIL' => date_create('2196-04-17'),
+
+		));
+		// 13
+		// DTSTART;VALUE=DATE:19120407
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=3,4,5,6,7,8,9;BYDAY=SU;UNTIL=21970409
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-273,-272,-271,-270,-269,-268,-267),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1912-04-07'),
+			'UNTIL' => date_create('2197-04-09'),
+
+		));
+		// 14
+		// DTSTART;VALUE=DATE:19130323
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=3;BYMONTHDAY=23,24,25,26,27,28,29;BYDAY=SU;UNTIL=21980325
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-284,-283,-282,-281,-280,-279,-278),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1913-03-23'),
+			'UNTIL' => date_create('2198-03-25'),
+
+		));
+		// 15
+		// DTSTART;VALUE=DATE:19140412
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=11,12,13,14,15,16,17;BYDAY=SU;UNTIL=21990414
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-265,-264,-263,-262,-261,-260,-259),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1914-04-12'),
+			'UNTIL' => date_create('2199-04-14'),
+		
+		));
+		// 16
+		// DTSTART;VALUE=DATE:19150404
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=3;BYMONTHDAY=31;BYDAY=SU;UNTIL=21430331
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=1,2,3,4,5,6;BYDAY=SU;UNTIL=21810401
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-276,-275,-274,-273,-272,-271,-270),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1915-04-04'),
+			'UNTIL' => date_create('2181-04-01'),
+		
+		));
+		// 17
+		// DTSTART;VALUE=DATE:19160423
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=18,19,20,21,22,23,24;BYDAY=SU;UNTIL=21820421
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-258,-257,-256,-255,-254,-253,-252),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1916-04-23'),
+			'UNTIL' => date_create('2182-04-21'),
+
+		));
+		// 18
+		// DTSTART;VALUE=DATE:19170408
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=8,9,10,11,12,13,14;BYDAY=SU;UNTIL=21830413
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-268,-267,-266,-265,-264,-263,-262),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1917-04-08'),
+			'UNTIL' => date_create('2183-04-13'),
+
+		));
+		// 19
+		// DTSTART;VALUE=DATE:19180331
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=3;BYMONTHDAY=28,29,30,31;BYDAY=SU;UNTIL=21840328
+		// RRULE:FREQ=YEARLY;INTERVAL=19;BYMONTH=4;BYMONTHDAY=1,2,3;BYDAY=SU;UNTIL=21460403
+		$rset->addRRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 19,
+			'BYYEARDAY' => array(-279,-278,-277,-276,-275,-274,-273),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1918-03-31'),
+			'UNTIL' => date_create('2184-03-28'),
+
+		));
+		// Exclude dates up unto today
+		$rset->addExRule(array(
+			'FREQ' => 'YEARLY',
+			'INTERVAL' => 1,
+			'BYMONTH' => array(3,4),
+			'BYDAY' => 'SU',
+			'DTSTART' => date_create('1900-01-01'),
+			'UNTIL' => date_create(),
+
+		));
+		return array($rset[0],$rset[1],$rset[2],$rset[3],$rset[4]);
 	}
 
 	/**
