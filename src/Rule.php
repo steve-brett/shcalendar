@@ -259,14 +259,14 @@ class Rule
 		}
 
 		try{
-			$rrule = new \RRule\RRule($this->rfc5545($rule) . ';COUNT=' . $count );
+			$dates = new \RRule\RRule($this->rfc5545($rule) . ';COUNT=' . $count );
 		}
 		catch (\Exception $e) 
 		{
 			throw $e;
 		}
 
-		return $rrule;
+		return $dates;
 	}
 
 	/**
