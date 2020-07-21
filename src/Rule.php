@@ -249,6 +249,26 @@ class Rule
 		return ucfirst( $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName );
 	}
 
+	public function get_dates( $rule, int $count ) : RRule
+	{
+		if (
+			$count < 1 ||
+			$count > 100
+		) {
+			throw new \InvalidArgumentException('$count must be between 1 and 100. Got [' . $count . ']');
+		}
+
+		try{
+			$rrule = new \RRule\RRule($this->rfc5545($rule) . ';COUNT=' . $count );
+		}
+		catch (\Exception $e) 
+		{
+			throw $e;
+		}
+
+		return $rrule;
+	}
+
 	/**
 	 * Returns RFC5545 valid reccurence rules for special dates
 	 *

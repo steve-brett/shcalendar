@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <dl class="govuk-summary-list">                                        <?php 
                                         try 
                                         {
-                                            $rrule = new \RRule\RRule($rule->rfc5545($formula) . ';COUNT=5' );
+                                            $rrule = $rule->get_dates($formula, 5);
                                             foreach ($rrule as $occurrence ) {
                                                 ?>
                                                   <div class="govuk-summary-list__row">
