@@ -25,9 +25,8 @@ class Rule
 
 	/**
 	 * Weekdays numbered from 1 (ISO-8601 or `date('N')`).
-	 * Used internally but public if a reference list is needed.
 	 *
-	 * @var array The name as the key
+	 * @var array
 	 */
 	protected static $week_days = array(
 		1 => 'Monday',
@@ -202,12 +201,12 @@ class Rule
 
 		'palmSunday' => array(
 			'rule' => '',
-			'byyearday' => '',
+			'byday' => 'SU',
 			'category' => 'easter'),
 
 		'easter' => array(
 			'rule' => '',
-			'byyearday' => '',
+			'byday' => 'SU',
 			'category' => 'easter'),
 
 		'mayDay' => array(
@@ -378,6 +377,11 @@ class Rule
 			('easter' === $rule['SPECIAL'])
 		)
 		{
+			if ( isset( $rule['OFFSET'] ) )
+			{
+				$offset_n = $this->calculate_offset_days( 'SU', $rule['OFFSET'] );
+				return $this->rfc5545_easter($rule, $offset_n);
+			}
 			return $this->rfc5545_easter($rule, 0);
 		}
 
@@ -386,6 +390,11 @@ class Rule
 			('palmSunday' === $rule['SPECIAL'] )
 		)
 		{
+			if ( isset( $rule['OFFSET'] ) )
+			{
+				$offset_n = $this->calculate_offset_days( 'SU', $rule['OFFSET'] );
+				return $this->rfc5545_easter($rule, $offset_n -7);
+			}
 			return $this->rfc5545_easter($rule, -7);
 		}
 
@@ -439,13 +448,19 @@ class Rule
 	{
 		$rset = new \RRule\RSet();
 
+		$day = 'SU';
+		if ( isset( $rule['OFFSET'] ) )
+		{
+			$day = substr($rule['OFFSET'], -2);
+		}
+
 		foreach ($this::$metonic_cycle as $cycle)
 		{
 			$rset->addRRule(array(
 				'FREQ' => 'YEARLY',
 				'INTERVAL' => 19,
 				'BYYEARDAY' => $this->offset_byyearday($cycle['BYYEARDAY'], $offset),
-				'BYDAY' => 'SU',
+				'BYDAY' => $day,
 				'DTSTART' => date_create($cycle['DTSTART']),
 				'UNTIL' => date_create($cycle['UNTIL']),
 			));
@@ -455,8 +470,8 @@ class Rule
 		$rset->addExRule(array(
 			'FREQ' => 'YEARLY',
 			'INTERVAL' => 1,
-			'BYMONTH' => array(3,4),
-			'BYDAY' => 'SU',
+			'BYMONTH' => array(3,4,5),
+			'BYMONTHDAY' => range(1,31),
 			'DTSTART' => date_create('1900-01-01'),
 			'UNTIL' => date_create(),
 
