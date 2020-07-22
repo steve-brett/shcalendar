@@ -357,7 +357,14 @@ class Rule
 		return ucfirst( $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName );
 	}
 
-	public function get_dates( $rule, int $count )
+	/**
+	 * Get $count upcoming dates for $rule.
+	 *
+	 * @param array $rule
+	 * @param integer $count <= 100
+	 * @return array|RRule
+	 */
+	public function get_dates( array $rule, int $count ) 
 	{
 		if (
 			$count < 1 ||
@@ -368,9 +375,7 @@ class Rule
 
 		if ( 
 			isset( $rule['SPECIAL'] ) &&
-			('easter' === $rule['SPECIAL']
-			// || 'palmSunday' === $rule['SPECIAL'] 
-			)
+			('easter' === $rule['SPECIAL'])
 		)
 		{
 			return $this->rfc5545_easter($rule, 0);
@@ -378,8 +383,7 @@ class Rule
 
 		if ( 
 			isset( $rule['SPECIAL'] ) &&
-			('palmSunday' === $rule['SPECIAL'] 
-			)
+			('palmSunday' === $rule['SPECIAL'] )
 		)
 		{
 			return $this->rfc5545_easter($rule, -7);
