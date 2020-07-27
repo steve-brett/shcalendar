@@ -736,17 +736,30 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                 ]
             ],
 
-            //    [[
-            //     'NTHSUN' => ['BYMONTH' => 6,
-            //                    'BYDAY' => '1SU',
-            //                   'OFFSET' => '-1FR',
-            //              'STARTOFFSET' => -2],
-            //    'LASTDAY' => ['BYMONTH' => 5,
-            //                    'BYDAY' => '-1FR',
-            //              'STARTOFFSET' => -2],
-            //   ], 
-            //   ['start' => '2019-05-29T10:30:00+00:00',
-            //      'end' => '2019-05-31T16:00:00+00:00']],
+            [
+                [
+                    'NTHSUN' => [
+                        'BYMONTH' => 6,
+                        'BYDAY' => '1SU',
+                        'OFFSET' => '-1FR',
+                        'STARTOFFSET' => -2
+                    ],
+                    'LASTDAY' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '-1FR',
+                        'STARTOFFSET' => -2
+                    ],
+                    'SPECIAL' => [
+                        'SPECIAL' => 'whitsun',
+                        'OFFSET' => '1FR',
+                        'STARTOFFSET' => -2
+                    ],
+                ],
+                [
+                    'start' => '2019-05-29T10:30:00+00:00',
+                    'end' => '2019-05-31T16:00:00+00:00'
+                ]
+            ],
 
         ];
     }
