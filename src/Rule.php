@@ -359,6 +359,9 @@ class Rule
 			$day = \RRule\RRule::$week_days[substr($rule['BYDAY'], -2)];
 			$startOffsetDay = ($day + $rule['STARTOFFSET']) % 7;
 			$startOffsetDay = $this::$week_days[$startOffsetDay];
+			if ($rule['STARTOFFSET'] == -2){
+				$startOffsetDay .= ' and Saturday';
+			}
 			$startOffset = ' and the ' . $startOffsetDay . ' before';
 		}
 
