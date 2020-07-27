@@ -681,32 +681,60 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
                 ]
             ],
 
-            // [[
-            //   'NTHSUN' => ['BYMONTH' => 5,
-            //                  'BYDAY' => '4SU',
-            //            'STARTOFFSET' => -1],
-            //  'LASTSUN' => ['BYMONTH' => 5,
-            //                  'BYDAY' => '-1SU',
-            //            'STARTOFFSET' => -1],
-            // ], 
-            // ['start' => '2019-05-25T10:30:00+00:00',
-            //    'end' => '2019-05-26T16:00:00+00:00']],
+            [
+                [
+                    'NTHSUN' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '4SU',
+                        'STARTOFFSET' => -1
+                    ],
+                    'LASTSUN' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '-1SU',
+                        'STARTOFFSET' => -1
+                    ],
+                    'SPECIAL' => [
+                        'SPECIAL' => 'whitsun',
+                        'OFFSET' => '-1SU',
+                        'STARTOFFSET' => -1
+                    ],
+                ],
+                [
+                    'start' => '2019-05-25T10:30:00+00:00',
+                    'end' => '2019-05-26T16:00:00+00:00'
+                ]
+            ],
 
-            //    [[
-            //     'NTHSUN' => ['BYMONTH' => 5,
-            //                    'BYDAY' => '4SU',
-            //                   'OFFSET' => '-1FR',
-            //              'STARTOFFSET' => -1],
-            //     'NTHDAY' => ['BYMONTH' => 5,
-            //                    'BYDAY' => '4FR',
-            //              'STARTOFFSET' => -1],
-            //     'LASTSUN' => ['BYMONTH' => 5,
-            //                    'BYDAY' => '-1SU',
-            //                   'OFFSET' => '-1FR',
-            //              'STARTOFFSET' => -1],
-            //   ], 
-            //   ['start' => '2019-05-23T10:30:00+00:00',
-            //      'end' => '2019-05-24T16:00:00+00:00']],
+            [
+                [
+                    'NTHSUN' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '4SU',
+                        'OFFSET' => '-1FR',
+                        'STARTOFFSET' => -1
+                    ],
+                    'NTHDAY' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '4FR',
+                        'STARTOFFSET' => -1
+                    ],
+                    'LASTSUN' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '-1SU',
+                        'OFFSET' => '-1FR',
+                        'STARTOFFSET' => -1
+                    ],
+                    'SPECIAL' => [
+                        'SPECIAL' => 'whitsun',
+                        'OFFSET' => '-1FR',
+                        'STARTOFFSET' => -1
+                    ],
+                ],
+                [
+                    'start' => '2019-05-23T10:30:00+00:00',
+                    'end' => '2019-05-24T16:00:00+00:00'
+                ]
+            ],
 
             //    [[
             //     'NTHSUN' => ['BYMONTH' => 6,
