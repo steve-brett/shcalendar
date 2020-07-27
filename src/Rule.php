@@ -356,7 +356,10 @@ class Rule
 
 		if (isset($rule['STARTOFFSET'])) 
 		{
-			$startOffset = ' and the Saturday before';
+			$day = \RRule\RRule::$week_days[substr($rule['BYDAY'], -2)];
+			$startOffsetDay = ($day + $rule['STARTOFFSET']) % 7;
+			$startOffsetDay = $this::$week_days[$startOffsetDay];
+			$startOffset = ' and the ' . $startOffsetDay . ' before';
 		}
 
 		return ucfirst( $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName . $startOffset );
