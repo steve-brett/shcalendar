@@ -631,6 +631,11 @@ class Rule
 			throw new \InvalidArgumentException('BYMONTH is required.');
 		}
 
+		if (isset($rule['STARTOFFSET']) && $rule['STARTOFFSET'] > 0)
+		{
+			throw new \InvalidArgumentException('STARTOFFSET cannot be positive. Got [' . $rule['STARTOFFSET'] . ']');
+		}
+
 
 		// Validate using RRule
 		try 
