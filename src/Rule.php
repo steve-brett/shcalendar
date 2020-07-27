@@ -324,6 +324,7 @@ class Rule
 			throw $e;
 		}
 		$offset = '';
+		$startOffset = '';
 
 		if ( isset( $rule['OFFSET'] ) )
 		{
@@ -353,7 +354,12 @@ class Rule
 			$ordinal = 'last';
 		}
 
-		return ucfirst( $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName );
+		if (isset($rule['STARTOFFSET'])) 
+		{
+			$startOffset = ' and the Saturday before';
+		}
+
+		return ucfirst( $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName . $startOffset );
 	}
 
 	/**
