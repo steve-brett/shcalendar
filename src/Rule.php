@@ -636,6 +636,11 @@ class Rule
 			throw new \InvalidArgumentException('STARTOFFSET cannot be positive. Got [' . $rule['STARTOFFSET'] . ']');
 		}
 
+		if (isset($rule['STARTOFFSET']) && $rule['STARTOFFSET'] < -6)
+		{
+			throw new \InvalidArgumentException('STARTOFFSET must be between -1 and -6. Got [' . $rule['STARTOFFSET'] . ']');
+		}
+
 
 		// Validate using RRule
 		try 
