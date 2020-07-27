@@ -631,6 +631,11 @@ class Rule
 			throw new \InvalidArgumentException('BYMONTH is required.');
 		}
 
+		if (isset($rule['STARTOFFSET']) && !is_integer( $rule['STARTOFFSET'] ) )
+		{
+			throw new \InvalidArgumentException('STARTOFFSET must be an integer. Got [' . $rule['STARTOFFSET'] . ']');
+		}
+
 		if (isset($rule['STARTOFFSET']) && $rule['STARTOFFSET'] > 0)
 		{
 			throw new \InvalidArgumentException('STARTOFFSET cannot be positive. Got [' . $rule['STARTOFFSET'] . ']');
