@@ -335,21 +335,6 @@ class Rule
 			return $this::$specials[$rule['SPECIAL']];
 		}
 
-		$dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
-		$monthName = $dateObj->format('F');
-
-		$dayName = $this::$week_day_abbrev[substr($rule['BYDAY'], -2)];
-
-		$ordinal = substr($rule['BYDAY'], 0, -2);
-		$formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
-		$formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
-		$ordinal = $formatter->format($ordinal);
-
-		if (substr($rule['BYDAY'], 0, 1) == '-')
-		{
-			$ordinal = 'last';
-		}
-
 		if (isset($rule['STARTOFFSET'])) 
 		{
 			// Get reference day in ISO-8601 integer format
@@ -377,7 +362,7 @@ class Rule
 			$startOffset = ' and the ' . $startOffsetDay . ' before';
 		}
 
-		return 'The '. $ordinal . ' ' . $dayName . ' in ' . $monthName . $startOffset ;
+		return ucfirst($this->readable_standard($rule)) . $startOffset ;
 	}
 
 	protected function readable_offset( array $rule ) : string
@@ -397,7 +382,18 @@ class Rule
 		{
 			return $offset . $this::$specials[$rule['SPECIAL']];
 		}
+		
+		return $offset . $this->readable_standard($rule);
+	}
 
+	/**
+	 * Readable output for nth Day rules.
+	 *
+	 * @param array $rule
+	 * @return string
+	 */
+	protected function readable_standard (array $rule) : string
+	{
 		$dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
 		$monthName = $dateObj->format('F');
 
@@ -413,8 +409,7 @@ class Rule
 			$ordinal = 'last';
 		}
 
-		
-		return $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName;
+		return 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName;
 	}
 
 	/**
