@@ -323,20 +323,16 @@ class Rule
 		} catch (\Exception $e) {
 			throw $e;
 		}
-		$offset = '';
 		$startOffset = '';
 
 		if ( isset( $rule['OFFSET'] ) )
 		{
-			$offset_sign = (int) substr($rule['OFFSET'], 0, -2);
-			$modifier = ( $offset_sign > 0 ) ? ' after ' : ' before '; 
-
-			$offset = 'The ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
+			return $this->readable_offset($rule);
 		}
 
 		if ( isset($rule['SPECIAL']) )
 		{
-			return $offset . $this::$specials[$rule['SPECIAL']];
+			return $this::$specials[$rule['SPECIAL']];
 		}
 
 		$dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
@@ -381,7 +377,44 @@ class Rule
 			$startOffset = ' and the ' . $startOffsetDay . ' before';
 		}
 
-		return ucfirst( $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName . $startOffset );
+		return 'The '. $ordinal . ' ' . $dayName . ' in ' . $monthName . $startOffset ;
+	}
+
+	protected function readable_offset( array $rule ) : string
+	{
+
+		$offset_sign = (int) substr($rule['OFFSET'], 0, -2);
+		$modifier = ( $offset_sign > 0 ) ? ' after ' : ' before '; 
+
+		$offset = 'The ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
+
+		if ( isset($rule['STARTOFFSET']))
+		{
+			$offset = 'The Friday and ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
+		}
+
+		if ( isset($rule['SPECIAL']) )
+		{
+			return $offset . $this::$specials[$rule['SPECIAL']];
+		}
+
+		$dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']) );
+		$monthName = $dateObj->format('F');
+
+		$dayName = $this::$week_day_abbrev[substr($rule['BYDAY'], -2)];
+
+		$ordinal = substr($rule['BYDAY'], 0, -2);
+		$formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
+		$formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
+		$ordinal = $formatter->format($ordinal);
+
+		if (substr($rule['BYDAY'], 0, 1) == '-')
+		{
+			$ordinal = 'last';
+		}
+
+		
+		return $offset . 'the '. $ordinal . ' ' . $dayName . ' in ' . $monthName;
 	}
 
 	/**
