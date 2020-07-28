@@ -381,8 +381,13 @@ class Rule
 			// We have to use pymod() as PHP's % returns negative 
 			$startOffsetDayN = \RRule\pymod($dayN + $rule['STARTOFFSET'], 7);
 			$startOffsetDay = $this::$week_days[$startOffsetDayN];
+
+			$joiner = ' and ';
+			if ($rule['STARTOFFSET'] < -1) {
+				$joiner = ' to ';
+			}
 	
-			$offset = 'The ' . $startOffsetDay . ' and ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
+			$offset = 'The ' . $startOffsetDay . $joiner . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
 		}
 
 		if ( isset($rule['SPECIAL']) )
