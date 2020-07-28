@@ -350,7 +350,6 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'STARTOFFSET' => -6,
                 ]
             ],
-            
 
         ];
     }
@@ -358,6 +357,29 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
      * @dataProvider startOffsetOfMultipleDaysReturnsCorrectDayInReadableOutputDataProvider
      */
     public function testStartOffsetOfMultipleDaysReturnsCorrectDayInReadableOutput(string $expectedValue, array $inputValue): void
+    {
+        $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
+    }
+
+    public function startOffsetWithOffsetReturnsCorrectDayInReadableOutputDataProvider(): array
+    {
+        return [
+            [
+                'The Friday and Saturday before the first Sunday in May',
+                [
+                    'BYMONTH' => 5,
+                    'BYDAY' => '1SU',
+                    'OFFSET' => '-1SA',
+                    'STARTOFFSET' => -1,
+                ]
+            ],
+
+        ];
+    }
+    /**
+     * @dataProvider startOffsetWithOffsetReturnsCorrectDayInReadableOutputDataProvider
+     */
+    public function testStartOffsetWithOffsetReturnsCorrectDayInReadableOutput(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
     }
