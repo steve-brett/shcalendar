@@ -357,10 +357,13 @@ class Rule
 		if (isset($rule['STARTOFFSET'])) 
 		{
 			$day = \RRule\RRule::$week_days[substr($rule['BYDAY'], -2)];
-			$startOffsetDay = ($day + $rule['STARTOFFSET']) % 7;
+			$startOffsetDay = \RRule\pymod($day + $rule['STARTOFFSET'], 7);
 			$startOffsetDay = $this::$week_days[$startOffsetDay];
 			if ($rule['STARTOFFSET'] == -2){
-				$startOffsetDay .= ' and Saturday';
+				$startOffsetDay2 = \RRule\pymod($day - 1, 7);
+				$startOffsetDay2 = $this::$week_days[$startOffsetDay2];
+
+				$startOffsetDay .= ' and ' . $startOffsetDay2;
 			}
 			$startOffset = ' and the ' . $startOffsetDay . ' before';
 		}
