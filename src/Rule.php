@@ -375,7 +375,14 @@ class Rule
 
 		if ( isset($rule['STARTOFFSET']))
 		{
-			$offset = 'The Friday and ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
+			$dayN = \RRule\RRule::$week_days[substr($rule['OFFSET'], -2)];
+		
+			// Add the offset to find the start date
+			// We have to use pymod() as PHP's % returns negative 
+			$startOffsetDayN = \RRule\pymod($dayN + $rule['STARTOFFSET'], 7);
+			$startOffsetDay = $this::$week_days[$startOffsetDayN];
+	
+			$offset = 'The ' . $startOffsetDay . ' and ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
 		}
 
 		if ( isset($rule['SPECIAL']) )
