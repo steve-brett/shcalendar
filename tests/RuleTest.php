@@ -342,6 +342,15 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'STARTOFFSET' => -3,
                 ]
             ],
+            [
+                'The first Wednesday in May and the Thursday to Tuesday before',
+                [
+                    'BYMONTH' => 5,
+                    'BYDAY' => '1WE',
+                    'STARTOFFSET' => -6,
+                ]
+            ],
+            
 
         ];
     }
