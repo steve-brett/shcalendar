@@ -371,6 +371,13 @@ class Rule
 
 				$startOffsetDay .= ' and ' . $startOffsetDay2;
 			}
+			if ($rule['STARTOFFSET'] < -2){
+				// e.g. 'and the Thursday to Saturday before
+				$startOffsetDay2N = \RRule\pymod($dayN - 1, 7);
+				$startOffsetDay2 = $this::$week_days[$startOffsetDay2N];
+
+				$startOffsetDay .= ' to ' . $startOffsetDay2;
+			}
 			$startOffset = ' and the ' . $startOffsetDay . ' before';
 		}
 
