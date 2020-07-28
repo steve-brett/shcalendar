@@ -356,12 +356,18 @@ class Rule
 
 		if (isset($rule['STARTOFFSET'])) 
 		{
-			$day = \RRule\RRule::$week_days[substr($rule['BYDAY'], -2)];
-			$startOffsetDay = \RRule\pymod($day + $rule['STARTOFFSET'], 7);
-			$startOffsetDay = $this::$week_days[$startOffsetDay];
+			// Get reference day in ISO-8601 integer format
+			$dayN = \RRule\RRule::$week_days[substr($rule['BYDAY'], -2)];
+		
+			// Add the offset to find the start date
+			// We have to use pymod() as PHP's % returns negative 
+			$startOffsetDayN = \RRule\pymod($dayN + $rule['STARTOFFSET'], 7);
+			$startOffsetDay = $this::$week_days[$startOffsetDayN];
+
 			if ($rule['STARTOFFSET'] == -2){
-				$startOffsetDay2 = \RRule\pymod($day - 1, 7);
-				$startOffsetDay2 = $this::$week_days[$startOffsetDay2];
+				// e.g. 'and the Friday and Saturday before
+				$startOffsetDay2N = \RRule\pymod($dayN - 1, 7);
+				$startOffsetDay2 = $this::$week_days[$startOffsetDay2N];
 
 				$startOffsetDay .= ' and ' . $startOffsetDay2;
 			}
