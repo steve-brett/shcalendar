@@ -430,6 +430,20 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'STARTOFFSET' => -1,
                 ]
             ],
+            [
+                'New Year\'s Day and the two preceding days',
+                [
+                    'SPECIAL' => 'newYear',
+                    'STARTOFFSET' => -2,
+                ]
+            ],
+            [
+                'New Year\'s Day and the six preceding days',
+                [
+                    'SPECIAL' => 'newYear',
+                    'STARTOFFSET' => -6,
+                ]
+            ],
 
         ];
     }
