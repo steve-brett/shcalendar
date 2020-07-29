@@ -328,6 +328,9 @@ class Rule
         }
 
         if (isset($rule['SPECIAL'])) {
+            if (isset($rule['STARTOFFSET'])) {
+                return $this::$specials[$rule['SPECIAL']] . ' and the day before';
+            }
             return $this::$specials[$rule['SPECIAL']];
         }
 
