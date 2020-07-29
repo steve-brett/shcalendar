@@ -376,10 +376,7 @@ class Rule
             $startOffsetDay = $this::$week_days[$startOffsetDayN];
 
             if ($rule['STARTOFFSET'] < -1) {
-                $joiner = ' and ';
-                if ($rule['STARTOFFSET'] < -2) {
-                    $joiner = ' to ';
-                }
+                $joiner = ($rule['STARTOFFSET'] < -2) ? ' to ' : ' and ';
 
                 // e.g. 'and the Thursday to Saturday before
                 $startOffsetDay2N = \RRule\pymod($dayN - 1, 7);
@@ -404,10 +401,7 @@ class Rule
             $startOffsetDayN = \RRule\pymod($dayN + $rule['STARTOFFSET'], 7);
             $startOffsetDay = $this::$week_days[$startOffsetDayN];
 
-            $joiner = ' and ';
-            if ($rule['STARTOFFSET'] < -1) {
-                $joiner = ' to ';
-            }
+            $joiner = ($rule['STARTOFFSET'] < -1) ? ' to ' : ' and ';
 
             $offset = 'The ' . $startOffsetDay . $joiner . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
             return $offset . $this->readable_standard($rule);
