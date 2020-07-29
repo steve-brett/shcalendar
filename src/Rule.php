@@ -329,7 +329,13 @@ class Rule
 
         if (isset($rule['SPECIAL'])) {
             if (isset($rule['STARTOFFSET'])) {
-                return $this::$specials[$rule['SPECIAL']] . ' and the day before';
+                if ($rule['STARTOFFSET'] == -1) {
+                    return $this::$specials[$rule['SPECIAL']] . ' and the day before';
+                }
+                $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
+                $startoffset_count = $formatter->format(abs($rule['STARTOFFSET']));
+
+                return $this::$specials[$rule['SPECIAL']] . ' and the ' . $startoffset_count . ' preceding days';
             }
             return $this::$specials[$rule['SPECIAL']];
         }
