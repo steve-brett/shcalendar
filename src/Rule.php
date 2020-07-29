@@ -411,6 +411,11 @@ class Rule
             $joiner = ($rule['STARTOFFSET'] < -1) ? ' to ' : ' and ';
 
             $offset = 'The ' . $startOffsetDay . $joiner . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
+
+            if (isset($rule['SPECIAL'])) {
+                return $offset . $this::$specials[$rule['SPECIAL']];
+            }
+
             return $offset . $this->readable_standard($rule);
         }
 
