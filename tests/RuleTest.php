@@ -7,7 +7,7 @@ namespace SHCalendar\Test;
 use SHCalendar\Rule;
 use PHPUnit\Framework\TestCase;
 
-class RuleTest extends TestCase  # Has to be [ClassName]Test
+class RuleTest extends TestCase # Has to be [ClassName]Test
 {
     /**
      * @var Rule
@@ -391,6 +391,24 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                     'STARTOFFSET' => -2,
                 ]
             ],
+            [
+                'The Monday after first Sunday in May and the Sunday before',
+                [
+                    'BYMONTH' => 5,
+                    'BYDAY' => '1SU',
+                    'OFFSET' => '1MO',
+                    'STARTOFFSET' => -1,
+                ]
+            ],
+            [
+                'The Monday after first Sunday in May and the Saturday and Sunday before',
+                [
+                    'BYMONTH' => 5,
+                    'BYDAY' => '1SU',
+                    'OFFSET' => '1MO',
+                    'STARTOFFSET' => -2,
+                ]
+            ],
 
         ];
     }
@@ -747,7 +765,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 ]
             ],
             // TODO: Palm Sunday/Easter are tricky for RRULE
-            
+
             [
                 'FREQ=YEARLY;INTERVAL=1;BYMONTH=5;BYDAY=1MO',
                 [
@@ -1067,7 +1085,7 @@ class RuleTest extends TestCase  # Has to be [ClassName]Test
                 [-7,-6,-5,-4,-3,-2,-1],
                 4
             ],
-            
+
 
         ];
     }
