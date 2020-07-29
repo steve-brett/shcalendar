@@ -364,6 +364,9 @@ class Rule
 
         $offset = 'The ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
 
+        /**
+         * Positive OFFSET combined with (always) negative STARTOFFSET
+         */
         if ($offset_sign > 0 && isset($rule['STARTOFFSET'])) {
             $dayN = \RRule\RRule::$week_days[substr($rule['OFFSET'], -2)];
 
@@ -390,6 +393,9 @@ class Rule
             return $offset . $this->readable_standard($rule) . $startOffset;
         }
 
+        /**
+         * Negative OFFSET combined with (always) negative STARTOFFSET
+         */
         if (isset($rule['STARTOFFSET'])) {
             $dayN = \RRule\RRule::$week_days[substr($rule['OFFSET'], -2)];
 
