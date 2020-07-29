@@ -447,10 +447,34 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
 
         ];
     }
+
     /**
      * @dataProvider startOffsetWithSpecialReturnsCorrectReadableOutputDataProvider
      */
     public function testStartOffsetWithSpecialReturnsCorrectReadableOutput(string $expectedValue, array $inputValue): void
+    {
+        $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
+    }
+
+    public function startOffsetWithSpecialOffsetReturnsCorrectReadableOutputDataProvider(): array
+    {
+        return [
+            [
+                'The Friday and Saturday before New Year\'s Day',
+                [
+                    'SPECIAL' => 'newYear',
+                    'OFFSET' => '-1SA',
+                    'STARTOFFSET' => -1,
+                ]
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider startOffsetWithSpecialOffsetReturnsCorrectReadableOutputDataProvider
+     */
+    public function testStartOffsetWithSpecialOffsetReturnsCorrectReadableOutput(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
     }
