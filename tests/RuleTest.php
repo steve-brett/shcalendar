@@ -392,7 +392,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                 ]
             ],
             [
-                'The Monday after first Sunday in May and the Sunday before',
+                'The Monday after the first Sunday in May and the Sunday before',
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
@@ -401,7 +401,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                 ]
             ],
             [
-                'The Monday after first Sunday in May and the Saturday and Sunday before',
+                'The Monday after the first Sunday in May and the Saturday and Sunday before',
                 [
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
