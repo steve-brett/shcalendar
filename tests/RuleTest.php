@@ -467,6 +467,30 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'STARTOFFSET' => -1,
                 ]
             ],
+            [
+                'The Thursday and Friday before New Year\'s Day',
+                [
+                    'SPECIAL' => 'newYear',
+                    'OFFSET' => '-1FR',
+                    'STARTOFFSET' => -1,
+                ]
+            ],
+            [
+                'The Wednesday to Friday before New Year\'s Day',
+                [
+                    'SPECIAL' => 'newYear',
+                    'OFFSET' => '-1FR',
+                    'STARTOFFSET' => -2,
+                ]
+            ],
+            [
+                'The Saturday after New Year\'s Day and the Friday before',
+                [
+                    'SPECIAL' => 'newYear',
+                    'OFFSET' => '1SA',
+                    'STARTOFFSET' => -1,
+                ]
+            ],
 
         ];
     }
