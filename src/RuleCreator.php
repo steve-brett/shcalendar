@@ -333,6 +333,30 @@ class RuleCreator
             }
         }
 
+        // non-standard South West singing formula:
+        switch (date("w", strtotime("$year-05-31 00:00:00"))) {
+            case 0:
+                $specials['southWestWhitsun'] = "$year-06-06";
+                break;
+            case 1:
+                $specials['southWestWhitsun'] = "$year-06-12";
+                break;
+            case 2:
+                $specials['southWestWhitsun'] = "$year-06-11";
+                break;
+            case 3:
+                $specials['southWestWhitsun'] = "$year-06-10";
+                break;
+            case 4:
+                $specials['southWestWhitsun'] = "$year-06-09";
+                break;
+            case 5:
+                $specials['southWestWhitsun'] = "$year-06-08";
+                break;
+            case 6:
+                $specials['southWestWhitsun'] = "$year-06-07";
+                break;
+        }
 
         // Independence Day
         $specials['independence'] = "$year-07-04";
@@ -389,6 +413,31 @@ class RuleCreator
                 break;
         }
 
+
+        // non-standard Scottish Shenandoah formula:
+        switch (date("w", strtotime("$year-10-16 00:00:00"))) {
+            case 0:
+                $specials['scottishShenandoah'] = "$year-10-22";
+                break;
+            case 1:
+                $specials['scottishShenandoah'] = "$year-10-21";
+                break;
+            case 2:
+                $specials['scottishShenandoah'] = "$year-10-20";
+                break;
+            case 3:
+                $specials['scottishShenandoah'] = "$year-10-19";
+                break;
+            case 4:
+                $specials['scottishShenandoah'] = "$year-10-18";
+                break;
+            case 5:
+                $specials['scottishShenandoah'] = "$year-10-17";
+                break;
+            case 6:
+                $specials['scottishShenandoah'] = "$year-10-16";
+                break;
+        }
 
         // Thanksgiving: (Fourth Thu in Nov)
         switch (date("w", strtotime("$year-11-24 00:00:00"))) {

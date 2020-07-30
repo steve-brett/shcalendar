@@ -73,8 +73,10 @@ class Rule
         'mayDay' => 'May Day bank holiday',
         'whitsun' => 'the Whitsun bank holiday',
         'independence' => 'Independence Day',
+        'southWestWhitsun' => 'the second Saturday after the Whitsun bank holiday',
         '5SU47' => 'the first fifth Sunday after the 4th July',
         'summer' => 'the summer bank holiday',
+        'scottishShenandoah' => 'the Saturday after the third Friday in October',
         'thanksgiving' => 'Thanksgiving',
         'christmas' => 'Christmas Day',
         'boxingDay' => 'Boxing Day',
@@ -222,6 +224,12 @@ class Rule
             'byday' => 'MO',
             'category' => 'fixedDay'),
 
+        'southWestWhitsun' => array(
+            'rule' => 'BYDAY=SA;BYYEARDAY=-209,-208,-207,-206,-205,-204,-203',
+            'byyearday' => array(-209,-208,-207,-206,-205,-204,-203),
+            'byday' => 'SA',
+            'category' => 'fixedDay'),
+
         'independence' => array(
             'rule' => 'BYMONTH=7;BYMONTHDAY=4',
             'byyearday' => -181,
@@ -237,6 +245,12 @@ class Rule
             'rule' => 'BYMONTH=8;BYDAY=-1MO',
             'byyearday' => array(-129,-128,-127,-126,-125,-124,-123),
             'byday' => 'MO',
+            'category' => 'fixedDay'),
+
+        'scottishShenandoah' => array(
+            'rule' => 'BYDAY=SA;BYYEARDAY=-77,-76,-75,-74,-73,-72,-71',
+            'byyearday' => array(-77,-76,-75,-74,-73,-72,-71),
+            'byday' => 'SA',
             'category' => 'fixedDay'),
 
         'thanksgiving' => array(
@@ -392,9 +406,9 @@ class Rule
                 $startOffsetDay .= $joiner . $startOffsetDay2;
             }
 
-			$startOffset = ' and the ' . $startOffsetDay . ' before';
-			
-			if (isset($rule['SPECIAL'])) {
+            $startOffset = ' and the ' . $startOffsetDay . ' before';
+
+            if (isset($rule['SPECIAL'])) {
                 return $offset . $this::$specials[$rule['SPECIAL']] . $startOffset;
             }
 
