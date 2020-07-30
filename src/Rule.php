@@ -392,7 +392,11 @@ class Rule
                 $startOffsetDay .= $joiner . $startOffsetDay2;
             }
 
-            $startOffset = ' and the ' . $startOffsetDay . ' before';
+			$startOffset = ' and the ' . $startOffsetDay . ' before';
+			
+			if (isset($rule['SPECIAL'])) {
+                return $offset . $this::$specials[$rule['SPECIAL']] . $startOffset;
+            }
 
             return $offset . $this->readable_standard($rule) . $startOffset;
         }
