@@ -351,7 +351,7 @@ class Rule
 
                 return $this::$specials[$rule['SPECIAL']] . ' and the ' . $startoffset_count . ' preceding days';
             }
-            return $this::$specials[$rule['SPECIAL']];
+            return ucfirst($this::$specials[$rule['SPECIAL']]);
         }
 
         if (isset($rule['STARTOFFSET'])) {
