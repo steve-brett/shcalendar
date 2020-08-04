@@ -215,7 +215,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
             ],
 
             [
-                'the Whitsun bank holiday',
+                'The Whitsun bank holiday',
                 [
                     'SPECIAL' => 'whitsun',
                 ]
@@ -229,14 +229,14 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
             ],
 
             [
-                'the first fifth Sunday after the 4th July',
+                'The first fifth Sunday after the 4th July',
                 [
                     'SPECIAL' => '5SU47',
                 ]
             ],
 
             [
-                'the summer bank holiday',
+                'The summer bank holiday',
                 [
                     'SPECIAL' => 'summer',
                 ]
@@ -270,7 +270,6 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'OFFSET' => '-1SA',
                 ]
             ],
-
 
 
 
