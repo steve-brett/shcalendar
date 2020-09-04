@@ -474,9 +474,10 @@ class Rule
      *
      * @param array $rule
      * @param integer $count <= 100
+     * @param \DateTime|null $dtstart Start date, default now.
      * @return array|RRule
      */
-    public function get_dates(array $rule, int $count)
+    public function get_dates(array $rule, int $count, ?\DateTime $dtstart = null)
     {
         if (
             $count < 1 ||
@@ -507,6 +508,13 @@ class Rule
             return $this->rfc5545_easter($rule, -7);
         }
 
+        if ($dtstart) {
+            try {
+                $dates = new \RRule\RRule($this->rfc5545($rule) . ';COUNT=' . $count, $dtstart);
+            } catch (\Exception $e) {
+                throw $e;
+            }
+        }
 
         try {
             $dates = new \RRule\RRule($this->rfc5545($rule) . ';COUNT=' . $count);
