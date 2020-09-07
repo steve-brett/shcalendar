@@ -510,7 +510,7 @@ class Rule
 
         if ($dtstart) {
             try {
-                $dates = new \RRule\RRule($this->rfc5545($rule) . ';COUNT=' . $count, $dtstart);
+                return $dates = new \RRule\RRule($this->rfc5545($rule) . ';COUNT=' . $count, $dtstart);
             } catch (\Exception $e) {
                 throw $e;
             }
