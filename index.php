@@ -36,14 +36,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Please enter a valid year. ';
     }
 
+    if (isset($_POST['endDate-day']) ) {
+        $endDay = $_POST['endDate-day'];
+    }
+    if (isset($_POST['endDate-month']) ) {
+        $endMonth = $_POST['endDate-month'];
+    }
+    if (isset($_POST['endDate-year']) ) {
+        $endYear = $_POST['endDate-year'];
+    }
+
+    if (isset($endDay) && isset($endMonth) && isset($endYear)) {
+        var_dump ($endDay);
+
+        var_dump ($endMonth);
+        var_dump ($endYear);
+        // Add leading zeroes to day and month if necessary
+        $endDay = sprintf("%02d", $endDay);
+        $endMonth = sprintf("%02d", $endMonth);
+
+        // Validate the date
+        $endDateRaw = "$endYear-$endMonth-$endDay";
+        var_dump(validateDate($endDateRaw, "Y-m-d"));
+        if (validateDate($endDateRaw, "Y-m-d")) {
+            $formSuccess = true;
+        } else {
+            $formSuccess = false;
+            $errors[] = 'Please enter a valid end date. ';
+        }
+    }
+
     if (isset($day) && isset($month) && isset($year)) {
         // Add leading zeroes to day and month if necessary
         $day = sprintf("%02d", $day);
         $month = sprintf("%02d", $month);
 
         // Validate the date
-        $date = "$year-$month-$day";
-        if (validateDate($date, "Y-m-d")) {
+        $startDateRaw = "$year-$month-$day";
+        if (validateDate($startDateRaw, "Y-m-d")) {
             $formSuccess = true;
         } else {
             $formSuccess = false;
@@ -84,16 +114,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php if ($formSuccess === true) :?>
                         <?php
                         // Start of second page section -------------------------------
-                        $date = new \DateTime($date, new \DateTimeZone('UTC'));
+                        $startDate = new \DateTime($startDateRaw, new \DateTimeZone('UTC'));
+                        if (isset($endDateRaw)){
+                            $endDate = new \DateTime($endDateRaw, new \DateTimeZone('UTC'));
+                        } else {
+                            $endDate = null;
+                        }
+                        var_dump ($endDateRaw);
+
                         $creator = new RuleCreator;
-                        $formulae = $creator->create($date);
+                        $formulae = $creator->create($startDate, $endDate);
                         ?>
                         <div class="govuk-form-group">
                             <fieldset class="govuk-fieldset">
                                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
                                     <h1 class="govuk-fieldset__heading govuk-heading-xl">
                                         <?php
-                                        echo $date->format('l j F Y') . PHP_EOL;
+                                        if (isset($endDateRaw)) {
+                                            echo $startDate->format('j –') . PHP_EOL;
+                                            echo $endDate->format('j F Y') . PHP_EOL;
+                                        } else {
+                                            echo $startDate->format('l j F Y') . PHP_EOL;
+                                        }
                                         ?>
                                     </h1>
                                 </legend>
@@ -191,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         }
                                     } ?>
                                 </span>
-                                <div class="govuk-date-input govuk-form-inline" id="singDate">
+                                <div class="govuk-date-input govuk-form-inline govuk-!-margin-bottom-5" id="singDate">
                                     <div class="govuk-date-input__item">
                                         <div class="govuk-form-group">
                                             <label class="govuk-label govuk-date-input__label" for="singDate-day">
@@ -220,6 +262,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             <input value="<?php if (isset($year)) {
                                                                 echo $year;
                                                             } ?>" class="govuk-input govuk-date-input__input govuk-input--width-4" id="singDate-year" name="singDate-year" type="number" pattern="[0-9]*">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <span class="govuk-hint">
+                                    Optionally, you can add an end date for multi-day singings.
+                                </span>
+
+                                <div class="govuk-date-input govuk-form-inline" id="endDate">
+                                    <div class="govuk-date-input__item">
+                                        <div class="govuk-form-group">
+                                            <label class="govuk-label govuk-date-input__label" for="endDate-day">
+                                                Day
+                                            </label>
+                                            <input value="<?php if (isset($endDay)) {
+                                                                echo $endDay;
+                                                            } ?>" class="govuk-input govuk-date-input__input govuk-input--width-2" id="endDate-day" name="endDate-day" type="number" pattern="[0-9]*">
+                                        </div>
+                                    </div>
+                                    <div class="govuk-date-input__item">
+                                        <div class="govuk-form-group">
+                                            <label class="govuk-label govuk-date-input__label" for="endDate-month">
+                                                Month
+                                            </label>
+                                            <input value="<?php if (isset($endMonth)) {
+                                                                echo $endMonth;
+                                                            } ?>" class="govuk-input govuk-date-input__input govuk-input--width-2" id="endDate-month" name="endDate-month" type="number" pattern="[0-9]*">
+                                        </div>
+                                    </div>
+                                    <div class="govuk-date-input__item">
+                                        <div class="govuk-form-group">
+                                            <label class="govuk-label govuk-date-input__label" for="endDate-year">
+                                                Year
+                                            </label>
+                                            <input value="<?php if (isset($endYear)) {
+                                                                echo $endYear;
+                                                            } ?>" class="govuk-input govuk-date-input__input govuk-input--width-4" id="endDate-year" name="endDate-year" type="number" pattern="[0-9]*">
                                         </div>
                                     </div>
                                 </div>
