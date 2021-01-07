@@ -471,14 +471,14 @@ class Rule
 
     /**
      * Get $count upcoming dates for $rule.
-     * Returns start date only.
+     * Returns end date only.
      *
      * @param array $rule
      * @param integer $count <= 100
      * @param \DateTime|null $dtstart Start date, default now.
      * @return array|RRule
      */
-    public function getStartDates(array $rule, int $count, ?\DateTime $dtstart = null)
+    public function getEndDates(array $rule, int $count, ?\DateTime $dtstart = null)
     {
         if (
             $count < 1 ||
@@ -538,18 +538,19 @@ class Rule
      */
     public function getDates(array $rule, int $count, ?\DateTime $dtstart = null) : array
     {
-        // If no startoffset, end is same as start
-        if (!isset($rule['STARTOFFSET'])) {
-            $dates['start'] = $this->getStartDates($rule, $count, $dtstart);
-            $dates['end'] = clone $dates['start'];
-            return $dates;
-        }
+        $end_dates = $this->getEndDates($rule, $count, $dtstart);
 
-        $end_dates = $this->getStartDates($rule, $count, $dtstart);
-
+        // Loop through all years
         foreach ($end_dates as $key => $end_date) {
             $dates[$key]['end'] = $end_date;
             $dates[$key]['start'] = clone $end_date;
+
+            // If no startoffset, end is same as start
+            if (!isset($rule['STARTOFFSET'])) {
+                continue;
+            }
+
+            // Otherwise
             $dates[$key]['start']->modify($rule['STARTOFFSET'] . ' day');
         }
 
