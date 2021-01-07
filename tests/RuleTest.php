@@ -1064,6 +1064,34 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->rfc5545($inputValue));
     }
 
+    public function GetDatesReturnsMultiDayEventsDataProvider(): array
+    {
+        return [
+            // Before
+            [
+                [
+                    'start' => '',
+                    'end' => '',
+                ],
+                [
+                    'BYMONTH' => 5,
+                    'BYDAY' => '2SU',
+                    'STARTOFFSET' => -1,
+                ]
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider GetDatesReturnsMultiDayEventsDataProvider
+     */
+    public function testGetDatesReturnsMultiDayEvents(array $expectedValue, array $inputValue): void
+    {
+        $this->assertEquals($expectedValue['start'], $this->rule->get_dates($inputValue, 1)[0]['start']->format('Y-m-d'));
+        $this->assertEquals($expectedValue['end'], $this->rule->get_dates($inputValue, 1)[1]['end']->format('Y-m-d'));
+    }
+
 
     public function calculateOffsetDataProvider(): array
     {
