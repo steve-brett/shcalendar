@@ -10,11 +10,8 @@ namespace SHCalendar;
 
 use SHCalendar\Rule;
 use SHCalendar\RuleCreator;
+use SHCalendar\Helpers;
 
-include 'src/Rule.php';
-include 'src/RuleCreator.php';
-// For validateDate()
-include 'src/handyFunctions.php';
 // Composer
 include 'vendor/autoload.php';
 
@@ -59,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Validate the date
         $endDateRaw = "$endYear-$endMonth-$endDay";
-        $validEndDate = validateDate($endDateRaw, "Y-m-d");
+        $validEndDate = Helpers::validateDate($endDateRaw, "Y-m-d");
         if (!$validEndDate) {
             $errors[] = 'Please enter a valid end date. ';
         }
@@ -72,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Validate the date
         $startDateRaw = "$year-$month-$day";
-        $validStartDate = validateDate($startDateRaw, "Y-m-d");
+        $validStartDate = Helpers::validateDate($startDateRaw, "Y-m-d");
         $formSuccess = true;
 
         if (!$validStartDate) {
