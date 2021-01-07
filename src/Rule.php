@@ -471,13 +471,14 @@ class Rule
 
     /**
      * Get $count upcoming dates for $rule.
+     * Returns start date only.
      *
      * @param array $rule
      * @param integer $count <= 100
      * @param \DateTime|null $dtstart Start date, default now.
      * @return array|RRule
      */
-    public function get_dates(array $rule, int $count, ?\DateTime $dtstart = null)
+    public function getStartDates(array $rule, int $count, ?\DateTime $dtstart = null)
     {
         if (
             $count < 1 ||
@@ -520,6 +521,36 @@ class Rule
             $dates = new \RRule\RRule($this->rfc5545($rule) . ';COUNT=' . $count);
         } catch (\Exception $e) {
             throw $e;
+        }
+
+        return $dates;
+    }
+
+    /**
+     * Get $count upcoming dates for $rule.
+     *
+     * Returned as array of DateTime objects with keys ['start'] and ['end'].
+     *
+     * @param array $rule
+     * @param integer $count <= 100
+     * @param \DateTime|null $dtstart Start date, default now.
+     * @return array
+     */
+    public function getDates(array $rule, int $count, ?\DateTime $dtstart = null) : array
+    {
+        // If no startoffset, end is same as start
+        if (!isset($rule['STARTOFFSET'])) {
+            $dates['start'] = $this->getStartDates($rule, $count, $dtstart);
+            $dates['end'] = clone $dates['start'];
+            return $dates;
+        }
+
+        $end_dates = $this->getStartDates($rule, $count, $dtstart);
+
+        foreach ($end_dates as $key => $end_date) {
+            $dates[$key]['end'] = $end_date;
+            $dates[$key]['start'] = clone $end_date;
+            $dates[$key]['start']->modify('-1 day');
         }
 
         return $dates;
