@@ -1067,7 +1067,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     public function GetDatesReturnsMultiDayEventsDataProvider(): array
     {
         return [
-            // Before
+            // 1 day before
             [
                 [
                     'start' => '2021-05-08',
@@ -1077,6 +1077,18 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'BYMONTH' => 5,
                     'BYDAY' => '2SU',
                     'STARTOFFSET' => -1,
+                ]
+            ],
+            // 2 days before
+            [
+                [
+                    'start' => '2021-05-07',
+                    'end' => '2021-05-09',
+                ],
+                [
+                    'BYMONTH' => 5,
+                    'BYDAY' => '2SU',
+                    'STARTOFFSET' => -2,
                 ]
             ],
 
