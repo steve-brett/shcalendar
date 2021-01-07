@@ -1070,8 +1070,8 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
             // Before
             [
                 [
-                    'start' => '',
-                    'end' => '',
+                    'start' => '2021-05-08',
+                    'end' => '2021-05-09',
                 ],
                 [
                     'BYMONTH' => 5,
@@ -1088,8 +1088,8 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
      */
     public function testGetDatesReturnsMultiDayEvents(array $expectedValue, array $inputValue): void
     {
-        $this->assertEquals($expectedValue['start'], $this->rule->get_dates($inputValue, 1)[0]['start']->format('Y-m-d'));
-        $this->assertEquals($expectedValue['end'], $this->rule->get_dates($inputValue, 1)[1]['end']->format('Y-m-d'));
+        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue, 1)[0]['start']->format('Y-m-d'));
+        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue, 1)[0]['end']->format('Y-m-d'));
     }
 
 
