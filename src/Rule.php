@@ -550,7 +550,7 @@ class Rule
         foreach ($end_dates as $key => $end_date) {
             $dates[$key]['end'] = $end_date;
             $dates[$key]['start'] = clone $end_date;
-            $dates[$key]['start']->modify('-1 day');
+            $dates[$key]['start']->modify($rule['STARTOFFSET'] . ' day');
         }
 
         return $dates;
