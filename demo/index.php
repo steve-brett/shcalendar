@@ -13,7 +13,7 @@ use SHCalendar\RuleCreator;
 use SHCalendar\Helpers;
 
 // Composer
-include 'vendor/autoload.php';
+include '../vendor/autoload.php';
 
 // Check if form has been submitted, regardless of method (button, return key, etc)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
