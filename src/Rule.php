@@ -6,6 +6,10 @@ namespace SacredHarpCalendar;
 use RRule\RRule;
 use RRule\RSet;
 
+/**
+ * Class to manage a given recurrence rule
+ * @since 1.0.0
+ */
 class Rule
 {
     /**

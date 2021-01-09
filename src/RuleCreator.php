@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace SacredHarpCalendar;
 
+/**
+ * Class to calculate possible rules for a given date
+ * @since 1.0.0
+ */
 class RuleCreator
 {
     /**
