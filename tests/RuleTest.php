@@ -1064,6 +1064,46 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->rfc5545($inputValue));
     }
 
+    public function GetDatesReturnsMultiDayEventsDataProvider(): array
+    {
+        return [
+            // 1 day before
+            [
+                [
+                    'start' => '2021-05-08',
+                    'end' => '2021-05-09',
+                ],
+                [
+                    'BYMONTH' => 5,
+                    'BYDAY' => '2SU',
+                    'STARTOFFSET' => -1,
+                ]
+            ],
+            // 2 days before
+            [
+                [
+                    'start' => '2021-05-07',
+                    'end' => '2021-05-09',
+                ],
+                [
+                    'BYMONTH' => 5,
+                    'BYDAY' => '2SU',
+                    'STARTOFFSET' => -2,
+                ]
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider GetDatesReturnsMultiDayEventsDataProvider
+     */
+    public function testGetDatesReturnsMultiDayEvents(array $expectedValue, array $inputValue): void
+    {
+        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue, 1)[0]['start']->format('Y-m-d'));
+        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue, 1)[0]['end']->format('Y-m-d'));
+    }
+
 
     public function calculateOffsetDataProvider(): array
     {
@@ -1126,7 +1166,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
      */
     public function testCalculateOffset(string $expectedValue, string $day, string $offset): void
     {
-        $this->assertEquals($expectedValue, $this->rule->calculate_offset_days($day, $offset));
+        $this->assertEquals($expectedValue, $this->rule->calculateOffsetDays($day, $offset));
     }
 
     public function offsetBYYEARDAYDataProvider(): array
@@ -1177,6 +1217,6 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     */
     // public function testOffsetBYYEARDAY(string $expectedValue, array $days, int $offset): void
     // {
-    //     $this->assertEquals($expectedValue, $this->rule->offset_byyearday($days, $offset));
+    //     $this->assertEquals($expectedValue, $this->rule->offsetByYearDay($days, $offset));
     // }
 }

@@ -365,7 +365,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
     /**
      * Special day tests -----------------------------------------------
      */
-    // TODO: change offset to -MO, SU etc 
+    // TODO: change offset to -MO, SU etc
     public function happyPathSpecialDataProvider(): array
     {
         return [
@@ -774,6 +774,6 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
     public function testYMDtoDate(): void
     {
-        $this->assertEquals(['christmas' => \DateTime::createFromFormat('!Y-m-d', '2019-12-25', new \DateTimeZone('UTC'))], $this->rule->ymd_to_datetime(['christmas' => '2019-12-25']));
+        $this->assertEquals(['christmas' => \DateTime::createFromFormat('!Y-m-d', '2019-12-25', new \DateTimeZone('UTC'))], $this->rule->ymdToDatetime(['christmas' => '2019-12-25']));
     }
 }

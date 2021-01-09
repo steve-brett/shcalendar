@@ -10,11 +10,8 @@ namespace SHCalendar;
 
 use SHCalendar\Rule;
 use SHCalendar\RuleCreator;
+use SHCalendar\Helpers;
 
-include 'src/Rule.php';
-include 'src/RuleCreator.php';
-// For validateDate()
-include 'src/handyFunctions.php';
 // Composer
 include 'vendor/autoload.php';
 
@@ -36,20 +33,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Please enter a valid year. ';
     }
 
+    if (isset($_POST['endDate-day'])) {
+        $endDay = $_POST['endDate-day'];
+    }
+    if (isset($_POST['endDate-month'])) {
+        $endMonth = $_POST['endDate-month'];
+    }
+    if (isset($_POST['endDate-year'])) {
+        $endYear = $_POST['endDate-year'];
+    }
+
+    if (isset($endDay) && isset($endMonth) && isset($endYear)) {
+        $endDateSet = true;
+
+        if (empty($endDay) && empty($endMonth) && empty($endYear)) {
+            $endDateSet = false;
+        }
+
+        // Add leading zeroes to day and month if necessary
+        $endDay = sprintf("%02d", $endDay);
+        $endMonth = sprintf("%02d", $endMonth);
+
+        // Validate the date
+        $endDateRaw = "$endYear-$endMonth-$endDay";
+        $validEndDate = Helpers::validateDate($endDateRaw, "Y-m-d");
+        if (!$validEndDate) {
+            $errors[] = 'Please enter a valid end date. ';
+        }
+    }
+
     if (isset($day) && isset($month) && isset($year)) {
         // Add leading zeroes to day and month if necessary
         $day = sprintf("%02d", $day);
         $month = sprintf("%02d", $month);
 
         // Validate the date
-        $date = "$year-$month-$day";
-        if (validateDate($date, "Y-m-d")) {
-            $formSuccess = true;
-        } else {
+        $startDateRaw = "$year-$month-$day";
+        $validStartDate = Helpers::validateDate($startDateRaw, "Y-m-d");
+        $formSuccess = true;
+
+        if (!$validStartDate) {
             $formSuccess = false;
-            $errors[] = 'Please enter a valid date. ';
+            $errors[] = 'Please enter a valid start date. ';
         }
     } else {
+        $endDateSet = false;
         $formSuccess = false;
     }
 } else {
@@ -78,22 +106,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="govuk-width-container">
         <main class="govuk-main-wrapper app-main-class" id="main-content" role="main">
-            
+
             <?php if (!isset($dateFormula)) : ?>
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                     <?php if ($formSuccess === true) :?>
                         <?php
                         // Start of second page section -------------------------------
-                        $date = new \DateTime($date, new \DateTimeZone('UTC'));
+                        $startDate = new \DateTime($startDateRaw, new \DateTimeZone('UTC'));
+                        if ($endDateSet) {
+                            $endDate = new \DateTime($endDateRaw, new \DateTimeZone('UTC'));
+                        } else {
+                            $endDate = null;
+                        }
+
                         $creator = new RuleCreator;
-                        $formulae = $creator->create($date);
+                        $formulae = $creator->create($startDate, $endDate);
                         ?>
                         <div class="govuk-form-group">
                             <fieldset class="govuk-fieldset">
                                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
                                     <h1 class="govuk-fieldset__heading govuk-heading-xl">
                                         <?php
-                                        echo $date->format('l j F Y') . PHP_EOL;
+                                        if (!is_null($endDate)) {
+                                            echo $startDate->format('j –') . PHP_EOL;
+                                            echo $endDate->format('j F Y') . PHP_EOL;
+                                        } else {
+                                            echo $startDate->format('l j F Y') . PHP_EOL;
+                                        }
                                         ?>
                                     </h1>
                                 </legend>
@@ -103,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </span>
                                 <div class="govuk-radios govuk-radios--conditional" data-module="radios">
                                     <?php foreach ($formulae as $k => $formula) : ?>
-                    
+
                                         <div class="govuk-radios__item">
                                             <input class="govuk-radios__input dateFormula" id="dateFormula-<?php echo $k; ?>" data-key="<?php echo $k; ?>" name="dateFormula" type="radio" value="<?php echo htmlspecialchars(json_encode($formula), ENT_QUOTES, 'UTF-8'); ?>">
                                             <label class="govuk-label govuk-radios__label" for="dateFormula-<?php echo $k; ?>">
@@ -117,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                             </fieldset>
                         </div>
-                            
+
 
                         <section class="results">
                             <h2 class="govuk-heading-l">Next five singings:</h2>
@@ -125,25 +164,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?php foreach ($formulae as $k => $formula) : ?>
                                 <div id="results__item--<?php echo $k; ?>" class="govuk-grid-row results__item" hidden>
                                     <div class="govuk-grid-column-two-thirds">
-                                    <dl class="govuk-summary-list">                                        <?php 
-                                        try 
-                                        {
-                                            $rrule = $rule->get_dates($formula, 5);
-                                            foreach ($rrule as $occurrence ) {
+                                    <dl class="govuk-summary-list">                                        <?php
+                                        try {
+                                            $years = $rule->getDates($formula, 5);
+                                            foreach ($years as $occurrence) {
                                                 ?>
                                                   <div class="govuk-summary-list__row">
                                                     <dt class="govuk-summary-list__key">
-                                                    <?php echo $occurrence->format('Y');?>
+                                                    <?php echo Helpers::formatYearRange($occurrence['start'], $occurrence['end']); ?>
                                                     </dt>
                                                     <dd class="govuk-summary-list__value">
-                                                    <?php echo $occurrence->format('l j F');?>
+                                                    <?php echo Helpers::formatDateRange($occurrence['start'], $occurrence['end']); ?>
                                                     </dd>
                                                 </div>
                                                 <?php
                                             }
-                                        } 
-                                        catch (\Exception $e) 
-                                        {
+                                        } catch (\Exception $e) {
                                             ?>
                                             <section class="govuk-error-summary">
                                                 <h2 class="govuk-error-summary__title">
@@ -151,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 </h2>
                                                 <div class="govuk-error-summary__body">
                                                     <p>
-                                                        <?php echo $e->getMessage();?>
+                                                        <?php echo $e->getMessage(); ?>
                                                     </p>
                                                 </div>
                                             </section>
@@ -172,8 +208,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Start of first page section -------------------------------
                         ?>
                         <div class="govuk-form-group<?php if (isset($errors)) {
-                                                        echo ' govuk-form-group--error';
-                                                    } ?>">
+                            echo ' govuk-form-group--error';
+                        } ?>">
                             <fieldset class="govuk-fieldset" aria-describedby="singDate-hint" role="group">
                                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
                                     <h1 class="govuk-fieldset__heading govuk-heading-xl">
@@ -186,20 +222,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </span>
                                 <span id="singDate-error" class="govuk-error-message">
                                     <?php if (isset($errors)) {
-                                        foreach ($errors as $error) {
-                                            echo $error;
-                                        }
-                                    } ?>
+                            foreach ($errors as $error) {
+                                echo $error;
+                            }
+                        } ?>
                                 </span>
-                                <div class="govuk-date-input govuk-form-inline" id="singDate">
+                                <div class="govuk-date-input govuk-form-inline govuk-!-margin-bottom-5" id="singDate">
                                     <div class="govuk-date-input__item">
                                         <div class="govuk-form-group">
                                             <label class="govuk-label govuk-date-input__label" for="singDate-day">
                                                 Day
                                             </label>
                                             <input value="<?php if (isset($day)) {
-                                                                echo $day;
-                                                            } ?>" class="govuk-input govuk-date-input__input govuk-input--width-2" id="singDate-day" name="singDate-day" type="number" pattern="[0-9]*">
+                            echo $day;
+                        } ?>" class="govuk-input govuk-date-input__input govuk-input--width-2" id="singDate-day" name="singDate-day" type="number" pattern="[0-9]*">
                                         </div>
                                     </div>
                                     <div class="govuk-date-input__item">
@@ -208,8 +244,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 Month
                                             </label>
                                             <input value="<?php if (isset($month)) {
-                                                                echo $month;
-                                                            } ?>" class="govuk-input govuk-date-input__input govuk-input--width-2" id="singDate-month" name="singDate-month" type="number" pattern="[0-9]*">
+                            echo $month;
+                        } ?>" class="govuk-input govuk-date-input__input govuk-input--width-2" id="singDate-month" name="singDate-month" type="number" pattern="[0-9]*">
                                         </div>
                                     </div>
                                     <div class="govuk-date-input__item">
@@ -218,8 +254,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 Year
                                             </label>
                                             <input value="<?php if (isset($year)) {
-                                                                echo $year;
-                                                            } ?>" class="govuk-input govuk-date-input__input govuk-input--width-4" id="singDate-year" name="singDate-year" type="number" pattern="[0-9]*">
+                            echo $year;
+                        } ?>" class="govuk-input govuk-date-input__input govuk-input--width-4" id="singDate-year" name="singDate-year" type="number" pattern="[0-9]*">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <span class="govuk-hint">
+                                    Optionally, you can add an end date for multi-day singings.
+                                </span>
+
+                                <div class="govuk-date-input govuk-form-inline" id="endDate">
+                                    <div class="govuk-date-input__item">
+                                        <div class="govuk-form-group">
+                                            <label class="govuk-label govuk-date-input__label" for="endDate-day">
+                                                Day
+                                            </label>
+                                            <input value="<?php if (isset($endDay)) {
+                            echo $endDay;
+                        } ?>" class="govuk-input govuk-date-input__input govuk-input--width-2" id="endDate-day" name="endDate-day" type="number" pattern="[0-9]*">
+                                        </div>
+                                    </div>
+                                    <div class="govuk-date-input__item">
+                                        <div class="govuk-form-group">
+                                            <label class="govuk-label govuk-date-input__label" for="endDate-month">
+                                                Month
+                                            </label>
+                                            <input value="<?php if (isset($endMonth)) {
+                            echo $endMonth;
+                        } ?>" class="govuk-input govuk-date-input__input govuk-input--width-2" id="endDate-month" name="endDate-month" type="number" pattern="[0-9]*">
+                                        </div>
+                                    </div>
+                                    <div class="govuk-date-input__item">
+                                        <div class="govuk-form-group">
+                                            <label class="govuk-label govuk-date-input__label" for="endDate-year">
+                                                Year
+                                            </label>
+                                            <input value="<?php if (isset($endYear)) {
+                            echo $endYear;
+                        } ?>" class="govuk-input govuk-date-input__input govuk-input--width-4" id="endDate-year" name="endDate-year" type="number" pattern="[0-9]*">
                                         </div>
                                     </div>
                                 </div>
