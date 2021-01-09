@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SHCalendar;
+namespace SacredHarpCalendar;
 
 class Helpers
 {

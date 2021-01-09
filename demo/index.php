@@ -6,11 +6,9 @@
  * Steve Brett November 2018                  *
  **********************************************/
 
-namespace SHCalendar;
-
-use SHCalendar\Rule;
-use SHCalendar\RuleCreator;
-use SHCalendar\Helpers;
+use SacredHarpCalendar\Rule;
+use SacredHarpCalendar\RuleCreator;
+use SacredHarpCalendar\Helpers;
 
 // Composer
 include '../vendor/autoload.php';

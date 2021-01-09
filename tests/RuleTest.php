@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace SHCalendar\Test;
+namespace SacredHarpCalendar\Test;
 
-use SHCalendar\Rule;
+use SacredHarpCalendar\Rule;
 use PHPUnit\Framework\TestCase;
 
 class RuleTest extends TestCase # Has to be [ClassName]Test
