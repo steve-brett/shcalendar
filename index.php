@@ -171,10 +171,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 ?>
                                                   <div class="govuk-summary-list__row">
                                                     <dt class="govuk-summary-list__key">
-                                                    <?php echo $occurrence->format('Y'); ?>
+                                                    <?php echo Helpers::formatYearRange($occurrence['start'], $occurrence['end']); ?>
                                                     </dt>
                                                     <dd class="govuk-summary-list__value">
-                                                    <?php echo $occurrence->format('l j F'); ?>
+                                                    <?php echo Helpers::formatDateRange($occurrence['start'], $occurrence['end']); ?>
                                                     </dd>
                                                 </div>
                                                 <?php
