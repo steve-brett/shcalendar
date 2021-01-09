@@ -166,8 +166,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="govuk-grid-column-two-thirds">
                                     <dl class="govuk-summary-list">                                        <?php
                                         try {
-                                            $rrule = $rule->get_dates($formula, 5);
-                                            foreach ($rrule as $occurrence) {
+                                            $years = $rule->getDates($formula, 5);
+                                            foreach ($years as $occurrence) {
                                                 ?>
                                                   <div class="govuk-summary-list__row">
                                                     <dt class="govuk-summary-list__key">
