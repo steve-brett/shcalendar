@@ -5,7 +5,6 @@ namespace SHCalendar;
 
 use RRule\RRule;
 use RRule\RSet;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class Rule
 {
@@ -293,7 +292,7 @@ class Rule
                 throw new \InvalidArgumentException('We are currently unable to calculate reccurence rules for Palm Sunday and Easter.');
             }
 
-            return $this->rfc5545_special($rule);
+            return $this->rfc5545Special($rule);
         }
 
         if (!isset($rule['OFFSET'])) {
@@ -303,7 +302,7 @@ class Rule
         $month_week = (int) substr($rule['BYDAY'], 0, -2);
 
         $day = substr($rule['OFFSET'], -2);
-        $offset = $this->calculate_offset_days(substr($rule['BYDAY'], -2), $rule['OFFSET']);
+        $offset = $this->calculateOffsetDays(substr($rule['BYDAY'], -2), $rule['OFFSET']);
 
         $year_day = $this::$first_of_month[$rule['BYMONTH']] + 7 * ($month_week -1);
 
@@ -313,11 +312,11 @@ class Rule
              * the first day of the next month.
              */
             $next_month = ($rule['BYMONTH'] + 1) % 12;
-            $year_day = $this->yearday_adder($this::$first_of_month[$next_month], -7);
+            $year_day = $this->yearDayAdder($this::$first_of_month[$next_month], -7);
         }
 
-        $week = $this->create_week($year_day);
-        $year_days = $this->offset_byyearday($week, $offset);
+        $week = $this->createWeek($year_day);
+        $year_days = $this->offsetByYearDay($week, $offset);
 
         return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days ;
     }
@@ -338,7 +337,7 @@ class Rule
         $startOffset = '';
 
         if (isset($rule['OFFSET'])) {
-            return $this->readable_offset($rule);
+            return $this->readableOffset($rule);
         }
 
         if (isset($rule['SPECIAL'])) {
@@ -375,10 +374,10 @@ class Rule
             $startOffset = ' and the ' . $startOffsetDay . ' before';
         }
 
-        return ucfirst($this->readable_standard($rule)) . $startOffset ;
+        return ucfirst($this->readableStandard($rule)) . $startOffset ;
     }
 
-    protected function readable_offset(array $rule) : string
+    protected function readableOffset(array $rule) : string
     {
         $offset_sign = (int) substr($rule['OFFSET'], 0, -2);
         $modifier = ($offset_sign > 0) ? ' after ' : ' before ';
@@ -412,7 +411,7 @@ class Rule
                 return $offset . $this::$specials[$rule['SPECIAL']] . $startOffset;
             }
 
-            return $offset . $this->readable_standard($rule) . $startOffset;
+            return $offset . $this->readableStandard($rule) . $startOffset;
         }
 
         /**
@@ -434,14 +433,14 @@ class Rule
                 return $offset . $this::$specials[$rule['SPECIAL']];
             }
 
-            return $offset . $this->readable_standard($rule);
+            return $offset . $this->readableStandard($rule);
         }
 
         if (isset($rule['SPECIAL'])) {
             return $offset . $this::$specials[$rule['SPECIAL']];
         }
 
-        return $offset . $this->readable_standard($rule);
+        return $offset . $this->readableStandard($rule);
     }
 
     /**
@@ -450,7 +449,7 @@ class Rule
      * @param array $rule
      * @return string
      */
-    protected function readable_standard(array $rule) : string
+    protected function readableStandard(array $rule) : string
     {
         $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']));
         $monthName = $dateObj->format('F');
@@ -492,10 +491,10 @@ class Rule
             ('easter' === $rule['SPECIAL'])
         ) {
             if (isset($rule['OFFSET'])) {
-                $offset_n = $this->calculate_offset_days('SU', $rule['OFFSET']);
-                return $this->rfc5545_easter($rule, $offset_n);
+                $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
+                return $this->rfc5545Easter($rule, $offset_n);
             }
-            return $this->rfc5545_easter($rule, 0);
+            return $this->rfc5545Easter($rule, 0);
         }
 
         if (
@@ -503,10 +502,10 @@ class Rule
             ('palmSunday' === $rule['SPECIAL'])
         ) {
             if (isset($rule['OFFSET'])) {
-                $offset_n = $this->calculate_offset_days('SU', $rule['OFFSET']);
-                return $this->rfc5545_easter($rule, $offset_n -7);
+                $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
+                return $this->rfc5545Easter($rule, $offset_n -7);
             }
-            return $this->rfc5545_easter($rule, -7);
+            return $this->rfc5545Easter($rule, -7);
         }
 
         if ($dtstart) {
@@ -558,12 +557,12 @@ class Rule
     }
 
     /**
-     * Returns RFC5545 valid reccurence rules for special dates
+     * Returns RFC5545 valid recurrence rules for special dates
      *
      * @param array $rule
      * @return string
      */
-    protected function rfc5545_special(array $rule): string
+    protected function rfc5545Special(array $rule): string
     {
         if (isset($rule['OFFSET'])) {
             $day = substr($rule['OFFSET'], -2);
@@ -571,8 +570,8 @@ class Rule
             if ('fixedDay' === $this::$special_rules[$rule['SPECIAL']]['category']) {
                 $year_days = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
                 $special_day = $this::$special_rules[$rule['SPECIAL']]['byday'];
-                $offset_n = $this->calculate_offset_days($special_day, $rule['OFFSET']);
-                $year_days = $this->offset_byyearday($year_days, $offset_n);
+                $offset_n = $this->calculateOffsetDays($special_day, $rule['OFFSET']);
+                $year_days = $this->offsetByYearDay($year_days, $offset_n);
 
                 return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
             }
@@ -580,7 +579,7 @@ class Rule
             // Category = fixedDate
             $offset_sign = (int) substr($rule['OFFSET'], 0, -2);
             $year_day = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
-            $year_days = $this->offset_byyearday_fixed_date($year_day, $offset_sign);
+            $year_days = $this->offsetByYearDayFixedDate($year_day, $offset_sign);
 
             return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
         }
@@ -588,7 +587,7 @@ class Rule
         return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']]['rule'];
     }
 
-    protected function rfc5545_easter(array $rule, int $offset = 0)
+    protected function rfc5545Easter(array $rule, int $offset = 0)
     {
         $rset = new \RRule\RSet();
 
@@ -601,7 +600,7 @@ class Rule
             $rset->addRRule(array(
                 'FREQ' => 'YEARLY',
                 'INTERVAL' => 19,
-                'BYYEARDAY' => $this->offset_byyearday($cycle['BYYEARDAY'], $offset),
+                'BYYEARDAY' => $this->offsetByYearDay($cycle['BYYEARDAY'], $offset),
                 'BYDAY' => $day,
                 'DTSTART' => date_create($cycle['DTSTART']),
                 'UNTIL' => date_create($cycle['UNTIL']),
@@ -628,11 +627,11 @@ class Rule
      * @param integer $offset	Offset amount <= +/-7.
      * @return string
      */
-    protected function offset_byyearday(array $days, int $offset) : string
+    protected function offsetByYearDay(array $days, int $offset) : string
     {
         // Add offset to each day.
         foreach ($days as &$value) {
-            $value = $this->yearday_adder($value, $offset);
+            $value = $this->yearDayAdder($value, $offset);
         }
         return implode(',', $days);
     }
@@ -643,13 +642,13 @@ class Rule
      * @param integer $year_day
      * @return array
      */
-    protected function create_week(int $year_day) : array
+    protected function createWeek(int $year_day) : array
     {
         $output = array();
         $limit = 7;
 
         for ($i = 0; $i<$limit; $i++) {
-            $output[] = $this->yearday_adder($year_day, $i);
+            $output[] = $this->yearDayAdder($year_day, $i);
         }
 
         return $output;
@@ -662,7 +661,7 @@ class Rule
      * @param integer $offset
      * @return string
      */
-    protected function offset_byyearday_fixed_date(int $year_day, int $offset) : string
+    protected function offsetByYearDayFixedDate(int $year_day, int $offset) : string
     {
         if (abs($offset) !== 1) {
             throw new \InvalidArgumentException('Offset should be 1 or -1. Got [' . $offset . ']');
@@ -672,7 +671,7 @@ class Rule
         $limit = 7;
 
         for ($i = 1; $i<=$limit; $i++) {
-            $output[] = $this->yearday_adder($year_day, $i * $offset);
+            $output[] = $this->yearDayAdder($year_day, $i * $offset);
         }
 
         // Standardise order to largest absolute value first.
@@ -690,7 +689,7 @@ class Rule
      * @param integer $offset
      * @return integer
      */
-    protected function yearday_adder(int $yearday, int $offset) : int
+    protected function yearDayAdder(int $yearday, int $offset) : int
     {
         $yearday_sign = $this->sign($yearday);
         $offset_sign = $this->sign($offset);
@@ -733,7 +732,7 @@ class Rule
         // {
         // 	$rule['OFFSET'] = 0;
         // }
-        if (isset($rule['OFFSET']) && !$this->valid_offset($rule['OFFSET'])) {
+        if (isset($rule['OFFSET']) && !$this->validOffset($rule['OFFSET'])) {
             throw new \InvalidArgumentException('OFFSET format incorrect. Got [' . $rule['OFFSET'] . ']');
         }
 
@@ -790,7 +789,7 @@ class Rule
      * @param mixed $offset
      * @return boolean
      */
-    protected function valid_offset($offset) : bool
+    protected function validOffset($offset) : bool
     {
         if (!is_string($offset)) {
             return false;
@@ -823,7 +822,7 @@ class Rule
      * @param string $offset 1MO,1TU,... or -1MO,-1TU,...
      * @return integer
      */
-    public function calculate_offset_days(string $day, string $offset) : int
+    public function calculateOffsetDays(string $day, string $offset) : int
     {
         $day = \RRule\RRule::$week_days[$day];
         $offset_sign = (int) substr($offset, 0, -2);

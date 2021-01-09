@@ -1166,7 +1166,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
      */
     public function testCalculateOffset(string $expectedValue, string $day, string $offset): void
     {
-        $this->assertEquals($expectedValue, $this->rule->calculate_offset_days($day, $offset));
+        $this->assertEquals($expectedValue, $this->rule->calculateOffsetDays($day, $offset));
     }
 
     public function offsetBYYEARDAYDataProvider(): array
@@ -1217,6 +1217,6 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     */
     // public function testOffsetBYYEARDAY(string $expectedValue, array $days, int $offset): void
     // {
-    //     $this->assertEquals($expectedValue, $this->rule->offset_byyearday($days, $offset));
+    //     $this->assertEquals($expectedValue, $this->rule->offsetByYearDay($days, $offset));
     // }
 }

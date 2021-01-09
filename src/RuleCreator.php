@@ -71,10 +71,10 @@ class RuleCreator
 
     /**
      * Generate reference date from span of dates
-     *  
+     *
      * ['DATE'] DateTime reference date
      * ['STARTOFFSET'] int offset from ref date
-     *  
+     *
      * @param \DateTime $start
      * @param \DateTime|null $end
      * @return array
@@ -92,7 +92,7 @@ class RuleCreator
         $diff = $end->diff($start)->format('%r%a');
 
         if (abs($diff) > 6) {
-            throw new \InvalidArgumentException('Dates must not span more than a week. 
+            throw new \InvalidArgumentException('Dates must not span more than a week.
       Got [' . $start->format('Y-m-d') . ', ' . $end->format('Y-m-d') . ']');
         }
         // Swap if end is before start
@@ -114,7 +114,7 @@ class RuleCreator
 
     /**
      * Generate rule based on nth day in month
-     * 
+     *
      *  TODO change $refday to format 'N'?
      *
      * @param \DateTime $date
@@ -124,12 +124,12 @@ class RuleCreator
     public function nthDay(\DateTime $date, string $refDay = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
-            throw new \InvalidArgumentException('Date must be 1800-01-01 or after. 
+            throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
       Got [' . $date->format('Y-m-d') . ']');
         }
 
         if (isset($refDay) && !in_array(strtolower($refDay), $this::$dayFormats)) {
-            throw new \InvalidArgumentException('Reference day must be valid. 
+            throw new \InvalidArgumentException('Reference day must be valid.
       Got [' . $refDay . ']');
         }
 
@@ -142,7 +142,7 @@ class RuleCreator
         // Find position of refDay in month
         $count = floor(($nextRefDay->format('d') - 1) / 7) + 1;
         if ($count == 5) {
-            throw new \InvalidArgumentException('Date is 5th of type in month - not annual. 
+            throw new \InvalidArgumentException('Date is 5th of type in month - not annual.
       Got [' . $date->format('Y-m-d') . ']');
         }
 
@@ -160,7 +160,7 @@ class RuleCreator
 
     /**
      * Generate rule based on last day in month
-     * 
+     *
      *  TODO change $refday to format 'N'?
      *
      * @param \DateTime $date
@@ -170,7 +170,7 @@ class RuleCreator
     public function lastDay(\DateTime $date, string $refDay = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
-            throw new \InvalidArgumentException('Date must be 1800-01-01 or after. 
+            throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
       Got [' . $date->format('Y-m-d') . ']');
         }
 
@@ -187,7 +187,7 @@ class RuleCreator
         $monthCheck = clone $nextRefDay;
         $monthCheck = $monthCheck->modify('+1 week');
         if ($nextRefDay->format('m') == $monthCheck->format('m')) {
-            throw new \InvalidArgumentException('Date is not last of its type in month. 
+            throw new \InvalidArgumentException('Date is not last of its type in month.
       Got [' . $date->format('Y-m-d') . ']');
         }
 
@@ -212,23 +212,23 @@ class RuleCreator
     public function special(\DateTime $date): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
-            throw new \InvalidArgumentException('Date must be 1800-01-01 or after. 
+            throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
       Got [' . $date->format('Y-m-d') . ']');
         }
 
         $year = (int)$date->format('Y');
         $special = $this->calculateSpecial($year);
-        $special = $this->ymd_to_datetime($special);
-        $closest = $this->find_closest($date, $special);
+        $special = $this->ymdToDatetime($special);
+        $closest = $this->findClosest($date, $special);
         $offset = $closest['offset'];
 
         $rule['SPECIAL'] = $closest['date'];
-        if ( abs( $offset ) > 7 ) {
+        if (abs($offset) > 7) {
             // TODO Is this the right thing to do, or return false?
-            throw new \InvalidArgumentException('Not within a week of a special day. 
+            throw new \InvalidArgumentException('Not within a week of a special day.
       Got [' . $date->format('Y-m-d') . ']');
         }
-        if ( abs( $offset ) > 0 ) {
+        if (abs($offset) > 0) {
             $rule['OFFSET'] = $this->sign($offset) . strtoupper(substr($date->format('D'), 0, -1));
         }
         return $rule;
@@ -238,7 +238,7 @@ class RuleCreator
      * Generates array of special days in a given year.
      * Based on public domain work of David Scourfield.
      * @see Rule::$specials for keys.
-     * 
+     *
      * @param integer $year
      * @return array
      */
@@ -273,8 +273,7 @@ class RuleCreator
             $specials['mayDay'] = "1995-05-08"; // VE day 50th anniversary year exception
         } elseif ($year == 2020) {
             $specials['mayDay'] = "2020-05-08"; // VE day 75th anniversary year exception
-        }
-        else {
+        } else {
             switch (date("w", strtotime("$year-05-01 00:00:00"))) {
                 case 0:
                     $specials['mayDay'] = "$year-05-02";
@@ -306,8 +305,7 @@ class RuleCreator
             $specials['whitsun'] = "2002-06-03";
         } elseif ($year == 2012) { // Diamond Jubilee exception year
             $specials['whitsun'] = "2012-06-04";
-        }
-        else {
+        } else {
             switch (date("w", strtotime("$year-05-31 00:00:00"))) {
                 case 0:
                     $specials['whitsun'] = "$year-05-25";
@@ -473,13 +471,13 @@ class RuleCreator
 
     /**
      * Converts array of special days into array of DateTime objects
-     * 
+     *
      * TODO control inputs and test
      *
      * @param array $special
      * @return array
      */
-    public function ymd_to_datetime(array $special): array
+    public function ymdToDatetime(array $special): array
     {
         foreach ($special as $k => $date) {
             // TODO pass timezone to this fn?
@@ -495,13 +493,13 @@ class RuleCreator
      * @param array $haystack
      * @return void
      */
-    protected function find_closest(\DateTime $needle, array $haystack): array // TODO return type?
+    protected function findClosest(\DateTime $needle, array $haystack): array // TODO return type?
     {
         foreach ($haystack as $k => $hay) {
             $interval[$k] = (int)$hay->diff($needle)->format('%R%a');
         }
 
-        uasort($interval, array($this, 'abs_compare'));
+        uasort($interval, array($this, 'absCompare'));
         $closest = key($interval);
 
         return ['date' => $closest, 'offset' => $interval[$closest]];
@@ -516,7 +514,7 @@ class RuleCreator
      * @param integer $b
      * @return integer
      */
-    protected function abs_compare(int $a, int $b): int
+    protected function absCompare(int $a, int $b): int
     {
         if (abs($a) == abs($b)) {
             return 0;
