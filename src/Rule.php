@@ -11,6 +11,7 @@ class Rule
     /**
      * Weekdays with RFC5545 abbreviation as key
      *
+     * @since 1.0.0
      * @var array
      */
     protected static $week_day_abbrev = array(
@@ -26,6 +27,7 @@ class Rule
     /**
      * Weekdays numbered from 1 (ISO-8601 or `date('N')`).
      *
+     * @since 1.0.0
      * @var array
      */
     protected static $week_days = array(
@@ -42,6 +44,7 @@ class Rule
      * The position of the first day of each month.
      * Negative values from March account for both leap and non-leap years.
      *
+     * @since 1.0.0
      * @var array
      */
     private static $first_of_month = array(
@@ -63,6 +66,7 @@ class Rule
      * Array of special day keys
      * @see RuleCreator::calculateSpecial()
      *
+     * @since 1.0.0
      * @var array
      */
     private static $specials = array(
@@ -89,6 +93,7 @@ class Rule
      *
      * @see sappjw/calendars
      *
+     * @since 1.0.0
      * @var array
      */
     private static $metonic_cycle = array(
@@ -193,6 +198,7 @@ class Rule
      * Array of special day rules
      * @see RuleCreator::calculateSpecial()
      *
+     * @since 1.0.0
      * @var array
      */
     private static $special_rules = array(
@@ -275,6 +281,7 @@ class Rule
      *
      * Output RFC5545 RRULE string
      *
+     * @since 1.0.0
      * @param array $rule
      * @return string
      */
@@ -322,8 +329,9 @@ class Rule
     }
 
     /**
-     * Ouput sentence description of rule
+     * Output sentence description of rule
      *
+     * @since 1.0.0
      * @param array $rule
      * @return string Description of rule
      */
@@ -377,6 +385,13 @@ class Rule
         return ucfirst($this->readableStandard($rule)) . $startOffset ;
     }
 
+    /**
+     * Output sentence description of rule for offset
+     *
+     * @since 1.0.0
+     * @param array $rule
+     * @return string
+     */
     private function readableOffset(array $rule) : string
     {
         $offset_sign = (int) substr($rule['OFFSET'], 0, -2);
@@ -446,6 +461,7 @@ class Rule
     /**
      * Readable output for nth Day rules.
      *
+     * @since 1.0.0
      * @param array $rule
      * @return string
      */
@@ -472,6 +488,7 @@ class Rule
      * Get $count upcoming dates for $rule.
      * Returns end date only.
      *
+     * @since 1.0.0
      * @param array $rule
      * @param integer $count <= 100
      * @param \DateTime|null $dtstart Start date, default now.
@@ -530,6 +547,7 @@ class Rule
      *
      * Returned as array of DateTime objects with keys ['start'] and ['end'].
      *
+     * @since 1.0.0
      * @param array $rule
      * @param integer $count <= 100
      * @param \DateTime|null $dtstart Start date, default now.
@@ -559,6 +577,7 @@ class Rule
     /**
      * Returns RFC5545 valid recurrence rules for special dates
      *
+     * @since 1.0.0
      * @param array $rule
      * @return string
      */
@@ -587,7 +606,15 @@ class Rule
         return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']]['rule'];
     }
 
-    private function rfc5545Easter(array $rule, int $offset = 0)
+    /**
+     * Calculate RFC5545 rules for Easter
+     *
+     * @since 1.0.0
+     * @param array $rule
+     * @param integer $offset
+     * @return array
+     */
+    private function rfc5545Easter(array $rule, int $offset = 0) : array
     {
         $rset = new \RRule\RSet();
 
@@ -623,6 +650,7 @@ class Rule
     /**
      * Offset a BYYEARDAY sequence.
      *
+     * @since 1.0.0
      * @param integer[] $days 	Array of BYYEARDAY values.
      * @param integer $offset	Offset amount <= +/-7.
      * @return string
@@ -657,6 +685,7 @@ class Rule
     /**
      * Create a string of BYYEARDAY values for the week before or after $year_day.
      *
+     * @since 1.0.0
      * @param integer $year_day
      * @param integer $offset
      * @return string
@@ -685,6 +714,7 @@ class Rule
      * Add a number to a yearday value.
      * Takes the missing zero point into account.
      *
+     * @since 1.0.0
      * @param integer $yearday
      * @param integer $offset
      * @return integer
@@ -712,6 +742,7 @@ class Rule
     /**
      * Return the sign of an integer
      *
+     * @since 1.0.0
      * @param integer $a
      * @return integer
      */
@@ -723,6 +754,7 @@ class Rule
     /**
      * RRULE validator for Sacred Harp rules
      *
+     * @since 1.0.0
      * @param array $rule
      * @return array $rule
      */
@@ -786,6 +818,7 @@ class Rule
     /**
      * Is 'OFFSET' valid?
      *
+     * @since 1.0.0
      * @param mixed $offset
      * @return boolean
      */
@@ -818,6 +851,7 @@ class Rule
      *
      * @example calculate_offset('SU','-1SA') => -1
      *
+     * @since 1.0.0
      * @param string $day MO,TU,WE,TH,FR,SA,SU
      * @param string $offset 1MO,1TU,... or -1MO,-1TU,...
      * @return integer

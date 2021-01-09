@@ -8,6 +8,8 @@ class Helpers
 
     /**
      * Date validator from http://www.php.net/manual/en/function.checkdate.php#113205
+     *
+     * @since 1.0.0
      * @param  string $date   Input date
      * @param  string $format Format of input date
      * @return boolean        True if valid
@@ -21,6 +23,7 @@ class Helpers
     /**
      * Format minimal date ranges.
      *
+     * @since 1.0.0
      * @param \DateTime $start
      * @param \DateTime $end
      * @return string
@@ -49,6 +52,7 @@ class Helpers
     /**
      * Format year range
      *
+     * @since 1.0.0
      * @param \DateTime $start
      * @param \DateTime $end
      * @return string

@@ -9,6 +9,7 @@ class RuleCreator
     /**
      * Possible day formats for $refDay
      *
+     * @since 1.0.0
      * @var array
      */
     private static $dayFormats = [
@@ -19,6 +20,7 @@ class RuleCreator
     /**
      * Create array of possible rules from dates
      *
+     * @since 1.0.0
      * @param \DateTime $start
      * @param \DateTime|null $end
      * @return array of rrule arrays
@@ -75,6 +77,7 @@ class RuleCreator
      * ['DATE'] DateTime reference date
      * ['STARTOFFSET'] int offset from ref date
      *
+     * @since 1.0.0
      * @param \DateTime $start
      * @param \DateTime|null $end
      * @return array
@@ -117,6 +120,7 @@ class RuleCreator
      *
      *  TODO change $refday to format 'N'?
      *
+     * @since 1.0.0
      * @param \DateTime $date
      * @param string $refDay
      * @return array
@@ -163,6 +167,7 @@ class RuleCreator
      *
      *  TODO change $refday to format 'N'?
      *
+     * @since 1.0.0
      * @param \DateTime $date
      * @param string $refDay
      * @return array
@@ -206,6 +211,7 @@ class RuleCreator
     /**
      * Generate rule based on proximity to special days, e.g. a bank holiday or Easter
      *
+     * @since 1.0.0
      * @param \DateTime $date
      * @return array
      */
@@ -239,6 +245,7 @@ class RuleCreator
      * Based on public domain work of David Scourfield.
      * @see Rule::$specials for keys.
      *
+     * @since 1.0.0
      * @param integer $year
      * @return array
      */
@@ -474,6 +481,7 @@ class RuleCreator
      *
      * TODO control inputs and test
      *
+     * @since 1.0.0
      * @param array $special
      * @return array
      */
@@ -489,6 +497,7 @@ class RuleCreator
     /**
      * Finds closest DateTime object in array to $needle
      *
+     * @since 1.0.0
      * @param \DateTime $needle
      * @param array $haystack
      * @return void
@@ -510,6 +519,7 @@ class RuleCreator
      * Orders by absolute value
      * e.g 1,2,-3,4,-5...
      *
+     * @since 1.0.0
      * @param integer $a
      * @param integer $b
      * @return integer
@@ -525,6 +535,7 @@ class RuleCreator
     /**
      * Get sign of number.
      *
+     * @since 1.0.0
      * @param integer $n Number. Could be a float too if needed.
      * @return integer
      */
