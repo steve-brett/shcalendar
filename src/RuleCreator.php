@@ -493,7 +493,7 @@ class RuleCreator
      * @param array $haystack
      * @return void
      */
-    protected function findClosest(\DateTime $needle, array $haystack): array // TODO return type?
+    private function findClosest(\DateTime $needle, array $haystack): array // TODO return type?
     {
         foreach ($haystack as $k => $hay) {
             $interval[$k] = (int)$hay->diff($needle)->format('%R%a');
@@ -514,7 +514,7 @@ class RuleCreator
      * @param integer $b
      * @return integer
      */
-    protected function absCompare(int $a, int $b): int
+    private function absCompare(int $a, int $b): int
     {
         if (abs($a) == abs($b)) {
             return 0;
@@ -528,7 +528,7 @@ class RuleCreator
      * @param integer $n Number. Could be a float too if needed.
      * @return integer
      */
-    protected function sign(int $n) : int
+    private function sign(int $n) : int
     {
         return ($n > 0) - ($n < 0);
     }

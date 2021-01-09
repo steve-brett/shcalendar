@@ -377,7 +377,7 @@ class Rule
         return ucfirst($this->readableStandard($rule)) . $startOffset ;
     }
 
-    protected function readableOffset(array $rule) : string
+    private function readableOffset(array $rule) : string
     {
         $offset_sign = (int) substr($rule['OFFSET'], 0, -2);
         $modifier = ($offset_sign > 0) ? ' after ' : ' before ';
@@ -449,7 +449,7 @@ class Rule
      * @param array $rule
      * @return string
      */
-    protected function readableStandard(array $rule) : string
+    private function readableStandard(array $rule) : string
     {
         $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']));
         $monthName = $dateObj->format('F');
@@ -562,7 +562,7 @@ class Rule
      * @param array $rule
      * @return string
      */
-    protected function rfc5545Special(array $rule): string
+    private function rfc5545Special(array $rule): string
     {
         if (isset($rule['OFFSET'])) {
             $day = substr($rule['OFFSET'], -2);
@@ -587,7 +587,7 @@ class Rule
         return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']]['rule'];
     }
 
-    protected function rfc5545Easter(array $rule, int $offset = 0)
+    private function rfc5545Easter(array $rule, int $offset = 0)
     {
         $rset = new \RRule\RSet();
 
@@ -627,7 +627,7 @@ class Rule
      * @param integer $offset	Offset amount <= +/-7.
      * @return string
      */
-    protected function offsetByYearDay(array $days, int $offset) : string
+    private function offsetByYearDay(array $days, int $offset) : string
     {
         // Add offset to each day.
         foreach ($days as &$value) {
@@ -642,7 +642,7 @@ class Rule
      * @param integer $year_day
      * @return array
      */
-    protected function createWeek(int $year_day) : array
+    private function createWeek(int $year_day) : array
     {
         $output = array();
         $limit = 7;
@@ -661,7 +661,7 @@ class Rule
      * @param integer $offset
      * @return string
      */
-    protected function offsetByYearDayFixedDate(int $year_day, int $offset) : string
+    private function offsetByYearDayFixedDate(int $year_day, int $offset) : string
     {
         if (abs($offset) !== 1) {
             throw new \InvalidArgumentException('Offset should be 1 or -1. Got [' . $offset . ']');
@@ -689,7 +689,7 @@ class Rule
      * @param integer $offset
      * @return integer
      */
-    protected function yearDayAdder(int $yearday, int $offset) : int
+    private function yearDayAdder(int $yearday, int $offset) : int
     {
         $yearday_sign = $this->sign($yearday);
         $offset_sign = $this->sign($offset);
@@ -715,7 +715,7 @@ class Rule
      * @param integer $a
      * @return integer
      */
-    protected function sign(int $a) : int
+    private function sign(int $a) : int
     {
         return ($a > 0) - ($a < 0);
     }
@@ -726,7 +726,7 @@ class Rule
      * @param array $rule
      * @return array $rule
      */
-    protected function validate(array $rule): array
+    private function validate(array $rule): array
     {
         // if (!isset($rule['OFFSET']) )
         // {
@@ -789,7 +789,7 @@ class Rule
      * @param mixed $offset
      * @return boolean
      */
-    protected function validOffset($offset) : bool
+    private function validOffset($offset) : bool
     {
         if (!is_string($offset)) {
             return false;
