@@ -10,9 +10,7 @@
     }
   ],
   "require": {
-    "coduo/php-humanizer": "^2.0",
-    "rlanvin/php-rrule": "^1.6",
-    "simshaun/recurr": "^3.1"
+    "rlanvin/php-rrule": "^1.6"
   },
   "autoload": {
     "psr-4": {
