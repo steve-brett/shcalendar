@@ -2,7 +2,7 @@
   "name": "steve-brett/shcalendar",
   "description": "Sacred Harp recurring event calculator",
   "type": "project",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Steve Brett",
