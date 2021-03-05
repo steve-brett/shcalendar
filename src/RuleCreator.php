@@ -33,44 +33,44 @@ class RuleCreator
     {
         $input = $this->span($start, $end);
         $date = $input['DATE'];
+        $startOffset = isset($input['STARTOFFSET']) ? (string) $input['STARTOFFSET'] : null;
 
         $day = $date->format('N');
 
         try {
-            $output['NTHSUN'] = $this->nthDay($date, 'Sun');
+            $output[] = $this->nthDay($date, $startOffset, 'Sun');
         } catch (\Exception $e) {
         }
 
         try {
-            $output['LASTSUN'] = $this->lastDay($date, 'Sun');
+            $output[] = $this->lastDay($date, $startOffset, 'Sun');
         } catch (\Exception $e) {
         }
 
         if ($day != 7) {
             try {
-                $output['NTHDAY'] = $this->nthDay($date);
+                $output[] = $this->nthDay($date, $startOffset);
             } catch (\Exception $e) {
             }
 
             try {
-                $output['LASTDAY'] = $this->lastDay($date);
+                $output[] = $this->lastDay($date, $startOffset);
             } catch (\Exception $e) {
             }
         }
 
         try {
-            $output['SPECIAL'] = $this->special($date);
+            $output[] = $this->special($date, $startOffset);
         } catch (\Exception $e) {
         }
 
+        // var_dump($output);
 
-        // Add STARTOFFSET to each array
-        if (isset($input['STARTOFFSET'])) {
-            foreach ($output as &$rule) {
-                $rule['STARTOFFSET'] = $input['STARTOFFSET'];
-            }
-            unset($rule);
-        }
+
+        // // Add STARTOFFSET to each array
+        // if (isset($input['STARTOFFSET'])) {
+        //     $output = $this->addStartOffset($output, $input['STARTOFFSET']);
+        // }
 
         return $output;
     }
@@ -126,10 +126,11 @@ class RuleCreator
      *
      * @since 1.0.0
      * @param \DateTime $date
+     * @param string|null $startOffset
      * @param string $refDay
      * @return array
      */
-    public function nthDay(\DateTime $date, string $refDay = null): array
+    public function nthDay(\DateTime $date, ?string $startOffset = null, string $refDay = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
             throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
@@ -157,10 +158,15 @@ class RuleCreator
         $day = strtoupper(substr($nextRefDay->format('D'), 0, -1));
         $offset = $nextRefDay->diff($date)->format('%R%a');
 
+        $rule['TYPE'] = 'NTHDAY';
         $rule['BYDAY'] = $count . $day;
         $rule['BYMONTH'] = (int)$nextRefDay->format('n');
         if (abs($offset) > 0) {
             $rule['OFFSET'] = '-1' . strtoupper(substr($date->format('D'), 0, -1));
+        }
+
+        if ($startOffset) {
+            $rule['STARTOFFSET'] = $startOffset;
         }
 
         return $rule;
@@ -173,10 +179,11 @@ class RuleCreator
      *
      * @since 1.0.0
      * @param \DateTime $date
+     * @param string|null $startOffset
      * @param string $refDay
      * @return array
      */
-    public function lastDay(\DateTime $date, string $refDay = null): array
+    public function lastDay(\DateTime $date, ?string $startOffset = null, string $refDay = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
             throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
@@ -203,10 +210,15 @@ class RuleCreator
         $day = strtoupper(substr($nextRefDay->format('D'), 0, -1));
         $offset = $nextRefDay->diff($date)->format('%R%a');
 
+        $rule['TYPE'] = 'LASTDAY';
         $rule['BYDAY'] = '-1' . $day;
         $rule['BYMONTH'] = (int)$nextRefDay->format('n');
         if (abs($offset) > 0) {
             $rule['OFFSET'] = '-1' . strtoupper(substr($date->format('D'), 0, -1));
+        }
+
+        if ($startOffset) {
+            $rule['STARTOFFSET'] = $startOffset;
         }
 
         return $rule;
@@ -217,9 +229,10 @@ class RuleCreator
      *
      * @since 1.0.0
      * @param \DateTime $date
+     * @param string|null $startOffset
      * @return array
      */
-    public function special(\DateTime $date): array
+    public function special(\DateTime $date, ?string $startOffset = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
             throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
