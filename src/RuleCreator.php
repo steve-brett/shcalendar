@@ -229,18 +229,35 @@ class RuleCreator
         $year = (int)$date->format('Y');
         $special = $this->calculateSpecial($year);
         $special = $this->ymdToDatetime($special);
-        $closest = $this->findClosest($date, $special);
-        $offset = $closest['offset'];
+        $closest_specials = $this->findSpecialInWeek($date, $special);
 
-        $rule['SPECIAL'] = $closest['date'];
-        if (abs($offset) > 7) {
+        if (empty($closest_specials)) {
             // TODO Is this the right thing to do, or return false?
             throw new \InvalidArgumentException('Not within a week of a special day.
       Got [' . $date->format('Y-m-d') . ']');
         }
-        if (abs($offset) > 0) {
-            $rule['OFFSET'] = $this->sign($offset) . strtoupper(substr($date->format('D'), 0, -1));
+
+        foreach ($closest_specials as $id => $offset) {
+            $i = 0;
+            $rule[$i]['SPECIAL'] = $id;
+            $rule[$i]['TYPE'] = 'SPECIAL';
+
+            if (abs($offset) > 0) {
+                $rule[$i]['OFFSET'] = $this->sign($offset) . strtoupper(substr($date->format('D'), 0, -1));
+            }
+
+            if ($startOffset) {
+                $rule[$i]['STARTOFFSET'] = $startOffset;
+            }
+
+            $i++;
         }
+
+        // Return single array if only one
+        if ($i === 1) {
+            return $rule[0];
+        }
+
         return $rule;
     }
 
@@ -499,14 +516,40 @@ class RuleCreator
     }
 
     /**
+     * Finds any DateTime objects in array that are within a week of $needle
+     *
+     * @since 1.1.0
+     * @param \DateTime $needle
+     * @param array $haystack
+     * @return array
+     */
+    private function findSpecialInWeek(\DateTime $needle, array $haystack): array
+    {
+        $output = array();
+
+        foreach ($haystack as $k => $hay) {
+            $difference = (int)$hay->diff($needle)->format('%R%a');
+
+            if (abs($difference) <= 7) {
+                $output[$k] = $difference;
+            }
+        }
+
+        // Sort by
+        uasort($output, array($this, 'absCompare'));
+
+        return $output;
+    }
+
+    /**
      * Finds closest DateTime object in array to $needle
      *
      * @since 1.0.0
      * @param \DateTime $needle
      * @param array $haystack
-     * @return void
+     * @return array
      */
-    private function findClosest(\DateTime $needle, array $haystack): array // TODO return type?
+    private function findClosest(\DateTime $needle, array $haystack): array
     {
         foreach ($haystack as $k => $hay) {
             $interval[$k] = (int)$hay->diff($needle)->format('%R%a');
