@@ -7,7 +7,7 @@ namespace SacredHarpCalendar\Test;
 use SacredHarpCalendar\RuleCreator;
 use PHPUnit\Framework\TestCase;
 
-class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
+class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
 {
     /**
      * @var RuleCreator
@@ -24,6 +24,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
         return [
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU'
                 ],
@@ -32,6 +33,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '2SU'
                 ],
@@ -40,6 +42,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '3SU'
                 ],
@@ -48,6 +51,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 6,
                     'BYDAY' => '1SU'
                 ],
@@ -56,6 +60,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 7,
                     'BYDAY' => '1SU'
                 ],
@@ -81,6 +86,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // Saturday before first sunday
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1SA'
@@ -93,6 +99,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // Saturday before nth sunday
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '2SU',
                     'OFFSET' => '-1SA'
@@ -105,6 +112,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // First sunday is 1st of the month
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 7,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1SA'
@@ -117,6 +125,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // First Sunday is 1st Jan
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 1,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1SA'
@@ -129,6 +138,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // Friday before first Sunday
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1FR'
@@ -141,6 +151,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // Six days before first Sunday
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '1SU',
                     'OFFSET' => '-1MO'
@@ -159,7 +170,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
      */
     public function testHappyPathSundayOffset(array $expectedValue, array $inputValue): void
     {
-        $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']));
+        $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), null, $inputValue['refday']));
     }
 
     public function happyPathDayDataProvider(): array
@@ -168,6 +179,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // First Saturday
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '1SA'
                 ],
@@ -177,6 +189,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // Second Saturday
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '2SA'
                 ],
@@ -186,6 +199,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // Third Saturday
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '3SA'
                 ],
@@ -195,6 +209,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // Fourth Saturday
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '4SA'
                 ],
@@ -204,6 +219,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // Different month
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 6,
                     'BYDAY' => '1SA'
                 ],
@@ -214,6 +230,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
             // TODO Unnecessary?
             [
                 [
+                    'TYPE' => 'NTHDAY',
                     'BYMONTH' => 6,
                     'BYDAY' => '1MO'
                 ],
@@ -281,7 +298,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
     public function testTwoThrowsException(array $inputValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']);
+        $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), null, $inputValue['refday']);
     }
 
     /**
@@ -292,16 +309,19 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
     {
         return [
             [[
+                'TYPE' => 'LASTDAY',
                 'BYMONTH' => 5,
                 'BYDAY' => '-1SU'
             ], '2019-05-26'],
 
             [[
+                'TYPE' => 'LASTDAY',
                 'BYMONTH' => 6,
                 'BYDAY' => '-1SU'
             ], '2019-06-30'],
 
             [[
+                'TYPE' => 'LASTDAY',
                 'BYMONTH' => 6,
                 'BYDAY' => '-1SA'
             ], '2019-06-29'],
@@ -321,6 +341,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
         return [
             [
                 [
+                    'TYPE' => 'LASTDAY',
                     'BYMONTH' => 5,
                     'BYDAY' => '-1SU',
                     'OFFSET' => '-1SA'
@@ -339,7 +360,7 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
      */
     public function testHappyPathLastSundayOffset(array $expectedValue, array $inputValue): void
     {
-        $this->assertEquals($expectedValue, $this->rule->lastDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), $inputValue['refday']));
+        $this->assertEquals($expectedValue, $this->rule->lastDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), null, $inputValue['refday']));
     }
 
 
@@ -365,34 +386,91 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
     /**
      * Special day tests -----------------------------------------------
      */
-    // TODO: change offset to -MO, SU etc
     public function happyPathSpecialDataProvider(): array
     {
         return [
-            [['SPECIAL' => 'newYear'], '2019-01-01'],
+            [
+                [
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'newYear'
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'boxingDay',
+                        'OFFSET' => '1TU'
+                    ]
+                ],
+                '2019-01-01'
+            ],
 
-            [['SPECIAL' => 'palmSunday'], '2019-04-14'],
+            [
+                [
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'palmSunday'
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'easter',
+                        'OFFSET' => '-1SU'
+                    ]
+                ],
+                '2019-04-14'
+            ],
 
-            [['SPECIAL' => 'easter'], '2019-04-21'],
+            [
+                [
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'easter'
+                    ]
+                ],
+                '2019-04-21'
+            ],
 
-            [['SPECIAL' => 'independence'], '2019-07-04'],
+            [
+                [[
+                    'TYPE' => 'SPECIAL',
+                    'SPECIAL' => 'independence',
+                ]],
+                '2019-07-04'
+            ],
 
-            [['SPECIAL' => 'independence'], '2020-07-04'],
+            [
+                [[
+                    'TYPE' => 'SPECIAL',
+                    'SPECIAL' => 'independence',
+                ]],
+                '2020-07-04'
+            ],
 
-            [[
-                'SPECIAL' => 'independence',
-                'OFFSET' => '-1SA',
-            ], '2021-07-03'],
+            [
+                [[
+                    'TYPE' => 'SPECIAL',
+                    'SPECIAL' => 'independence',
+                    'OFFSET' => '-1SA',
+                ]],
+                '2021-07-03'
+            ],
 
-            [[
-                'SPECIAL' => 'independence',
-                'OFFSET' => '-1SU',
-            ], '2021-06-27'],
+            [
+                [[
+                    'TYPE' => 'SPECIAL',
+                    'SPECIAL' => 'independence',
+                    'OFFSET' => '-1SU',
+                ]],
+                '2021-06-27'
+            ],
 
-            [[
-                'SPECIAL' => 'whitsun',
-                'OFFSET' => '1SA',
-            ], '2019-06-01'],
+            [
+                [[
+                    'TYPE' => 'SPECIAL',
+                    'SPECIAL' => 'whitsun',
+                    'OFFSET' => '1SA',
+                ]],
+                '2019-06-01'
+            ],
 
         ];
     }
@@ -556,16 +634,19 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
         return [
             [
                 [
-                    'NTHSUN' => [
+                    [
+                        'TYPE' => 'NTHDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '2SU',
                         'OFFSET' => '-1SA',
                     ],
-                    'NTHDAY' => [
+                    [
+                        'TYPE' => 'NTHDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '2SA'
                     ],
-                    'SPECIAL' => [
+                    [
+                        'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'mayDay',
                         'OFFSET' => '1SA'
                     ],
@@ -578,25 +659,30 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
-                    'NTHSUN' => [
+                    [
+                        'TYPE' => 'NTHDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '4SU',
                         'OFFSET' => '-1SA'
                     ],
-                    'NTHDAY' => [
-                        'BYMONTH' => 5,
-                        'BYDAY' => '4SA'
-                    ],
-                    'LASTSUN' => [
+                    [
+                        'TYPE' => 'LASTDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '-1SU',
                         'OFFSET' => '-1SA'
                     ],
-                    'LASTDAY' => [
+                    [
+                        'TYPE' => 'NTHDAY',
+                        'BYMONTH' => 5,
+                        'BYDAY' => '4SA'
+                    ],
+                    [
+                        'TYPE' => 'LASTDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '-1SA'
                     ],
-                    'SPECIAL' => [
+                    [
+                        'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'whitsun',
                         'OFFSET' => '-1SA'
                     ],
@@ -609,16 +695,19 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
-                    'LASTSUN' => [
+                    [
+                        'TYPE' => 'LASTDAY',
                         'BYMONTH' => 6,
                         'BYDAY' => '-1SU',
                         'OFFSET' => '-1SA'
                     ],
-                    'LASTDAY' => [
+                    [
+                        'TYPE' => 'LASTDAY',
                         'BYMONTH' => 6,
                         'BYDAY' => '-1SA'
                     ],
-                    'SPECIAL' => [
+                    [
+                        'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'independence',
                         'OFFSET' => '-1SA'
                     ],
@@ -631,11 +720,13 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
-                    'NTHSUN' => [
+                    [
+                        'TYPE' => 'NTHDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '2SU'
                     ],
-                    'SPECIAL' => [
+                    [
+                        'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'mayDay',
                         'OFFSET' => '1SU'
                     ],
@@ -648,15 +739,18 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
-                    'NTHSUN' => [
+                    [
+                        'TYPE' => 'NTHDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '4SU'
                     ],
-                    'LASTSUN' => [
+                    [
+                        'TYPE' => 'LASTDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '-1SU'
                     ],
-                    'SPECIAL' => [
+                    [
+                        'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'whitsun',
                         'OFFSET' => '-1SU'
                     ],
@@ -669,7 +763,8 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
-                    'NTHSUN' => [
+                    [
+                        'TYPE' => 'NTHDAY',
                         'BYMONTH' => 9,
                         'BYDAY' => '3SU',
                         'STARTOFFSET' => -1
@@ -683,17 +778,20 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
-                    'NTHSUN' => [
+                    [
+                        'TYPE' => 'NTHDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '4SU',
                         'STARTOFFSET' => -1
                     ],
-                    'LASTSUN' => [
+                    [
+                        'TYPE' => 'LASTDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '-1SU',
                         'STARTOFFSET' => -1
                     ],
-                    'SPECIAL' => [
+                    [
+                        'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'whitsun',
                         'OFFSET' => '-1SU',
                         'STARTOFFSET' => -1
@@ -707,24 +805,28 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
-                    'NTHSUN' => [
+                    [
+                        'TYPE' => 'NTHDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '4SU',
                         'OFFSET' => '-1FR',
                         'STARTOFFSET' => -1
                     ],
-                    'NTHDAY' => [
-                        'BYMONTH' => 5,
-                        'BYDAY' => '4FR',
-                        'STARTOFFSET' => -1
-                    ],
-                    'LASTSUN' => [
+                    [
+                        'TYPE' => 'LASTDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '-1SU',
                         'OFFSET' => '-1FR',
                         'STARTOFFSET' => -1
                     ],
-                    'SPECIAL' => [
+                    [
+                        'TYPE' => 'NTHDAY',
+                        'BYMONTH' => 5,
+                        'BYDAY' => '4FR',
+                        'STARTOFFSET' => -1
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'whitsun',
                         'OFFSET' => '-1FR',
                         'STARTOFFSET' => -1
@@ -738,18 +840,21 @@ class RuleCreatorTest extends TestCase  # Has to be [ClassName]Test
 
             [
                 [
-                    'NTHSUN' => [
+                    [
+                        'TYPE' => 'NTHDAY',
                         'BYMONTH' => 6,
                         'BYDAY' => '1SU',
                         'OFFSET' => '-1FR',
                         'STARTOFFSET' => -2
                     ],
-                    'LASTDAY' => [
+                    [
+                        'TYPE' => 'LASTDAY',
                         'BYMONTH' => 5,
                         'BYDAY' => '-1FR',
                         'STARTOFFSET' => -2
                     ],
-                    'SPECIAL' => [
+                    [
+                        'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'whitsun',
                         'OFFSET' => '1FR',
                         'STARTOFFSET' => -2
