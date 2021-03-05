@@ -253,8 +253,8 @@ class RuleCreator
       Got [' . $date->format('Y-m-d') . ']');
         }
 
+        $i = 0;
         foreach ($closest_specials as $id => $offset) {
-            $i = 0;
             $rule[$i]['SPECIAL'] = $id;
             $rule[$i]['TYPE'] = 'SPECIAL';
 
