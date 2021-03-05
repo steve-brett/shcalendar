@@ -37,6 +37,8 @@ class RuleCreator
 
         $day = $date->format('N');
 
+        $output = [];
+
         try {
             $output[] = $this->nthDay($date, $startOffset, 'Sun');
         } catch (\Exception $e) {
@@ -60,7 +62,8 @@ class RuleCreator
         }
 
         try {
-            $output[] = $this->special($date, $startOffset);
+            $special = $this->special($date, $startOffset);
+            array_push($output, ...$special);
         } catch (\Exception $e) {
         }
 
@@ -264,11 +267,6 @@ class RuleCreator
             }
 
             $i++;
-        }
-
-        // Return single array if only one
-        if ($i === 1) {
-            return $rule[0];
         }
 
         return $rule;
