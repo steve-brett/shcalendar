@@ -550,6 +550,10 @@ class RuleCreator
             $difference = (int)$hay->diff($needle)->format('%R%a');
 
             if (abs($difference) <= 7) {
+                // Rename keys
+                $k = str_replace('newYearNext', 'newYear', $k);
+                $k = str_replace('boxingDayLast', 'boxingDay', $k);
+
                 $output[$k] = $difference;
             }
         }
