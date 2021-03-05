@@ -239,6 +239,14 @@ class RuleCreator
         $special = $this->ymdToDatetime($special);
         $closest_specials = $this->findSpecialInWeek($date, $special);
 
+        $all_exact_specials = $this->calculateExactSpecial($year);
+        $exact_specials = $this->findExactSpecials($date, $all_exact_specials);
+
+        $closest_specials = array_merge($closest_specials, $exact_specials);
+
+        // Sort by difference
+        uasort($closest_specials, array($this, 'absCompare'));
+
         if (empty($closest_specials)) {
             // TODO Is this the right thing to do, or return false?
             throw new \InvalidArgumentException('Not within a week of a special day.
@@ -287,21 +295,8 @@ class RuleCreator
         // New year's day:
         $specials['newYear'] = "$year-01-01";
 
-        // Palm Sunday:
-        $specials['palmSunday'] = date("Y-m-d", strtotime("+" . (easter_days($year) - 7) . " days", strtotime("$year-03-21 00:00:00")));
-
-        /*
-      // Good friday:
-      $specials['goodFriday'] = date("Y-m-d", strtotime("+".(easter_days($year) - 2)." days", strtotime("$year-03-21 00:00:00")));
-      */
-
         // Easter:
         $specials['easter'] = date("Y-m-d", strtotime("+" . easter_days($year) . " days", strtotime("$year-03-21 00:00:00")));
-
-        /*
-      // Easter Monday:
-      $specials['easterMonday'] = date("Y-m-d", strtotime("+".(easter_days($year) + 1)." days", strtotime("$year-03-21 00:00:00")));
-      */
 
         // May Day:
         if ($year == 1995) {
@@ -366,31 +361,6 @@ class RuleCreator
             }
         }
 
-        // non-standard South West singing formula:
-        switch (date("w", strtotime("$year-05-31 00:00:00"))) {
-            case 0:
-                $specials['southWestWhitsun'] = "$year-06-06";
-                break;
-            case 1:
-                $specials['southWestWhitsun'] = "$year-06-12";
-                break;
-            case 2:
-                $specials['southWestWhitsun'] = "$year-06-11";
-                break;
-            case 3:
-                $specials['southWestWhitsun'] = "$year-06-10";
-                break;
-            case 4:
-                $specials['southWestWhitsun'] = "$year-06-09";
-                break;
-            case 5:
-                $specials['southWestWhitsun'] = "$year-06-08";
-                break;
-            case 6:
-                $specials['southWestWhitsun'] = "$year-06-07";
-                break;
-        }
-
         // Independence Day
         $specials['independence'] = "$year-07-04";
 
@@ -446,32 +416,6 @@ class RuleCreator
                 break;
         }
 
-
-        // non-standard Scottish Shenandoah formula:
-        switch (date("w", strtotime("$year-10-16 00:00:00"))) {
-            case 0:
-                $specials['scottishShenandoah'] = "$year-10-22";
-                break;
-            case 1:
-                $specials['scottishShenandoah'] = "$year-10-21";
-                break;
-            case 2:
-                $specials['scottishShenandoah'] = "$year-10-20";
-                break;
-            case 3:
-                $specials['scottishShenandoah'] = "$year-10-19";
-                break;
-            case 4:
-                $specials['scottishShenandoah'] = "$year-10-18";
-                break;
-            case 5:
-                $specials['scottishShenandoah'] = "$year-10-17";
-                break;
-            case 6:
-                $specials['scottishShenandoah'] = "$year-10-16";
-                break;
-        }
-
         // Thanksgiving: (Fourth Thu in Nov)
         switch (date("w", strtotime("$year-11-24 00:00:00"))) {
             case 0:
@@ -504,6 +448,80 @@ class RuleCreator
         $nextYear = $year + 1;
 
         $specials['newYearNext'] = "$nextYear-01-01";
+
+        return $specials;
+    }
+
+    /**
+     * Generates array of special days in a given year.
+     *
+     * @see Rule::$specials for keys.
+     *
+     * @since 2.0.0
+     * @param integer $year
+     * @return array
+     */
+    public function calculateExactSpecial(int $year = null): array
+    {
+        // default to current year if not set
+        $year = $year ?: (int) date('Y');
+
+        $specials = array();
+
+        // Palm Sunday:
+        $specials['palmSunday'] = date("Y-m-d", strtotime("+" . (easter_days($year) - 7) . " days", strtotime("$year-03-21 00:00:00")));
+
+
+        // non-standard South West singing formula:
+        switch (date("w", strtotime("$year-05-31 00:00:00"))) {
+            case 0:
+                $specials['southWestWhitsun'] = "$year-06-06";
+                break;
+            case 1:
+                $specials['southWestWhitsun'] = "$year-06-12";
+                break;
+            case 2:
+                $specials['southWestWhitsun'] = "$year-06-11";
+                break;
+            case 3:
+                $specials['southWestWhitsun'] = "$year-06-10";
+                break;
+            case 4:
+                $specials['southWestWhitsun'] = "$year-06-09";
+                break;
+            case 5:
+                $specials['southWestWhitsun'] = "$year-06-08";
+                break;
+            case 6:
+                $specials['southWestWhitsun'] = "$year-06-07";
+                break;
+        }
+
+
+        // non-standard Scottish Shenandoah formula:
+        switch (date("w", strtotime("$year-10-16 00:00:00"))) {
+            case 0:
+                $specials['scottishShenandoah'] = "$year-10-22";
+                break;
+            case 1:
+                $specials['scottishShenandoah'] = "$year-10-21";
+                break;
+            case 2:
+                $specials['scottishShenandoah'] = "$year-10-20";
+                break;
+            case 3:
+                $specials['scottishShenandoah'] = "$year-10-19";
+                break;
+            case 4:
+                $specials['scottishShenandoah'] = "$year-10-18";
+                break;
+            case 5:
+                $specials['scottishShenandoah'] = "$year-10-17";
+                break;
+            case 6:
+                $specials['scottishShenandoah'] = "$year-10-16";
+                break;
+        }
 
         return $specials;
     }
@@ -542,9 +560,6 @@ class RuleCreator
             $difference = (int)$hay->diff($needle)->format('%R%a');
 
             // Don't duplicate Easter/Palm Sunday
-            if (('palmSunday' == $k) && (7 == $difference)) {
-                continue;
-            }
             if (('easter' == $k) && (-7 == $difference)) {
                 continue;
             }
@@ -558,8 +573,26 @@ class RuleCreator
             }
         }
 
-        // Sort by
-        uasort($output, array($this, 'absCompare'));
+        return $output;
+    }
+
+    /**
+     * Finds any dates in array that are the same as $needle
+     *
+     * @since 1.1.0
+     * @param \DateTime $needle
+     * @param array $haystack
+     * @return array
+     */
+    private function findExactSpecials(\DateTime $needle, array $haystack): array
+    {
+        $output = array();
+
+        foreach ($haystack as $k => $hay) {
+            if ($hay === $needle->format('Y-m-d')) {
+                $output[$k] = 0;
+            }
+        }
 
         return $output;
     }
