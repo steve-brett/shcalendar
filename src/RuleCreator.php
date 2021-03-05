@@ -67,14 +67,6 @@ class RuleCreator
         } catch (\Exception $e) {
         }
 
-        // var_dump($output);
-
-
-        // // Add STARTOFFSET to each array
-        // if (isset($input['STARTOFFSET'])) {
-        //     $output = $this->addStartOffset($output, $input['STARTOFFSET']);
-        // }
-
         return $output;
     }
 
@@ -548,6 +540,14 @@ class RuleCreator
 
         foreach ($haystack as $k => $hay) {
             $difference = (int)$hay->diff($needle)->format('%R%a');
+
+            // Don't duplicate Easter/Palm Sunday
+            if (('palmSunday' == $k) && (7 == $difference)) {
+                continue;
+            }
+            if (('easter' == $k) && (-7 == $difference)) {
+                continue;
+            }
 
             if (abs($difference) <= 7) {
                 // Rename keys
