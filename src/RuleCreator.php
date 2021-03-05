@@ -284,9 +284,13 @@ class RuleCreator
     public function calculateSpecial(int $year = null): array
     {
         // default to current year if not set
-        $year = $year ?: date('Y');
+        $year = $year ?: (int) date('Y');
 
         $specials = array();
+
+        $lastYear = $year - 1;
+
+        $specials['boxingDayLast'] = "$lastYear-12-26";
 
         // New year's day:
         $specials['newYear'] = "$year-01-01";
@@ -504,6 +508,10 @@ class RuleCreator
         // Christmas:
         $specials['christmas'] = "$year-12-25";
         $specials['boxingDay'] = "$year-12-26";
+
+        $nextYear = $year + 1;
+
+        $specials['newYearNext'] = "$nextYear-01-01";
 
         return $specials;
     }
