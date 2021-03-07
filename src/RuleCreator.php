@@ -121,7 +121,7 @@ class RuleCreator
      *
      * @since 1.0.0
      * @param \DateTime $date
-     * @param string|null $startOffset
+     * @param int:null $startOffset
      * @param string $refDay
      * @return array
      */
@@ -174,7 +174,7 @@ class RuleCreator
      *
      * @since 1.0.0
      * @param \DateTime $date
-     * @param string|null $startOffset
+     * @param int:null $startOffset
      * @param string $refDay
      * @return array
      */
@@ -224,7 +224,7 @@ class RuleCreator
      *
      * @since 1.0.0
      * @param \DateTime $date
-     * @param string|null $startOffset
+     * @param int:null $startOffset
      * @return array
      */
     public function special(\DateTime $date, ?int $startOffset = null): array
