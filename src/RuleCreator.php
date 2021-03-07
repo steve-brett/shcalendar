@@ -445,7 +445,7 @@ class RuleCreator
      *
      * @see Rule::$specials for keys.
      *
-     * @since 2.0.0
+     * @since 1.1.0
      * @param integer $year
      * @return array
      */
