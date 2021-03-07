@@ -33,43 +33,38 @@ class RuleCreator
     {
         $input = $this->span($start, $end);
         $date = $input['DATE'];
+        $startOffset = isset($input['STARTOFFSET']) ? $input['STARTOFFSET'] : null;
 
         $day = $date->format('N');
 
+        $output = [];
+
         try {
-            $output['NTHSUN'] = $this->nthDay($date, 'Sun');
+            $output[] = $this->nthDay($date, $startOffset, 'Sun');
         } catch (\Exception $e) {
         }
 
         try {
-            $output['LASTSUN'] = $this->lastDay($date, 'Sun');
+            $output[] = $this->lastDay($date, $startOffset, 'Sun');
         } catch (\Exception $e) {
         }
 
         if ($day != 7) {
             try {
-                $output['NTHDAY'] = $this->nthDay($date);
+                $output[] = $this->nthDay($date, $startOffset);
             } catch (\Exception $e) {
             }
 
             try {
-                $output['LASTDAY'] = $this->lastDay($date);
+                $output[] = $this->lastDay($date, $startOffset);
             } catch (\Exception $e) {
             }
         }
 
         try {
-            $output['SPECIAL'] = $this->special($date);
+            $special = $this->special($date, $startOffset);
+            array_push($output, ...$special);
         } catch (\Exception $e) {
-        }
-
-
-        // Add STARTOFFSET to each array
-        if (isset($input['STARTOFFSET'])) {
-            foreach ($output as &$rule) {
-                $rule['STARTOFFSET'] = $input['STARTOFFSET'];
-            }
-            unset($rule);
         }
 
         return $output;
@@ -126,10 +121,11 @@ class RuleCreator
      *
      * @since 1.0.0
      * @param \DateTime $date
+     * @param int:null $startOffset
      * @param string $refDay
      * @return array
      */
-    public function nthDay(\DateTime $date, string $refDay = null): array
+    public function nthDay(\DateTime $date, ?int $startOffset = null, string $refDay = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
             throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
@@ -157,10 +153,15 @@ class RuleCreator
         $day = strtoupper(substr($nextRefDay->format('D'), 0, -1));
         $offset = $nextRefDay->diff($date)->format('%R%a');
 
+        $rule['TYPE'] = 'NTHDAY';
         $rule['BYDAY'] = $count . $day;
         $rule['BYMONTH'] = (int)$nextRefDay->format('n');
         if (abs($offset) > 0) {
             $rule['OFFSET'] = '-1' . strtoupper(substr($date->format('D'), 0, -1));
+        }
+
+        if ($startOffset) {
+            $rule['STARTOFFSET'] = $startOffset;
         }
 
         return $rule;
@@ -173,10 +174,11 @@ class RuleCreator
      *
      * @since 1.0.0
      * @param \DateTime $date
+     * @param int:null $startOffset
      * @param string $refDay
      * @return array
      */
-    public function lastDay(\DateTime $date, string $refDay = null): array
+    public function lastDay(\DateTime $date, ?int $startOffset = null, string $refDay = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
             throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
@@ -203,10 +205,15 @@ class RuleCreator
         $day = strtoupper(substr($nextRefDay->format('D'), 0, -1));
         $offset = $nextRefDay->diff($date)->format('%R%a');
 
+        $rule['TYPE'] = 'LASTDAY';
         $rule['BYDAY'] = '-1' . $day;
         $rule['BYMONTH'] = (int)$nextRefDay->format('n');
         if (abs($offset) > 0) {
             $rule['OFFSET'] = '-1' . strtoupper(substr($date->format('D'), 0, -1));
+        }
+
+        if ($startOffset) {
+            $rule['STARTOFFSET'] = $startOffset;
         }
 
         return $rule;
@@ -217,9 +224,10 @@ class RuleCreator
      *
      * @since 1.0.0
      * @param \DateTime $date
+     * @param int:null $startOffset
      * @return array
      */
-    public function special(\DateTime $date): array
+    public function special(\DateTime $date, ?int $startOffset = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
             throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
@@ -229,18 +237,38 @@ class RuleCreator
         $year = (int)$date->format('Y');
         $special = $this->calculateSpecial($year);
         $special = $this->ymdToDatetime($special);
-        $closest = $this->findClosest($date, $special);
-        $offset = $closest['offset'];
+        $closest_specials = $this->findSpecialInWeek($date, $special);
 
-        $rule['SPECIAL'] = $closest['date'];
-        if (abs($offset) > 7) {
+        $all_exact_specials = $this->calculateExactSpecial($year);
+        $exact_specials = $this->findExactSpecials($date, $all_exact_specials);
+
+        $closest_specials = array_merge($closest_specials, $exact_specials);
+
+        // Sort by difference
+        uasort($closest_specials, array($this, 'absCompare'));
+
+        if (empty($closest_specials)) {
             // TODO Is this the right thing to do, or return false?
             throw new \InvalidArgumentException('Not within a week of a special day.
       Got [' . $date->format('Y-m-d') . ']');
         }
-        if (abs($offset) > 0) {
-            $rule['OFFSET'] = $this->sign($offset) . strtoupper(substr($date->format('D'), 0, -1));
+
+        $i = 0;
+        foreach ($closest_specials as $id => $offset) {
+            $rule[$i]['SPECIAL'] = $id;
+            $rule[$i]['TYPE'] = 'SPECIAL';
+
+            if (abs($offset) > 0) {
+                $rule[$i]['OFFSET'] = $this->sign($offset) . strtoupper(substr($date->format('D'), 0, -1));
+            }
+
+            if ($startOffset) {
+                $rule[$i]['STARTOFFSET'] = $startOffset;
+            }
+
+            $i++;
         }
+
         return $rule;
     }
 
@@ -256,28 +284,12 @@ class RuleCreator
     public function calculateSpecial(int $year = null): array
     {
         // default to current year if not set
-        $year = $year ?: date('Y');
+        $year = $year ?: (int) date('Y');
 
         $specials = array();
 
-        // New year's day:
-        $specials['newYear'] = "$year-01-01";
-
-        // Palm Sunday:
-        $specials['palmSunday'] = date("Y-m-d", strtotime("+" . (easter_days($year) - 7) . " days", strtotime("$year-03-21 00:00:00")));
-
-        /*
-      // Good friday:
-      $specials['goodFriday'] = date("Y-m-d", strtotime("+".(easter_days($year) - 2)." days", strtotime("$year-03-21 00:00:00")));
-      */
-
         // Easter:
         $specials['easter'] = date("Y-m-d", strtotime("+" . easter_days($year) . " days", strtotime("$year-03-21 00:00:00")));
-
-        /*
-      // Easter Monday:
-      $specials['easterMonday'] = date("Y-m-d", strtotime("+".(easter_days($year) + 1)." days", strtotime("$year-03-21 00:00:00")));
-      */
 
         // May Day:
         if ($year == 1995) {
@@ -342,31 +354,6 @@ class RuleCreator
             }
         }
 
-        // non-standard South West singing formula:
-        switch (date("w", strtotime("$year-05-31 00:00:00"))) {
-            case 0:
-                $specials['southWestWhitsun'] = "$year-06-06";
-                break;
-            case 1:
-                $specials['southWestWhitsun'] = "$year-06-12";
-                break;
-            case 2:
-                $specials['southWestWhitsun'] = "$year-06-11";
-                break;
-            case 3:
-                $specials['southWestWhitsun'] = "$year-06-10";
-                break;
-            case 4:
-                $specials['southWestWhitsun'] = "$year-06-09";
-                break;
-            case 5:
-                $specials['southWestWhitsun'] = "$year-06-08";
-                break;
-            case 6:
-                $specials['southWestWhitsun'] = "$year-06-07";
-                break;
-        }
-
         // Independence Day
         $specials['independence'] = "$year-07-04";
 
@@ -422,32 +409,6 @@ class RuleCreator
                 break;
         }
 
-
-        // non-standard Scottish Shenandoah formula:
-        switch (date("w", strtotime("$year-10-16 00:00:00"))) {
-            case 0:
-                $specials['scottishShenandoah'] = "$year-10-22";
-                break;
-            case 1:
-                $specials['scottishShenandoah'] = "$year-10-21";
-                break;
-            case 2:
-                $specials['scottishShenandoah'] = "$year-10-20";
-                break;
-            case 3:
-                $specials['scottishShenandoah'] = "$year-10-19";
-                break;
-            case 4:
-                $specials['scottishShenandoah'] = "$year-10-18";
-                break;
-            case 5:
-                $specials['scottishShenandoah'] = "$year-10-17";
-                break;
-            case 6:
-                $specials['scottishShenandoah'] = "$year-10-16";
-                break;
-        }
-
         // Thanksgiving: (Fourth Thu in Nov)
         switch (date("w", strtotime("$year-11-24 00:00:00"))) {
             case 0:
@@ -475,6 +436,85 @@ class RuleCreator
 
         // Christmas:
         $specials['christmas'] = "$year-12-25";
+
+        return $specials;
+    }
+
+    /**
+     * Generates array of special days in a given year.
+     *
+     * @see Rule::$specials for keys.
+     *
+     * @since 2.0.0
+     * @param integer $year
+     * @return array
+     */
+    public function calculateExactSpecial(int $year = null): array
+    {
+        // default to current year if not set
+        $year = $year ?: (int) date('Y');
+
+        $specials = array();
+
+
+        // New year's day:
+        $specials['newYear'] = "$year-01-01";
+
+        // Palm Sunday:
+        $specials['palmSunday'] = date("Y-m-d", strtotime("+" . (easter_days($year) - 7) . " days", strtotime("$year-03-21 00:00:00")));
+
+
+        // non-standard South West singing formula:
+        switch (date("w", strtotime("$year-05-31 00:00:00"))) {
+            case 0:
+                $specials['southWestWhitsun'] = "$year-06-06";
+                break;
+            case 1:
+                $specials['southWestWhitsun'] = "$year-06-12";
+                break;
+            case 2:
+                $specials['southWestWhitsun'] = "$year-06-11";
+                break;
+            case 3:
+                $specials['southWestWhitsun'] = "$year-06-10";
+                break;
+            case 4:
+                $specials['southWestWhitsun'] = "$year-06-09";
+                break;
+            case 5:
+                $specials['southWestWhitsun'] = "$year-06-08";
+                break;
+            case 6:
+                $specials['southWestWhitsun'] = "$year-06-07";
+                break;
+        }
+
+
+        // non-standard Scottish Shenandoah formula:
+        switch (date("w", strtotime("$year-10-16 00:00:00"))) {
+            case 0:
+                $specials['scottishShenandoah'] = "$year-10-22";
+                break;
+            case 1:
+                $specials['scottishShenandoah'] = "$year-10-21";
+                break;
+            case 2:
+                $specials['scottishShenandoah'] = "$year-10-20";
+                break;
+            case 3:
+                $specials['scottishShenandoah'] = "$year-10-19";
+                break;
+            case 4:
+                $specials['scottishShenandoah'] = "$year-10-18";
+                break;
+            case 5:
+                $specials['scottishShenandoah'] = "$year-10-17";
+                break;
+            case 6:
+                $specials['scottishShenandoah'] = "$year-10-16";
+                break;
+        }
+
         $specials['boxingDay'] = "$year-12-26";
 
         return $specials;
@@ -499,14 +539,63 @@ class RuleCreator
     }
 
     /**
+     * Finds any DateTime objects in array that are within a week of $needle
+     *
+     * @since 1.1.0
+     * @param \DateTime $needle
+     * @param array $haystack
+     * @return array
+     */
+    private function findSpecialInWeek(\DateTime $needle, array $haystack): array
+    {
+        $output = array();
+
+        foreach ($haystack as $k => $hay) {
+            $difference = (int)$hay->diff($needle)->format('%R%a');
+
+            // Don't duplicate Easter/Palm Sunday
+            if (('easter' == $k) && (-7 == $difference)) {
+                continue;
+            }
+
+            if (abs($difference) <= 7) {
+                $output[$k] = $difference;
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * Finds any dates in array that are the same as $needle
+     *
+     * @since 1.1.0
+     * @param \DateTime $needle
+     * @param array $haystack
+     * @return array
+     */
+    private function findExactSpecials(\DateTime $needle, array $haystack): array
+    {
+        $output = array();
+
+        foreach ($haystack as $k => $hay) {
+            if ($hay === $needle->format('Y-m-d')) {
+                $output[$k] = 0;
+            }
+        }
+
+        return $output;
+    }
+
+    /**
      * Finds closest DateTime object in array to $needle
      *
      * @since 1.0.0
      * @param \DateTime $needle
      * @param array $haystack
-     * @return void
+     * @return array
      */
-    private function findClosest(\DateTime $needle, array $haystack): array // TODO return type?
+    private function findClosest(\DateTime $needle, array $haystack): array
     {
         foreach ($haystack as $k => $hay) {
             $interval[$k] = (int)$hay->diff($needle)->format('%R%a');
