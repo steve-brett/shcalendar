@@ -33,7 +33,7 @@ class RuleCreator
     {
         $input = $this->span($start, $end);
         $date = $input['DATE'];
-        $startOffset = isset($input['STARTOFFSET']) ? (string) $input['STARTOFFSET'] : null;
+        $startOffset = isset($input['STARTOFFSET']) ? $input['STARTOFFSET'] : null;
 
         $day = $date->format('N');
 
@@ -125,7 +125,7 @@ class RuleCreator
      * @param string $refDay
      * @return array
      */
-    public function nthDay(\DateTime $date, ?string $startOffset = null, string $refDay = null): array
+    public function nthDay(\DateTime $date, ?int $startOffset = null, string $refDay = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
             throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
@@ -178,7 +178,7 @@ class RuleCreator
      * @param string $refDay
      * @return array
      */
-    public function lastDay(\DateTime $date, ?string $startOffset = null, string $refDay = null): array
+    public function lastDay(\DateTime $date, ?int $startOffset = null, string $refDay = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
             throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
@@ -227,7 +227,7 @@ class RuleCreator
      * @param string|null $startOffset
      * @return array
      */
-    public function special(\DateTime $date, ?string $startOffset = null): array
+    public function special(\DateTime $date, ?int $startOffset = null): array
     {
         if ($date < \DateTime::createFromFormat('Y-m-d', '1800-01-01')) {
             throw new \InvalidArgumentException('Date must be 1800-01-01 or after.
