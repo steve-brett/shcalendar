@@ -288,13 +288,6 @@ class RuleCreator
 
         $specials = array();
 
-        $lastYear = $year - 1;
-
-        $specials['boxingDayLast'] = "$lastYear-12-26";
-
-        // New year's day:
-        $specials['newYear'] = "$year-01-01";
-
         // Easter:
         $specials['easter'] = date("Y-m-d", strtotime("+" . easter_days($year) . " days", strtotime("$year-03-21 00:00:00")));
 
@@ -443,11 +436,6 @@ class RuleCreator
 
         // Christmas:
         $specials['christmas'] = "$year-12-25";
-        $specials['boxingDay'] = "$year-12-26";
-
-        $nextYear = $year + 1;
-
-        $specials['newYearNext'] = "$nextYear-01-01";
 
         return $specials;
     }
@@ -467,6 +455,10 @@ class RuleCreator
         $year = $year ?: (int) date('Y');
 
         $specials = array();
+
+
+        // New year's day:
+        $specials['newYear'] = "$year-01-01";
 
         // Palm Sunday:
         $specials['palmSunday'] = date("Y-m-d", strtotime("+" . (easter_days($year) - 7) . " days", strtotime("$year-03-21 00:00:00")));
@@ -523,6 +515,8 @@ class RuleCreator
                 break;
         }
 
+        $specials['boxingDay'] = "$year-12-26";
+
         return $specials;
     }
 
@@ -565,10 +559,6 @@ class RuleCreator
             }
 
             if (abs($difference) <= 7) {
-                // Rename keys
-                $k = str_replace('newYearNext', 'newYear', $k);
-                $k = str_replace('boxingDayLast', 'boxingDay', $k);
-
                 $output[$k] = $difference;
             }
         }
