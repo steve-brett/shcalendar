@@ -615,8 +615,10 @@ class Rule
      */
     private function rfc5545Special(array $rule): string
     {
-        if (isset($rule['OFFSET'])) {
-            $day = substr($rule['OFFSET'], -2);
+        if (!array_key_exists($rule['SPECIAL'], $this::$special_rules)) {
+            throw new \InvalidArgumentException('Rule key does not exist. Got [' . $rule['SPECIAL'] . ']');
+        }
+
 
             if ('fixedDay' === $this::$special_rules[$rule['SPECIAL']]['category']) {
                 $year_days = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
