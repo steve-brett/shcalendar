@@ -81,13 +81,17 @@ class Rule
         'whitsun' => 'the Whitsun bank holiday',
         'independence' => 'Independence Day',
         'southWestWhitsun' => 'the second Saturday after the Whitsun bank holiday',
-        '5SU47' => 'the first fifth Sunday after the 4th July',
         'summer' => 'the summer bank holiday',
         'scottishShenandoah' => 'the Saturday after the third Friday in October',
         'thanksgiving' => 'Thanksgiving',
         'christmas' => 'Christmas Day',
         'boxingDay' => 'Boxing Day',
 
+        '5SUSpring' => 'the first fifth Sunday in the spring',
+        '5SU47' => 'the first fifth Sunday after the 4th July',
+        'L5SUT' => 'the last fifth Sunday before Thanksgiving',
+        '5SULabour' => 'the first fifth Sunday after Labour Day',
+        'L5SU' => 'the last fifth Sunday in the year',
     );
 
     /**
@@ -244,12 +248,6 @@ class Rule
             'byyearday' => -181,
             'category' => 'fixedDate'),
 
-        '5SU47' => array(
-            'rule' => 'BYDAY=SU;BYYEARDAY=-156,-155,-154,-125,-124,-123,-94',
-            'byyearday' => array(-156,-155,-154,-125,-124,-123,-94),
-            'byday' => 'SU',
-            'category' => 'fixedDay'),
-
         'summer' => array(
             'rule' => 'BYMONTH=8;BYDAY=-1MO',
             'byyearday' => array(-129,-128,-127,-126,-125,-124,-123),
@@ -278,6 +276,36 @@ class Rule
             'byyearday' => -6,
             'category' => 'fixedDate'),
 
+        // Fifth Sundays
+        '5SUSpring' => array(
+            'rule' => 'BYDAY=SU;BYYEARDAY=-278,-277,-276,-247,-246,-217,-216',
+            'byyearday' => array(-278,-277,-276,-247,-246,-217,-216),
+            'byday' => 'SU',
+            'category' => 'fixedDay'),
+
+        '5SU47' => array(
+            'rule' => 'BYDAY=SU;BYYEARDAY=-156,-155,-154,-125,-124,-123,-94',
+            'byyearday' => array(-156,-155,-154,-125,-124,-123,-94),
+            'byday' => 'SU',
+            'category' => 'fixedDay'),
+
+        'L5SUT' => array(
+            'rule' => 'BYDAY=SU;BYYEARDAY=-124,-123,-94,-93,-64,-63,-62',
+            'byyearday' => array(-124,-123,-94,-93,-64,-63,-62),
+            'byday' => 'SU',
+            'category' => 'fixedDay'),
+
+        '5SULabour' => array(
+            'rule' => 'BYDAY=SU;BYYEARDAY=-94,-93,-64,-63,-62,-33,-32',
+            'byyearday' => array(-94,-93,-64,-63,-62,-33,-32),
+            'byday' => 'SU',
+            'category' => 'fixedDay'),
+
+        'L5SU' => array(
+            'rule' => 'BYDAY=SU;BYYEARDAY=-63,-62,-33,-32,-1,-2,-3',
+            'byyearday' => array(-63,-62,-33,-32,-1,-2,-3),
+            'byday' => 'SU',
+            'category' => 'fixedDay'),
     );
 
 

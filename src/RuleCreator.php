@@ -237,6 +237,10 @@ class RuleCreator
         $year = (int)$date->format('Y');
         $special = $this->calculateSpecial($year);
         $special = $this->ymdToDatetime($special);
+        $fifth_sunday_special = $this->calculate5thSundaySpecial($year);
+        $fifth_sunday_special = $this->ymdToDatetime($fifth_sunday_special);
+        $special = array_merge($special, $fifth_sunday_special);
+
         $closest_specials = $this->findSpecialInWeek($date, $special);
 
         $all_exact_specials = $this->calculateExactSpecial($year);
@@ -357,33 +361,6 @@ class RuleCreator
         // Independence Day
         $specials['independence'] = "$year-07-04";
 
-
-        // First fifth Sunday after the 4th July: (Young people's convention - SAB)
-        switch (date("w", strtotime("$year-07-04"))) {
-            case 0:
-                $specials['5SU47'] = "$year-08-29";
-                break;
-            case 1:
-                $specials['5SU47'] = "$year-07-31";
-                break;
-            case 2:
-                $specials['5SU47'] = "$year-07-30";
-                break;
-            case 3:
-                $specials['5SU47'] = "$year-07-29";
-                break;
-            case 4:
-                $specials['5SU47'] = "$year-09-29";
-                break;
-            case 5:
-                $specials['5SU47'] = "$year-08-31";
-                break;
-            case 6:
-                $specials['5SU47'] = "$year-08-30";
-                break;
-        }
-
-
         // Summer Bank Holiday: (last Mon in Aug)
         switch (date("w", strtotime("$year-08-31 00:00:00"))) {
             case 0:
@@ -436,6 +413,76 @@ class RuleCreator
 
         // Christmas:
         $specials['christmas'] = "$year-12-25";
+
+        return $specials;
+    }
+
+    /**
+     * Generates array of special 5th Sundays in a given year.
+     * @see Rule::$specials for keys.
+     *
+     * @since 1.2.0
+     * @param integer $year
+     * @return array
+     */
+    public function calculate5thSundaySpecial(int $year = null): array
+    {
+        // default to current year if not set
+        $year = $year ?: (int) date('Y');
+
+        $specials = array();
+
+        switch (date("N", strtotime("$year-03-01 00:00:00"))) {
+            case 1:
+                $specials['5SUSpring'] = "$year-05-30";
+                $specials['5SU47'] = "$year-08-29";
+                $specials['L5SUT'] = "$year-10-31";
+                $specials['5SULabour'] = "$year-10-31";
+                $specials['L5SU'] = "$year-10-31";
+                break;
+            case 2:
+                $specials['5SUSpring'] = "$year-05-29";
+                $specials['5SU47'] = "$year-07-31";
+                $specials['L5SUT'] = "$year-10-30";
+                $specials['5SULabour'] = "$year-10-30";
+                $specials['L5SU'] = "$year-10-30";
+                break;
+            case 3:
+                $specials['5SUSpring'] = "$year-04-30";
+                $specials['5SU47'] = "$year-07-30";
+                $specials['L5SUT'] = "$year-10-29";
+                $specials['5SULabour'] = "$year-10-29";
+                $specials['L5SU'] = "$year-12-31";
+                break;
+            case 4:
+                $specials['5SUSpring'] = "$year-04-29";
+                $specials['5SU47'] = "$year-07-29";
+                $specials['L5SUT'] = "$year-09-30";
+                $specials['5SULabour'] = "$year-09-30";
+                $specials['L5SU'] = "$year-12-30";
+                break;
+            case 5:
+                $specials['5SUSpring'] = "$year-03-31";
+                $specials['5SU47'] = "$year-09-29";
+                $specials['L5SUT'] = "$year-09-29";
+                $specials['5SULabour'] = "$year-09-29";
+                $specials['L5SU'] = "$year-12-29";
+                break;
+            case 6:
+                $specials['5SUSpring'] = "$year-03-30";
+                $specials['5SU47'] = "$year-08-31";
+                $specials['L5SUT'] = "$year-08-31";
+                $specials['5SULabour'] = "$year-11-30";
+                $specials['L5SU'] = "$year-11-30";
+                break;
+            case 7:
+                $specials['5SUSpring'] = "$year-03-29";
+                $specials['5SU47'] = "$year-08-30";
+                $specials['L5SUT'] = "$year-08-30";
+                $specials['5SULabour'] = "$year-11-29";
+                $specials['L5SU'] = "$year-11-29";
+                break;
+        }
 
         return $specials;
     }
