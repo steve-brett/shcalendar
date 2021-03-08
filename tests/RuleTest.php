@@ -1064,6 +1064,25 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->rfc5545($inputValue));
     }
 
+    public function invalidData5545(): array
+    {
+        return [
+            [[
+                'SPECIAL' => 'garbage',
+            ]],
+
+        ];
+    }
+
+    /**
+     * @dataProvider invalidData5545
+     */
+    public function testThrowsException5545(array $inputValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->rule->rfc5545($inputValue);
+    }
+
     public function GetDatesReturnsMultiDayEventsDataProvider(): array
     {
         return [
