@@ -1,5 +1,10 @@
 # Changelog
 
+## `1.2.0` – 2021-03-09
+
+- Feature: add fifth Sunday rules
+- Refactor demo
+
 ## `1.1.0` – 2021-03-07
 
 - Feature: add exact-date special days
