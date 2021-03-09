@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endforeach; ?>
             </section>
 
-            <p><a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="govuk-link">Choose a different date.</a></p>
+            <p><a href="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" class="govuk-link">Choose a different date.</a></p>
 
 
         <?php else : ?>
