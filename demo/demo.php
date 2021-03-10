@@ -94,85 +94,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $creator = new RuleCreator;
-            $formulae = $creator->create($startDate, $endDate);
-            ?>
-            <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-                        <h1 class="govuk-fieldset__heading govuk-heading-xl">
-                            <?php
-                            if (!is_null($endDate)) {
-                                echo $startDate->format('j –') . PHP_EOL;
-                                echo $endDate->format('j F Y') . PHP_EOL;
-                            } else {
-                                echo $startDate->format('l j F Y') . PHP_EOL;
-                            }
-                            ?>
-                        </h1>
-                    </legend>
-                    <span id="dateFormula-hint" class="govuk-hint">
-                        Choose the date formula that describes your singing.<br />
-                        If you are not presented with a correct formula, please <a href="mailto:steve.brett.design@gmail.com">email me</a>.
-                    </span>
-                    <div class="govuk-radios govuk-radios--conditional" data-module="radios">
-                        <?php foreach ($formulae as $k => $formula) : ?>
-
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input dateFormula" id="dateFormula-<?php echo $k; ?>" data-key="<?php echo $k; ?>" name="dateFormula" type="radio" value="<?php echo htmlspecialchars(json_encode($formula), ENT_QUOTES, 'UTF-8'); ?>">
-                                <label class="govuk-label govuk-radios__label" for="dateFormula-<?php echo $k; ?>">
-                                    <?php
-                                    $rule = new Rule;
-                                    echo $rule->readable($formula);
-                                    ?>
-                                </label>
-                            </div>
-                        <?php endforeach; ?>
+            try {
+                $formulae = $creator->create($startDate, $endDate);
+            } catch (\Exception $e) {
+                ?>
+                <section class="govuk-error-summary">
+                    <h2 class="govuk-error-summary__title">
+                        Error:
+                    </h2>
+                    <div class="govuk-error-summary__body">
+                        <p>
+                            <?php echo $e->getMessage(); ?>
+                        </p>
                     </div>
-                </fieldset>
-            </div>
+                </section>
+                <?php
+            }
+            ?>
+            <?php if (isset($formulae)): ?>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+                            <h1 class="govuk-fieldset__heading govuk-heading-xl">
+                                <?php echo Helpers::formatTitleDateRange($startDate, $endDate); ?>
+                            </h1>
+                        </legend>
+                        <span id="dateFormula-hint" class="govuk-hint">
+                            Choose the date formula that describes your singing.<br />
+                            If you are not presented with a correct formula, please <a href="mailto:steve.brett.design@gmail.com">email me</a>.
+                        </span>
+                        <div class="govuk-radios govuk-radios--conditional" data-module="radios">
+                            <?php foreach ($formulae as $k => $formula) : ?>
+
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input dateFormula" id="dateFormula-<?php echo $k; ?>" data-key="<?php echo $k; ?>" name="dateFormula" type="radio" value="<?php echo htmlspecialchars(json_encode($formula), ENT_QUOTES, 'UTF-8'); ?>">
+                                    <label class="govuk-label govuk-radios__label" for="dateFormula-<?php echo $k; ?>">
+                                        <?php
+                                        $rule = new Rule;
+                                        echo $rule->readable($formula);
+                                        ?>
+                                    </label>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </fieldset>
+                </div>
 
 
-            <section class="results">
-                <h2 class="govuk-heading-l">Next five singings:</h2>
+                <section class="results">
+                    <h2 class="govuk-heading-l">Next five singings:</h2>
 
-                <?php foreach ($formulae as $k => $formula) : ?>
-                    <div id="results__item--<?php echo $k; ?>" class="govuk-grid-row results__item" hidden>
-                        <div class="govuk-grid-column-two-thirds">
-                        <dl class="govuk-summary-list">                                        <?php
-                            try {
-                                $years = $rule->getDates($formula, 5);
-                                foreach ($years as $occurrence) {
+                    <?php foreach ($formulae as $k => $formula) : ?>
+                        <div id="results__item--<?php echo $k; ?>" class="govuk-grid-row results__item" hidden>
+                            <div class="govuk-grid-column-two-thirds">
+                            <dl class="govuk-summary-list">                                        <?php
+                                try {
+                                    $years = $rule->getDates($formula, 5);
+                                    foreach ($years as $occurrence) {
+                                        ?>
+                                            <div class="govuk-summary-list__row">
+                                            <dt class="govuk-summary-list__key">
+                                            <?php echo Helpers::formatYearRange($occurrence['start'], $occurrence['end']); ?>
+                                            </dt>
+                                            <dd class="govuk-summary-list__value">
+                                            <?php echo Helpers::formatDateRange($occurrence['start'], $occurrence['end']); ?>
+                                            </dd>
+                                        </div>
+                                        <?php
+                                    }
+                                } catch (\Exception $e) {
                                     ?>
-                                        <div class="govuk-summary-list__row">
-                                        <dt class="govuk-summary-list__key">
-                                        <?php echo Helpers::formatYearRange($occurrence['start'], $occurrence['end']); ?>
-                                        </dt>
-                                        <dd class="govuk-summary-list__value">
-                                        <?php echo Helpers::formatDateRange($occurrence['start'], $occurrence['end']); ?>
-                                        </dd>
-                                    </div>
+                                    <section class="govuk-error-summary">
+                                        <h2 class="govuk-error-summary__title">
+                                            Error:
+                                        </h2>
+                                        <div class="govuk-error-summary__body">
+                                            <p>
+                                                <?php echo $e->getMessage(); ?>
+                                            </p>
+                                        </div>
+                                    </section>
                                     <?php
                                 }
-                            } catch (\Exception $e) {
                                 ?>
-                                <section class="govuk-error-summary">
-                                    <h2 class="govuk-error-summary__title">
-                                        Not yet available
-                                    </h2>
-                                    <div class="govuk-error-summary__body">
-                                        <p>
-                                            <?php echo $e->getMessage(); ?>
-                                        </p>
-                                    </div>
-                                </section>
-                                <?php
-                            }
-                            ?>
-                        </dl>
+                            </dl>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </section>
+                    <?php endforeach; ?>
+                </section>
+            <?php endif; ?>
 
             <p><a href="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" class="govuk-link">Choose a different date.</a></p>
 

@@ -50,6 +50,35 @@ class Helpers
     }
 
     /**
+     * Format minimal date ranges.
+     *
+     * @since 1.2.2
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @return string
+     */
+    public static function formatTitleDateRange(\DateTime $start, \DateTime $end) : string
+    {
+        // If years different, output full range
+        if ($start->format('Y') !== $end->format('Y')) {
+            return $start->format('j F Y') . ' – '. $end->format('j F Y');
+        }
+
+        // If months different, include month
+        if ($start->format('m') !== $end->format('m')) {
+            return $start->format('j F') . ' – '. $end->format('j F Y');
+        }
+
+        // If days different, include day
+        if ($start != $end) {
+            return $start->format('j') . ' – '. $end->format('j F Y');
+        }
+
+        // Otherwise don't return a range; start and end are same day
+        return $end->format('j F Y');
+    }
+
+    /**
      * Format year range
      *
      * @since 1.0.0

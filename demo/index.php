@@ -1,3 +1,7 @@
+<?php
+// Composer
+include '../vendor/autoload.php';
+?>
 <!DOCTYPE html>
 <html lang="en" class="govuk-template app-html-class">
 

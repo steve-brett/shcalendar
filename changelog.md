@@ -1,5 +1,10 @@
 # Changelog
 
+## `1.2.2` – 2021-03-10
+
+- Demo bugfix: handle date input error
+- Demo bugfix: improve title date format
+
 ## `1.2.1` – 2021-03-09
 
 - Fix backlink bug
