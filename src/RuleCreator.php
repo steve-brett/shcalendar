@@ -95,7 +95,7 @@ class RuleCreator
 
         if (abs($diff) > 6) {
             throw new \InvalidArgumentException('Dates must not span more than 7 days.
-      ' . $start->format('j F Y') . ' and ' . $end->format('j F Y') . ' are ' . abs($diff) . ' days apart.');
+      ' . $start->format('j M Y') . ' and ' . $end->format('j M Y') . ' are ' . abs($diff) . ' days apart.');
         }
         // Swap if end is before start
         if ($diff > 0) {
