@@ -116,14 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <fieldset class="govuk-fieldset">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
                             <h1 class="govuk-fieldset__heading govuk-heading-xl">
-                                <?php
-                                if (!is_null($endDate)) {
-                                    echo $startDate->format('j –') . PHP_EOL;
-                                    echo $endDate->format('j F Y') . PHP_EOL;
-                                } else {
-                                    echo $startDate->format('l j F Y') . PHP_EOL;
-                                }
-                                ?>
+                                <?php echo Helpers::formatTitleDateRange($startDate, $endDate); ?>
                             </h1>
                         </legend>
                         <span id="dateFormula-hint" class="govuk-hint">
