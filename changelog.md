@@ -1,5 +1,9 @@
 # Changelog
 
+## `1.2.3` – 2021-03-14
+
+- Demo bugfix: allow end date to be null in title
+
 ## `1.2.2` – 2021-03-10
 
 - Demo bugfix: handle date input error

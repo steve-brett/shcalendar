@@ -54,11 +54,15 @@ class Helpers
      *
      * @since 1.2.2
      * @param \DateTime $start
-     * @param \DateTime $end
+     * @param \DateTime|null $end
      * @return string
      */
-    public static function formatTitleDateRange(\DateTime $start, \DateTime $end) : string
+    public static function formatTitleDateRange(\DateTime $start, ?\DateTime $end = null) : string
     {
+        if (null === $end) {
+            return $start->format('j F Y');
+        }
+
         // If years different, output full range
         if ($start->format('Y') !== $end->format('Y')) {
             return $start->format('j F Y') . ' – '. $end->format('j F Y');
