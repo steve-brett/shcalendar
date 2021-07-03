@@ -607,6 +607,77 @@ class Rule
     }
 
     /**
+     * Get $count upcoming dates for $rule.
+     * Returns end date only.
+     *
+     * @since 1.0.0
+     * @param array $rule
+     * @param integer $count <= 100
+     * @param \DateTime|null $dtstart Start date, default now.
+     * @return array|RRule
+     */
+    public function getEndDatesUntil(array $rule, \DateTime $limit, ?\DateTime $dtstart = null)
+    {
+        if (
+            isset($rule['SPECIAL']) &&
+            ('easter' === $rule['SPECIAL'])
+        ) {
+            if (isset($rule['OFFSET'])) {
+                $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
+                return $this->rfc5545Easter($rule, $offset_n);
+            }
+            return $this->rfc5545Easter($rule, 0);
+        }
+
+        if (
+            isset($rule['SPECIAL']) &&
+            ('palmSunday' === $rule['SPECIAL'])
+        ) {
+            if (isset($rule['OFFSET'])) {
+                $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
+                return $this->rfc5545Easter($rule, $offset_n -7);
+            }
+            return $this->rfc5545Easter($rule, -7);
+        }
+
+        if ($dtstart) {
+            try {
+                return $dates = new \RRule\RRule($this->rfc5545($rule) . ';UNTIL=' . $limit->format('Ymd\THis\Z'), $dtstart);
+            } catch (\Exception $e) {
+                throw $e;
+            }
+        }
+
+        try {
+            $dates = new \RRule\RRule($this->rfc5545($rule) . ';UNTIL=' . $limit->format('Ymd'));
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        return $dates;
+    }
+
+    public function getDatesUntil(array $rule, \DateTime $limit, ?\DateTime $dtstart = null) : array
+    {
+        $end_dates = $this->getEndDatesUntil($rule, $limit, $dtstart);
+
+        // Loop through all years
+        foreach ($end_dates as $key => $end_date) {
+            $dates[$key]['end'] = $end_date;
+            $dates[$key]['start'] = clone $end_date;
+
+            // If no startoffset, end is same as start
+            if (!isset($rule['STARTOFFSET'])) {
+                continue;
+            }
+
+            // Otherwise
+            $dates[$key]['start']->modify($rule['STARTOFFSET'] . ' day');
+        }
+
+        return $dates;
+    }
+    /**
      * Returns RFC5545 valid recurrence rules for special dates
      *
      * @since 1.0.0
