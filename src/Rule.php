@@ -790,9 +790,9 @@ class Rule
     private function createWeek(int $year_day) : array
     {
         $output = array();
-        $until = 7;
+        $limit = 7;
 
-        for ($i = 0; $i<$until; $i++) {
+        for ($i = 0; $i<$limit; $i++) {
             $output[] = $this->yearDayAdder($year_day, $i);
         }
 
@@ -814,9 +814,9 @@ class Rule
         }
 
         $output = array();
-        $until = 7;
+        $limit = 7;
 
-        for ($i = 1; $i<=$until; $i++) {
+        for ($i = 1; $i<=$limit; $i++) {
             $output[] = $this->yearDayAdder($year_day, $i * $offset);
         }
 
