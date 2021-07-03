@@ -1093,9 +1093,12 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'end' => '2021-05-09',
                 ],
                 [
-                    'BYMONTH' => 5,
-                    'BYDAY' => '2SU',
-                    'STARTOFFSET' => -1,
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '2SU',
+                        'STARTOFFSET' => -1,
+                    ],
+                    'dtstart' => '2021-01-01',
                 ]
             ],
             // 2 days before
@@ -1105,9 +1108,12 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'end' => '2021-05-09',
                 ],
                 [
-                    'BYMONTH' => 5,
-                    'BYDAY' => '2SU',
-                    'STARTOFFSET' => -2,
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '2SU',
+                        'STARTOFFSET' => -2,
+                    ],
+                    'dtstart' => '2021-01-01',
                 ]
             ],
 
@@ -1119,8 +1125,9 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
      */
     public function testGetDatesReturnsMultiDayEvents(array $expectedValue, array $inputValue): void
     {
-        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue, 1)[0]['start']->format('Y-m-d'));
-        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue, 1)[0]['end']->format('Y-m-d'));
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['start']->format('Y-m-d'));
+        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
     }
 
 
