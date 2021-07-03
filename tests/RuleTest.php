@@ -1147,7 +1147,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                         'OFFSET' => '-1SA',
                     ],
                     'dtstart' => '2021-01-01',
-                    'limit' => '2022-01-01',
+                    'until' => '2022-01-01',
                 ]
             ],
             // Two years
@@ -1169,7 +1169,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                         'OFFSET' => '-1SA',
                     ],
                     'dtstart' => '2020-01-01',
-                    'limit' => '2022-01-01',
+                    'until' => '2022-01-01',
                 ]
             ],
         ];
@@ -1181,11 +1181,11 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
      */
     public function testGetDatesUntilReturnsCorrectYears(array $expectedValue, array $inputValue): void
     {
-        $limit = \DateTime::createFromFormat('!Y-m-d', $inputValue['limit'], new \DateTimeZone('UTC'));
+        $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
         $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
         foreach ($expectedValue as $key => $expected) {
-            $this->assertEquals($expected['start'], $this->rule->getDatesUntil($inputValue['formula'], $limit, $dtstart)[$key]['start']);
-            $this->assertEquals($expected['end'], $this->rule->getDatesUntil($inputValue['formula'], $limit, $dtstart)[$key]['end']);
+            $this->assertEquals($expected['start'], $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart)[$key]['start']);
+            $this->assertEquals($expected['end'], $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart)[$key]['end']);
         }
     }
 
@@ -1201,7 +1201,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                         'OFFSET' => '-1SA',
                     ],
                     'dtstart' => '2022-01-01',
-                    'limit' => '2021-01-01',
+                    'until' => '2021-01-01',
                 ]
             ],
         ];
@@ -1213,10 +1213,10 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
      */
     public function testGetDatesUntilReturnsEmptyArray(array $expectedValue, array $inputValue): void
     {
-        $limit = \DateTime::createFromFormat('!Y-m-d', $inputValue['limit'], new \DateTimeZone('UTC'));
+        $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
         $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
 
-        $this->assertEquals($expectedValue, $this->rule->getDatesUntil($inputValue['formula'], $limit, $dtstart));
+        $this->assertEquals($expectedValue, $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart));
     }
 
 

@@ -607,7 +607,7 @@ class Rule
     }
 
     /**
-     * Get dates for $rule from $dtstart until $limit.
+     * Get dates for $rule from $dtstart until $until.
      * Returns end date only.
      *
      * @since 1.0.0
@@ -616,7 +616,7 @@ class Rule
      * @param \DateTime|null $dtstart Start date, default now.
      * @return array|RRule|null
      */
-    public function getEndDatesUntil(array $rule, \DateTime $limit, ?\DateTime $dtstart = null)
+    public function getEndDatesUntil(array $rule, \DateTime $until, ?\DateTime $dtstart = null)
     {
         if (
             isset($rule['SPECIAL']) &&
@@ -642,14 +642,14 @@ class Rule
 
         if ($dtstart) {
             try {
-                return $dates = new \RRule\RRule($this->rfc5545($rule) . ';UNTIL=' . $limit->format('Ymd\THis\Z'), $dtstart);
+                return $dates = new \RRule\RRule($this->rfc5545($rule) . ';UNTIL=' . $until->format('Ymd\THis\Z'), $dtstart);
             } catch (\Exception $e) {
                 throw $e;
             }
         }
 
         try {
-            $dates = new \RRule\RRule($this->rfc5545($rule) . ';UNTIL=' . $limit->format('Ymd'));
+            $dates = new \RRule\RRule($this->rfc5545($rule) . ';UNTIL=' . $until->format('Ymd'));
         } catch (\Exception $e) {
             throw $e;
         }
@@ -658,16 +658,16 @@ class Rule
     }
 
     /**
-     * Get dates for $rule from $dtstart until $limit.
+     * Get dates for $rule from $dtstart until $until.
      *
      * @param array $rule
-     * @param \DateTime $limit
+     * @param \DateTime $until
      * @param \DateTime|null $dtstart
      * @return array
      */
-    public function getDatesUntil(array $rule, \DateTime $limit, ?\DateTime $dtstart = null) : array
+    public function getDatesUntil(array $rule, \DateTime $until, ?\DateTime $dtstart = null) : array
     {
-        $end_dates = $this->getEndDatesUntil($rule, $limit, $dtstart);
+        $end_dates = $this->getEndDatesUntil($rule, $until, $dtstart);
 
         $dates = [];
         // Loop through all years
@@ -790,9 +790,9 @@ class Rule
     private function createWeek(int $year_day) : array
     {
         $output = array();
-        $limit = 7;
+        $until = 7;
 
-        for ($i = 0; $i<$limit; $i++) {
+        for ($i = 0; $i<$until; $i++) {
             $output[] = $this->yearDayAdder($year_day, $i);
         }
 
@@ -814,9 +814,9 @@ class Rule
         }
 
         $output = array();
-        $limit = 7;
+        $until = 7;
 
-        for ($i = 1; $i<=$limit; $i++) {
+        for ($i = 1; $i<=$until; $i++) {
             $output[] = $this->yearDayAdder($year_day, $i * $offset);
         }
 
