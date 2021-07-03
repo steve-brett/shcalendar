@@ -1093,9 +1093,12 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'end' => '2021-05-09',
                 ],
                 [
-                    'BYMONTH' => 5,
-                    'BYDAY' => '2SU',
-                    'STARTOFFSET' => -1,
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '2SU',
+                        'STARTOFFSET' => -1,
+                    ],
+                    'dtstart' => '2021-01-01',
                 ]
             ],
             // 2 days before
@@ -1105,9 +1108,12 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'end' => '2021-05-09',
                 ],
                 [
-                    'BYMONTH' => 5,
-                    'BYDAY' => '2SU',
-                    'STARTOFFSET' => -2,
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '2SU',
+                        'STARTOFFSET' => -2,
+                    ],
+                    'dtstart' => '2021-01-01',
                 ]
             ],
 
@@ -1119,8 +1125,98 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
      */
     public function testGetDatesReturnsMultiDayEvents(array $expectedValue, array $inputValue): void
     {
-        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue, 1)[0]['start']->format('Y-m-d'));
-        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue, 1)[0]['end']->format('Y-m-d'));
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['start']->format('Y-m-d'));
+        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
+    }
+
+
+    public function GetDatesUntilReturnsCorrectYearsDataProvider(): array
+    {
+        return [
+            // One year
+            [
+                [[
+                    'start' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
+                    'end' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
+                ]],
+                [
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '1SU',
+                        'OFFSET' => '-1SA',
+                    ],
+                    'dtstart' => '2021-01-01',
+                    'until' => '2022-01-01',
+                ]
+            ],
+            // Two years
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2020-05-02', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2020-05-02', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '1SU',
+                        'OFFSET' => '-1SA',
+                    ],
+                    'dtstart' => '2020-01-01',
+                    'until' => '2022-01-01',
+                ]
+            ],
+        ];
+    }
+
+
+    /**
+     * @dataProvider GetDatesUntilReturnsCorrectYearsDataProvider
+     */
+    public function testGetDatesUntilReturnsCorrectYears(array $expectedValue, array $inputValue): void
+    {
+        $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        foreach ($expectedValue as $key => $expected) {
+            $this->assertEquals($expected['start'], $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart)[$key]['start']);
+            $this->assertEquals($expected['end'], $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart)[$key]['end']);
+        }
+    }
+
+    public function GetDatesUntilReturnsEmptyArrayDataProvider(): array
+    {
+        return [
+            [
+                [],
+                [
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '1SU',
+                        'OFFSET' => '-1SA',
+                    ],
+                    'dtstart' => '2022-01-01',
+                    'until' => '2021-01-01',
+                ]
+            ],
+        ];
+    }
+
+
+    /**
+     * @dataProvider GetDatesUntilReturnsEmptyArrayDataProvider
+     */
+    public function testGetDatesUntilReturnsEmptyArray(array $expectedValue, array $inputValue): void
+    {
+        $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+
+        $this->assertEquals($expectedValue, $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart));
     }
 
 
