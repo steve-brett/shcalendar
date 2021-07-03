@@ -1,5 +1,9 @@
 # Changelog
 
+## `1.3.0` – 2021-07-03
+
+- Feature: add `Rule::getDatesUntil()` method
+
 ## `1.2.3` – 2021-03-14
 
 - Demo bugfix: allow end date to be null in title
