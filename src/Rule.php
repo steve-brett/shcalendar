@@ -607,14 +607,14 @@ class Rule
     }
 
     /**
-     * Get $count upcoming dates for $rule.
+     * Get dates for $rule from $dtstart until $limit.
      * Returns end date only.
      *
      * @since 1.0.0
      * @param array $rule
      * @param integer $count <= 100
      * @param \DateTime|null $dtstart Start date, default now.
-     * @return array|RRule
+     * @return array|RRule|null
      */
     public function getEndDatesUntil(array $rule, \DateTime $limit, ?\DateTime $dtstart = null)
     {
@@ -657,10 +657,19 @@ class Rule
         return $dates;
     }
 
+    /**
+     * Get dates for $rule from $dtstart until $limit.
+     *
+     * @param array $rule
+     * @param \DateTime $limit
+     * @param \DateTime|null $dtstart
+     * @return array
+     */
     public function getDatesUntil(array $rule, \DateTime $limit, ?\DateTime $dtstart = null) : array
     {
         $end_dates = $this->getEndDatesUntil($rule, $limit, $dtstart);
 
+        $dates = [];
         // Loop through all years
         foreach ($end_dates as $key => $end_date) {
             $dates[$key]['end'] = $end_date;
