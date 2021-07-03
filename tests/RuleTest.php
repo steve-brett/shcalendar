@@ -1134,12 +1134,12 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     public function GetDatesUntilReturnsCorrectYearsDataProvider(): array
     {
         return [
-            // 1 day before
+            // One year
             [
-                [
+                [[
                     'start' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
                     'end' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
-                ],
+                ]],
                 [
                     'formula' => [
                         'BYMONTH' => 5,
@@ -1147,6 +1147,28 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                         'OFFSET' => '-1SA',
                     ],
                     'dtstart' => '2021-01-01',
+                    'limit' => '2022-01-01',
+                ]
+            ],
+            // Two years
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2020-05-02', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2020-05-02', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '1SU',
+                        'OFFSET' => '-1SA',
+                    ],
+                    'dtstart' => '2020-01-01',
                     'limit' => '2022-01-01',
                 ]
             ],
@@ -1161,8 +1183,10 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     {
         $limit = \DateTime::createFromFormat('!Y-m-d', $inputValue['limit'], new \DateTimeZone('UTC'));
         $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
-        $this->assertEquals($expectedValue['start'], $this->rule->getDatesUntil($inputValue['formula'], $limit, $dtstart)[0]['start']);
-        $this->assertEquals($expectedValue['end'], $this->rule->getDatesUntil($inputValue['formula'], $limit, $dtstart)[0]['end']);
+        foreach ($expectedValue as $key => $expected) {
+            $this->assertEquals($expected['start'], $this->rule->getDatesUntil($inputValue['formula'], $limit, $dtstart)[$key]['start']);
+            $this->assertEquals($expected['end'], $this->rule->getDatesUntil($inputValue['formula'], $limit, $dtstart)[$key]['end']);
+        }
     }
 
 
