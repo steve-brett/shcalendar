@@ -1189,6 +1189,36 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         }
     }
 
+    public function GetDatesUntilReturnsEmptyArrayDataProvider(): array
+    {
+        return [
+            [
+                [],
+                [
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '1SU',
+                        'OFFSET' => '-1SA',
+                    ],
+                    'dtstart' => '2022-01-01',
+                    'limit' => '2021-01-01',
+                ]
+            ],
+        ];
+    }
+
+
+    /**
+     * @dataProvider GetDatesUntilReturnsEmptyArrayDataProvider
+     */
+    public function testGetDatesUntilReturnsEmptyArray(array $expectedValue, array $inputValue): void
+    {
+        $limit = \DateTime::createFromFormat('!Y-m-d', $inputValue['limit'], new \DateTimeZone('UTC'));
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+
+        $this->assertEquals($expectedValue, $this->rule->getDatesUntil($inputValue['formula'], $limit, $dtstart));
+    }
+
 
     public function calculateOffsetDataProvider(): array
     {
