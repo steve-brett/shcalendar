@@ -1172,6 +1172,26 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'until' => '2022-01-01',
                 ]
             ],
+            // Special
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2020-01-01', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2020-01-01', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-01-01', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-01-01', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                    ],
+                    'dtstart' => '2020-01-01',
+                    'until' => '2021-12-31',
+                ]
+            ],
         ];
     }
 
