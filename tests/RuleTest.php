@@ -1244,9 +1244,10 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     {
         $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
         $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $result = $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart);
         foreach ($expectedValue as $key => $expected) {
-            $this->assertEquals($expected['start'], $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart)[$key]['start']);
-            $this->assertEquals($expected['end'], $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart)[$key]['end']);
+            $this->assertEquals($expected['start'], $result[$key]['start']);
+            $this->assertEquals($expected['end'], $result[$key]['end']);
         }
     }
 
