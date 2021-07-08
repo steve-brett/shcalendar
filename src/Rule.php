@@ -784,7 +784,7 @@ class Rule
 
         foreach (range($latest->format('Y'), $until->format('Y')) as $year) {
             $easter = self::getEasterDateTime($year);
-            if ($easter < $until) {
+            if ($easter <= $until) {
                 $output[] = $easter;
             }
         }
