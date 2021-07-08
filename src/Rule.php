@@ -624,7 +624,7 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->rfc5545Easter($rule, $offset_n);
+                return $this->getEasterDateTimeRange($offset_n, $until, $dtstart);
             }
             return $this->getEasterDateTimeRange(0, $until, $dtstart);
         }
@@ -782,8 +782,10 @@ class Rule
         $latest = $dtstart;
         $output = [];
 
-        foreach (range($latest->format('Y'), $until->format('Y')) as $year) {
-            $easter = self::getEasterDateTime($year);
+        $range = range($latest->format('Y'), $until->format('Y'));
+
+        foreach ($range as $year) {
+            $easter = self::getEasterDateTime($year, $offset);
             if ($easter <= $until) {
                 $output[] = $easter;
             }
@@ -800,10 +802,10 @@ class Rule
      * @param integer $year
      * @return \DateTime
      */
-    private static function getEasterDateTime(int $year) : \DateTime
+    private static function getEasterDateTime(int $year, int $offset) : \DateTime
     {
         $base = new \DateTime("$year-03-21");
-        $days = easter_days($year);
+        $days = easter_days($year) + $offset;
 
         return $base->add(new \DateInterval("P{$days}D"));
     }
@@ -1010,7 +1012,7 @@ class Rule
     /**
      * Calculate number of days between a day of the week and its offset.
      *
-     * @example calculate_offset('SU','-1SA') => -1
+     * @example calculateOffsetDays('SU','-1SA') => -1
      *
      * @since 1.0.0
      * @param string $day MO,TU,WE,TH,FR,SA,SU
