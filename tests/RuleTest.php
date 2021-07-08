@@ -1083,6 +1083,37 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->rule->rfc5545($inputValue);
     }
 
+
+    public function GetDatesReturnsSpecialDataProvider(): array
+    {
+        return [
+            // New Year
+            [
+                [
+                    'start' => '2021-01-01',
+                    'end' => '2021-01-01',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider GetDatesReturnsSpecialDataProvider
+     */
+    public function testGetDatesReturnsSpecial(array $expectedValue, array $inputValue): void
+    {
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['start']->format('Y-m-d'));
+        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
+    }
+
     public function GetDatesReturnsMultiDayEventsDataProvider(): array
     {
         return [
