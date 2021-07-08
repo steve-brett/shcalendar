@@ -1253,6 +1253,27 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'until' => '2022-01-01',
                 ]
             ],
+            // Palm Sunday offset
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2020-04-06', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2020-04-06', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-03-29', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-03-29', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'palmSunday',
+                        'OFFSET' => '1MO',
+                    ],
+                    'dtstart' => '2020-01-01',
+                    'until' => '2022-01-01',
+                ]
+            ],
         ];
     }
 
