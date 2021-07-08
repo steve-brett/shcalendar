@@ -626,7 +626,7 @@ class Rule
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
                 return $this->rfc5545Easter($rule, $offset_n);
             }
-            return $this->rfc5545Easter($rule, 0);
+            return $this->getEasterDateTimeRange(0, $until, $dtstart);
         }
 
         if (
@@ -660,6 +660,7 @@ class Rule
     /**
      * Get dates for $rule from $dtstart until $until.
      *
+     * @since 1.3.0
      * @param array $rule
      * @param \DateTime $until
      * @param \DateTime|null $dtstart
@@ -762,6 +763,49 @@ class Rule
 
         ));
         return array($rset[0],$rset[1],$rset[2],$rset[3],$rset[4]);
+    }
+
+    /**
+     * Get array of DateTimes relating to Easter
+     *
+     * @since 1.3.1
+     * @param array $rule
+     * @param integer $offset
+     * @return array
+     */
+    private function getEasterDateTimeRange(int $offset = 0, \DateTime $until, ?\DateTime $dtstart = null) : array
+    {
+        if (null == $dtstart) {
+            $dtstart = new \DateTime('first day of January this year');
+        }
+
+        $latest = $dtstart;
+        $output = [];
+
+        foreach (range($latest->format('Y'), $until->format('Y')) as $year) {
+            $easter = self::getEasterDateTime($year);
+            if ($easter < $until) {
+                $output[] = $easter;
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * Get Easter DateTime avoiding C timezone errors
+     *
+     * @since 1.3.1
+     * @see https://www.php.net/manual/en/function.easter-date.php#refsect1-function.easter-date-notes
+     * @param integer $year
+     * @return \DateTime
+     */
+    private static function getEasterDateTime(int $year) : \DateTime
+    {
+        $base = new \DateTime("$year-03-21");
+        $days = easter_days($year);
+
+        return $base->add(new \DateInterval("P{$days}D"));
     }
 
     /**
