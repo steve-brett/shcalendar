@@ -1192,6 +1192,26 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'until' => '2021-12-31',
                 ]
             ],
+            // Easter
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2020-04-12', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2020-04-12', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-04-04', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-04-04', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                    ],
+                    'dtstart' => '2020-01-01',
+                    'until' => '2022-01-01',
+                ]
+            ],
         ];
     }
 
