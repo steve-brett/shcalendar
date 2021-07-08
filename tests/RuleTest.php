@@ -1209,7 +1209,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                         'SPECIAL' => 'easter',
                     ],
                     'dtstart' => '2020-01-01',
-                    'until' => '2022-01-01',
+                    'until' => '2021-04-04',
                 ]
             ],
         ];
