@@ -1227,7 +1227,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                 [
                     'formula' => [
                         'SPECIAL' => 'easter',
-                        'OFFSET' => '-SA',
+                        'OFFSET' => '-1SA',
                     ],
                     'dtstart' => '2020-01-01',
                     'until' => '2022-01-01',
