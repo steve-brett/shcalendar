@@ -328,7 +328,7 @@ class Rule
         if (isset($rule['SPECIAL'])) {
             if ('easter' === $rule['SPECIAL']
             || 'palmSunday' === $rule['SPECIAL']) {
-                throw new \InvalidArgumentException('We are currently unable to calculate reccurence rules for Palm Sunday and Easter.');
+                throw new \InvalidArgumentException('We are currently unable to calculate recurrence rules for Palm Sunday and Easter.');
             }
 
             return $this->rfc5545Special($rule);
