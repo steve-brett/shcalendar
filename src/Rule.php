@@ -765,7 +765,12 @@ class Rule
             'UNTIL' => date_create(),
 
         ));
-        return array($rset[0],$rset[1],$rset[2],$rset[3],$rset[4]);
+
+        $output = [];
+        foreach (range(0, $count-1) as $key) {
+            $output[] = $rset[$key];
+        }
+        return $output;
     }
 
     /**
