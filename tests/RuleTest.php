@@ -1100,6 +1100,19 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'dtstart' => '2021-01-01',
                 ]
             ],
+            // Easter
+            [
+                [
+                    'start' => '2021-04-04',
+                    'end' => '2021-04-04',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
 
         ];
     }
