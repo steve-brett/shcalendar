@@ -541,9 +541,9 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->rfc5545Easter($rule, $offset_n);
+                return $this->rfc5545Easter($offset_n);
             }
-            return $this->rfc5545Easter($rule, 0);
+            return $this->rfc5545Easter(0);
         }
 
         if (
@@ -552,9 +552,9 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->rfc5545Easter($rule, $offset_n -7);
+                return $this->rfc5545Easter($offset_n -7);
             }
-            return $this->rfc5545Easter($rule, -7);
+            return $this->rfc5545Easter(-7);
         }
 
         if ($dtstart) {
@@ -732,13 +732,16 @@ class Rule
      * @param integer $offset
      * @return array
      */
-    private function rfc5545Easter(array $rule, int $offset = 0) : array
+    private function rfc5545Easter(int $offset = 0, int $count = 5) : array
     {
         $rset = new \RRule\RSet();
 
         $day = 'SU';
-        if (isset($rule['OFFSET'])) {
-            $day = substr($rule['OFFSET'], -2);
+
+        // Otherwise calculate day from offset
+        if ($offset !== 0) {
+            $key = $offset % 7;
+            $day = substr($this::$week_days[$key], 0, 2);
         }
 
         foreach ($this::$metonic_cycle as $cycle) {
