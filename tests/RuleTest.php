@@ -1127,6 +1127,38 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
     }
 
+
+    public function GetDatesReturnsSpecialWithOffsetDataProvider(): array
+    {
+        return [
+            // Easter
+            [
+                [
+                    'start' => '2021-04-03',
+                    'end' => '2021-04-03',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                        'OFFSET' => '-1SA',
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider GetDatesReturnsSpecialWithOffsetDataProvider
+     */
+    public function testGetDatesReturnsSpecialWithOffset(array $expectedValue, array $inputValue): void
+    {
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['start']->format('Y-m-d'));
+        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
+    }
+
     public function GetDatesReturnsMultiDayEventsDataProvider(): array
     {
         return [
