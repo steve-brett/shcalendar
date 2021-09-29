@@ -543,7 +543,7 @@ class Rule
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
                 return $this->rfc5545Easter($offset_n);
             }
-            return $this->rfc5545Easter(0);
+            return $this->getEasterDateTimes(0, $count, $dtstart);
         }
 
         if (
@@ -797,6 +797,38 @@ class Rule
             if ($easter <= $until) {
                 $output[] = $easter;
             }
+        }
+
+        return $output;
+    }
+
+    /**
+     * Get array of DateTimes relating to Easter
+     *
+     * @since 1.3.1
+     * @param array $rule
+     * @param integer $offset
+     * @return array
+     */
+    private function getEasterDateTimes(int $offset = 0, int $count, ?\DateTime $dtstart = null) : array
+    {
+        if (null == $dtstart) {
+            $dtstart = new \DateTime('first day of January this year');
+        }
+
+        $output = [];
+        $start = 1;
+
+        $easter = self::getEasterDateTime((int)$dtstart->format('Y'), $offset);
+        if ($easter > $dtstart) {
+            $output[] = $easter;
+            $count--;
+        }
+        $range = range($start, $count);
+
+        foreach ($range as $year) {
+            $easter = self::getEasterDateTime($year, $offset);
+            $output[] = $easter;
         }
 
         return $output;
