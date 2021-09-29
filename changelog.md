@@ -1,5 +1,9 @@
 # Changelog
 
+## `1.3.1` – 2021-09-29
+
+- Bugfix: fix Easter-related results for `Rule::getDates()`
+
 ## `1.3.0` – 2021-07-03
 
 - Feature: add `Rule::getDatesUntil()` method
