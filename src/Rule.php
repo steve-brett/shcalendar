@@ -541,7 +541,7 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->rfc5545Easter($offset_n);
+                return $this->getEasterDateTimes($offset_n, $count, $dtstart);
             }
             return $this->getEasterDateTimes(0, $count, $dtstart);
         }
