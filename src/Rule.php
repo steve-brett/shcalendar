@@ -554,7 +554,7 @@ class Rule
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
                 return $this->rfc5545Easter($offset_n -7);
             }
-            return $this->rfc5545Easter(-7);
+            return $this->getEasterDateTimes(-7, $count, $dtstart);
         }
 
         if ($dtstart) {
@@ -846,6 +846,10 @@ class Rule
     {
         $base = new \DateTime("$year-03-21");
         $days = easter_days($year) + $offset;
+
+        if ($days < 0) {
+            return $base->sub(new \DateInterval("P" . abs($days) . "D"));
+        }
 
         return $base->add(new \DateInterval("P{$days}D"));
     }
