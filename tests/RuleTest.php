@@ -1083,6 +1083,109 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->rule->rfc5545($inputValue);
     }
 
+
+    public function GetDatesReturnsSpecialDataProvider(): array
+    {
+        return [
+            // New Year
+            [
+                [
+                    'start' => '2021-01-01',
+                    'end' => '2021-01-01',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+            // Easter
+            [
+                [
+                    'start' => '2021-04-04',
+                    'end' => '2021-04-04',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+            // Palm Sunday
+            [
+                [
+                    'start' => '2021-03-28',
+                    'end' => '2021-03-28',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'palmSunday',
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider GetDatesReturnsSpecialDataProvider
+     */
+    public function testGetDatesReturnsSpecial(array $expectedValue, array $inputValue): void
+    {
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['start']->format('Y-m-d'));
+        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
+    }
+
+
+    public function GetDatesReturnsSpecialWithOffsetDataProvider(): array
+    {
+        return [
+            // Easter
+            [
+                [
+                    'start' => '2021-04-03',
+                    'end' => '2021-04-03',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                        'OFFSET' => '-1SA',
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+            // Palm Sunday
+            [
+                [
+                    'start' => '2021-03-26',
+                    'end' => '2021-03-26',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'palmSunday',
+                        'OFFSET' => '-1FR',
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider GetDatesReturnsSpecialWithOffsetDataProvider
+     */
+    public function testGetDatesReturnsSpecialWithOffset(array $expectedValue, array $inputValue): void
+    {
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['start']->format('Y-m-d'));
+        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
+    }
+
     public function GetDatesReturnsMultiDayEventsDataProvider(): array
     {
         return [
@@ -1172,6 +1275,108 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'until' => '2022-01-01',
                 ]
             ],
+            // Special
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2020-01-01', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2020-01-01', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-01-01', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-01-01', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                    ],
+                    'dtstart' => '2020-01-01',
+                    'until' => '2021-12-31',
+                ]
+            ],
+            // Easter
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2020-04-12', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2020-04-12', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-04-04', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-04-04', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                    ],
+                    'dtstart' => '2020-01-01',
+                    'until' => '2021-04-04',
+                ]
+            ],
+            // Easter offset
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2020-04-11', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2020-04-11', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-04-03', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-04-03', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                        'OFFSET' => '-1SA',
+                    ],
+                    'dtstart' => '2020-01-01',
+                    'until' => '2022-01-01',
+                ]
+            ],
+            // Palm Sunday
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2020-04-05', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2020-04-05', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-03-28', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-03-28', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'palmSunday',
+                    ],
+                    'dtstart' => '2020-01-01',
+                    'until' => '2022-01-01',
+                ]
+            ],
+            // Palm Sunday offset
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2020-04-06', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2020-04-06', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-03-29', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-03-29', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'palmSunday',
+                        'OFFSET' => '1MO',
+                    ],
+                    'dtstart' => '2020-01-01',
+                    'until' => '2022-01-01',
+                ]
+            ],
         ];
     }
 
@@ -1183,9 +1388,10 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     {
         $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
         $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $result = $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart);
         foreach ($expectedValue as $key => $expected) {
-            $this->assertEquals($expected['start'], $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart)[$key]['start']);
-            $this->assertEquals($expected['end'], $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart)[$key]['end']);
+            $this->assertEquals($expected['start'], $result[$key]['start']);
+            $this->assertEquals($expected['end'], $result[$key]['end']);
         }
     }
 

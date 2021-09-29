@@ -328,7 +328,7 @@ class Rule
         if (isset($rule['SPECIAL'])) {
             if ('easter' === $rule['SPECIAL']
             || 'palmSunday' === $rule['SPECIAL']) {
-                throw new \InvalidArgumentException('We are currently unable to calculate reccurence rules for Palm Sunday and Easter.');
+                throw new \InvalidArgumentException('We are currently unable to calculate recurrence rules for Palm Sunday and Easter.');
             }
 
             return $this->rfc5545Special($rule);
@@ -541,9 +541,9 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->rfc5545Easter($rule, $offset_n);
+                return $this->getEasterDateTimes($offset_n, $count, $dtstart);
             }
-            return $this->rfc5545Easter($rule, 0);
+            return $this->getEasterDateTimes(0, $count, $dtstart);
         }
 
         if (
@@ -552,9 +552,9 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->rfc5545Easter($rule, $offset_n -7);
+                return $this->getEasterDateTimes($offset_n - 7, $count, $dtstart);
             }
-            return $this->rfc5545Easter($rule, -7);
+            return $this->getEasterDateTimes(-7, $count, $dtstart);
         }
 
         if ($dtstart) {
@@ -624,9 +624,9 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->rfc5545Easter($rule, $offset_n);
+                return $this->getEasterDateTimeRange($offset_n, $until, $dtstart);
             }
-            return $this->rfc5545Easter($rule, 0);
+            return $this->getEasterDateTimeRange(0, $until, $dtstart);
         }
 
         if (
@@ -635,9 +635,9 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->rfc5545Easter($rule, $offset_n -7);
+                return $this->getEasterDateTimeRange($offset_n - 7, $until, $dtstart);
             }
-            return $this->rfc5545Easter($rule, -7);
+            return $this->getEasterDateTimeRange(-7, $until, $dtstart);
         }
 
         if ($dtstart) {
@@ -660,6 +660,7 @@ class Rule
     /**
      * Get dates for $rule from $dtstart until $until.
      *
+     * @since 1.3.0
      * @param array $rule
      * @param \DateTime $until
      * @param \DateTime|null $dtstart
@@ -731,13 +732,16 @@ class Rule
      * @param integer $offset
      * @return array
      */
-    private function rfc5545Easter(array $rule, int $offset = 0) : array
+    private function rfc5545Easter(int $offset = 0, int $count = 5) : array
     {
         $rset = new \RRule\RSet();
 
         $day = 'SU';
-        if (isset($rule['OFFSET'])) {
-            $day = substr($rule['OFFSET'], -2);
+
+        // Otherwise calculate day from offset
+        if ($offset !== 0) {
+            $key = $offset % 7;
+            $day = substr($this::$week_days[$key], 0, 2);
         }
 
         foreach ($this::$metonic_cycle as $cycle) {
@@ -761,7 +765,93 @@ class Rule
             'UNTIL' => date_create(),
 
         ));
-        return array($rset[0],$rset[1],$rset[2],$rset[3],$rset[4]);
+
+        $output = [];
+        foreach (range(0, $count-1) as $key) {
+            $output[] = $rset[$key];
+        }
+        return $output;
+    }
+
+    /**
+     * Get array of DateTimes relating to Easter
+     *
+     * @since 1.3.1
+     * @param array $rule
+     * @param integer $offset
+     * @return array
+     */
+    private function getEasterDateTimeRange(int $offset = 0, \DateTime $until, ?\DateTime $dtstart = null) : array
+    {
+        if (null == $dtstart) {
+            $dtstart = new \DateTime('first day of January this year');
+        }
+
+        $latest = $dtstart;
+        $output = [];
+
+        $range = range($latest->format('Y'), $until->format('Y'));
+
+        foreach ($range as $year) {
+            $easter = self::getEasterDateTime($year, $offset);
+            if ($easter <= $until) {
+                $output[] = $easter;
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * Get array of DateTimes relating to Easter
+     *
+     * @since 1.3.1
+     * @param array $rule
+     * @param integer $offset
+     * @return array
+     */
+    private function getEasterDateTimes(int $offset = 0, int $count, ?\DateTime $dtstart = null) : array
+    {
+        if (null == $dtstart) {
+            $dtstart = new \DateTime('first day of January this year');
+        }
+
+        $output = [];
+        $start = 1;
+
+        $easter = self::getEasterDateTime((int)$dtstart->format('Y'), $offset);
+        if ($easter > $dtstart) {
+            $output[] = $easter;
+            $count--;
+        }
+        $range = range($start, $count);
+
+        foreach ($range as $year) {
+            $easter = self::getEasterDateTime($year, $offset);
+            $output[] = $easter;
+        }
+
+        return $output;
+    }
+
+    /**
+     * Get Easter DateTime avoiding C timezone errors
+     *
+     * @since 1.3.1
+     * @see https://www.php.net/manual/en/function.easter-date.php#refsect1-function.easter-date-notes
+     * @param integer $year
+     * @return \DateTime
+     */
+    private static function getEasterDateTime(int $year, int $offset) : \DateTime
+    {
+        $base = new \DateTime("$year-03-21");
+        $days = easter_days($year) + $offset;
+
+        if ($days < 0) {
+            return $base->sub(new \DateInterval("P" . abs($days) . "D"));
+        }
+
+        return $base->add(new \DateInterval("P{$days}D"));
     }
 
     /**
@@ -966,7 +1056,7 @@ class Rule
     /**
      * Calculate number of days between a day of the week and its offset.
      *
-     * @example calculate_offset('SU','-1SA') => -1
+     * @example calculateOffsetDays('SU','-1SA') => -1
      *
      * @since 1.0.0
      * @param string $day MO,TU,WE,TH,FR,SA,SU

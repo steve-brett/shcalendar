@@ -93,9 +93,9 @@ class RuleCreator
 
         $diff = $end->diff($start)->format('%r%a');
 
-        if (abs($diff) > 6) {
+        if (abs((int)$diff) > 6) {
             throw new \InvalidArgumentException('Dates must not span more than 7 days.
-      ' . $start->format('j M Y') . ' and ' . $end->format('j M Y') . ' are ' . abs($diff) . ' days apart.');
+      ' . $start->format('j M Y') . ' and ' . $end->format('j M Y') . ' are ' . abs((int)$diff) . ' days apart.');
         }
         // Swap if end is before start
         if ($diff > 0) {
@@ -156,7 +156,7 @@ class RuleCreator
         $rule['TYPE'] = 'NTHDAY';
         $rule['BYDAY'] = $count . $day;
         $rule['BYMONTH'] = (int)$nextRefDay->format('n');
-        if (abs($offset) > 0) {
+        if (abs((int)$offset) > 0) {
             $rule['OFFSET'] = '-1' . strtoupper(substr($date->format('D'), 0, -1));
         }
 
@@ -208,7 +208,7 @@ class RuleCreator
         $rule['TYPE'] = 'LASTDAY';
         $rule['BYDAY'] = '-1' . $day;
         $rule['BYMONTH'] = (int)$nextRefDay->format('n');
-        if (abs($offset) > 0) {
+        if (abs((int)$offset) > 0) {
             $rule['OFFSET'] = '-1' . strtoupper(substr($date->format('D'), 0, -1));
         }
 
