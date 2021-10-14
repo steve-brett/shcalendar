@@ -1469,6 +1469,43 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
+    public function getDatesUntilReturnsCorrectTimeDataProvider(): array
+    {
+        return [
+            // New Year
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('Y-m-d H:i:s', '2021-01-01 10:30:00', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('Y-m-d H:i:s', '2021-01-01 10:30:00', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                    ],
+                    'dtstart' => '2021-01-01 10:30:00',
+                    'until' => '2022-01-01',
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getDatesUntilReturnsCorrectTimeDataProvider
+     */
+    public function testGetDatesUntilReturnsCorrectTime(array $expectedValue, array $inputValue): void
+    {
+        $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
+        $dtstart = \DateTime::createFromFormat('Y-m-d H:i:s', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $result = $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart);
+        foreach ($expectedValue as $key => $expected) {
+            $this->assertEquals($expected['start'], $result[$key]['start']);
+            $this->assertEquals($expected['end'], $result[$key]['end']);
+        }
+    }
+
+
     public function calculateOffsetDataProvider(): array
     {
         return [
