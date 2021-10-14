@@ -791,9 +791,10 @@ class Rule
         $output = [];
 
         $range = range($latest->format('Y'), $until->format('Y'));
+        $time = $dtstart->format('H:i:s');
 
         foreach ($range as $year) {
-            $easter = self::getEasterDateTime($year, $offset);
+            $easter = self::getEasterDateTime($year, $offset, $time);
             if ($easter <= $until) {
                 $output[] = $easter;
             }
@@ -818,8 +819,9 @@ class Rule
 
         $output = [];
         $start = 1;
+        $time = $dtstart->format('H:i:s');
 
-        $easter = self::getEasterDateTime((int)$dtstart->format('Y'), $offset);
+        $easter = self::getEasterDateTime((int)$dtstart->format('Y'), $offset, $time);
         if ($easter > $dtstart) {
             $output[] = $easter;
             $count--;
@@ -827,7 +829,7 @@ class Rule
         $range = range($start, $count);
 
         foreach ($range as $year) {
-            $easter = self::getEasterDateTime($year, $offset);
+            $easter = self::getEasterDateTime($year, $offset, $time);
             $output[] = $easter;
         }
 
@@ -842,9 +844,9 @@ class Rule
      * @param integer $year
      * @return \DateTime
      */
-    private static function getEasterDateTime(int $year, int $offset) : \DateTime
+    private static function getEasterDateTime(int $year, int $offset, string $time = '00:00:00') : \DateTime
     {
-        $base = new \DateTime("$year-03-21");
+        $base = \DateTime::createFromFormat('Y-m-d H:i:s', "$year-03-21 $time");
         $days = easter_days($year) + $offset;
 
         if ($days < 0) {

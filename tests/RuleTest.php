@@ -1141,7 +1141,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function GetDatesReturnsSpecialWithOffsetDataProvider(): array
+    public function getDatesReturnsSpecialWithOffsetDataProvider(): array
     {
         return [
             // Easter
@@ -1177,7 +1177,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
     /**
-     * @dataProvider GetDatesReturnsSpecialWithOffsetDataProvider
+     * @dataProvider getDatesReturnsSpecialWithOffsetDataProvider
      */
     public function testGetDatesReturnsSpecialWithOffset(array $expectedValue, array $inputValue): void
     {
@@ -1186,7 +1186,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
     }
 
-    public function GetDatesReturnsMultiDayEventsDataProvider(): array
+    public function getDatesReturnsMultiDayEventsDataProvider(): array
     {
         return [
             // 1 day before
@@ -1224,13 +1224,56 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
     /**
-     * @dataProvider GetDatesReturnsMultiDayEventsDataProvider
+     * @dataProvider getDatesReturnsMultiDayEventsDataProvider
      */
     public function testGetDatesReturnsMultiDayEvents(array $expectedValue, array $inputValue): void
     {
         $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
         $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['start']->format('Y-m-d'));
         $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
+    }
+
+
+    public function getDatesReturnsCorrectTimeDataProvider(): array
+    {
+        return [
+            // New Year
+            [
+                [
+                    'start' => '2021-01-01 10:30:00',
+                    'end' => '2021-01-01 10:30:00',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                    ],
+                    'dtstart' => '2021-01-01 10:30:00',
+                ]
+            ],
+            // Easter
+            [
+                [
+                    'start' => '2021-04-04 10:30:00',
+                    'end' => '2021-04-04 10:30:00',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                    ],
+                    'dtstart' => '2021-01-01 10:30:00',
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getDatesReturnsCorrectTimeDataProvider
+     */
+    public function testGetDatesReturnsCorrectTime(array $expectedValue, array $inputValue): void
+    {
+        $dtstart = \DateTime::createFromFormat('Y-m-d H:i:s', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['start']->format('Y-m-d H:i:s'));
+        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d H:i:s'));
     }
 
 
@@ -1423,6 +1466,59 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
 
         $this->assertEquals($expectedValue, $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart));
+    }
+
+
+    public function getDatesUntilReturnsCorrectTimeDataProvider(): array
+    {
+        return [
+            // New Year
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('Y-m-d H:i:s', '2021-01-01 10:30:00', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('Y-m-d H:i:s', '2021-01-01 10:30:00', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                    ],
+                    'dtstart' => '2021-01-01 10:30:00',
+                    'until' => '2022-01-01',
+                ]
+            ],
+            // Easter
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('Y-m-d H:i:s', '2021-04-04 10:30:00', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('Y-m-d H:i:s', '2021-04-04 10:30:00', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                    ],
+                    'dtstart' => '2021-01-01 10:30:00',
+                    'until' => '2022-01-01',
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getDatesUntilReturnsCorrectTimeDataProvider
+     */
+    public function testGetDatesUntilReturnsCorrectTime(array $expectedValue, array $inputValue): void
+    {
+        $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
+        $dtstart = \DateTime::createFromFormat('Y-m-d H:i:s', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $result = $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart);
+        foreach ($expectedValue as $key => $expected) {
+            $this->assertEquals($expected['start'], $result[$key]['start']);
+            $this->assertEquals($expected['end'], $result[$key]['end']);
+        }
     }
 
 
