@@ -1141,7 +1141,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function GetDatesReturnsSpecialWithOffsetDataProvider(): array
+    public function getDatesReturnsSpecialWithOffsetDataProvider(): array
     {
         return [
             // Easter
@@ -1177,7 +1177,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
     /**
-     * @dataProvider GetDatesReturnsSpecialWithOffsetDataProvider
+     * @dataProvider getDatesReturnsSpecialWithOffsetDataProvider
      */
     public function testGetDatesReturnsSpecialWithOffset(array $expectedValue, array $inputValue): void
     {
@@ -1186,7 +1186,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
     }
 
-    public function GetDatesReturnsMultiDayEventsDataProvider(): array
+    public function getDatesReturnsMultiDayEventsDataProvider(): array
     {
         return [
             // 1 day before
@@ -1224,7 +1224,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
     /**
-     * @dataProvider GetDatesReturnsMultiDayEventsDataProvider
+     * @dataProvider getDatesReturnsMultiDayEventsDataProvider
      */
     public function testGetDatesReturnsMultiDayEvents(array $expectedValue, array $inputValue): void
     {
