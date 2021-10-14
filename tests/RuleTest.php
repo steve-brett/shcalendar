@@ -1234,6 +1234,36 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
+    public function getDatesReturnsCorrectTimeDataProvider(): array
+    {
+        return [
+            // New Year
+            [
+                [
+                    'start' => '2021-01-01 10:30:00',
+                    'end' => '2021-01-01 10:30:00',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                    ],
+                    'dtstart' => '2021-01-01 10:30:00',
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getDatesReturnsCorrectTimeDataProvider
+     */
+    public function testGetDatesReturnsCorrectTime(array $expectedValue, array $inputValue): void
+    {
+        $dtstart = \DateTime::createFromFormat('Y-m-d H:i:s', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['start']->format('Y-m-d H:i:s'));
+        $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d H:i:s'));
+    }
+
+
     public function GetDatesUntilReturnsCorrectYearsDataProvider(): array
     {
         return [
