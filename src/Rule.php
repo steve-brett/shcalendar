@@ -791,9 +791,10 @@ class Rule
         $output = [];
 
         $range = range($latest->format('Y'), $until->format('Y'));
+        $time = $dtstart->format('H:i:s');
 
         foreach ($range as $year) {
-            $easter = self::getEasterDateTime($year, $offset);
+            $easter = self::getEasterDateTime($year, $offset, $time);
             if ($easter <= $until) {
                 $output[] = $easter;
             }
