@@ -325,6 +325,12 @@ class Rule
             throw $e;
         }
 
+        if (!isset($rule['INTERVAL'])) {
+            $rule['INTERVAL'] = 1;
+        }
+
+        $rule['INTERVAL'] = (int)$rule['INTERVAL'];
+
         if (isset($rule['SPECIAL'])) {
             if ('easter' === $rule['SPECIAL']
             || 'palmSunday' === $rule['SPECIAL']) {
@@ -335,7 +341,7 @@ class Rule
         }
 
         if (!isset($rule['OFFSET'])) {
-            return 'FREQ=YEARLY;INTERVAL=1;BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
+            return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
         }
 
         $month_week = (int) substr($rule['BYDAY'], 0, -2);
@@ -357,7 +363,7 @@ class Rule
         $week = $this->createWeek($year_day);
         $year_days = $this->offsetByYearDay($week, $offset);
 
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days ;
+        return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days ;
     }
 
     /**
@@ -535,15 +541,21 @@ class Rule
             throw new \InvalidArgumentException('$count must be between 1 and 100. Got [' . $count . ']');
         }
 
+        if (!isset($rule['INTERVAL'])) {
+            $rule['INTERVAL'] = 1;
+        }
+
+        $rule['INTERVAL'] = (int)$rule['INTERVAL'];
+
         if (
             isset($rule['SPECIAL']) &&
             ('easter' === $rule['SPECIAL'])
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->getEasterDateTimes($offset_n, $count, $dtstart);
+                return $this->getEasterDateTimes($offset_n, $count, $dtstart, $rule['INTERVAL']);
             }
-            return $this->getEasterDateTimes(0, $count, $dtstart);
+            return $this->getEasterDateTimes(0, $count, $dtstart, $rule['INTERVAL']);
         }
 
         if (
@@ -552,9 +564,9 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->getEasterDateTimes($offset_n - 7, $count, $dtstart);
+                return $this->getEasterDateTimes($offset_n - 7, $count, $dtstart, $rule['INTERVAL']);
             }
-            return $this->getEasterDateTimes(-7, $count, $dtstart);
+            return $this->getEasterDateTimes(-7, $count, $dtstart, $rule['INTERVAL']);
         }
 
         if ($dtstart) {
@@ -618,15 +630,21 @@ class Rule
      */
     public function getEndDatesUntil(array $rule, \DateTime $until, ?\DateTime $dtstart = null)
     {
+        if (!isset($rule['INTERVAL'])) {
+            $rule['INTERVAL'] = 1;
+        }
+
+        $rule['INTERVAL'] = (int)$rule['INTERVAL'];
+
         if (
             isset($rule['SPECIAL']) &&
             ('easter' === $rule['SPECIAL'])
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->getEasterDateTimeRange($offset_n, $until, $dtstart);
+                return $this->getEasterDateTimeRange($offset_n, $until, $dtstart, $rule['INTERVAL']);
             }
-            return $this->getEasterDateTimeRange(0, $until, $dtstart);
+            return $this->getEasterDateTimeRange(0, $until, $dtstart, $rule['INTERVAL']);
         }
 
         if (
@@ -635,9 +653,9 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->getEasterDateTimeRange($offset_n - 7, $until, $dtstart);
+                return $this->getEasterDateTimeRange($offset_n - 7, $until, $dtstart, $rule['INTERVAL']);
             }
-            return $this->getEasterDateTimeRange(-7, $until, $dtstart);
+            return $this->getEasterDateTimeRange(-7, $until, $dtstart, $rule['INTERVAL']);
         }
 
         if ($dtstart) {
@@ -701,7 +719,7 @@ class Rule
         }
 
         if (!isset($rule['OFFSET'])) {
-            return 'FREQ=YEARLY;INTERVAL=1;' . $this::$special_rules[$rule['SPECIAL']]['rule'];
+            return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';' . $this::$special_rules[$rule['SPECIAL']]['rule'];
         }
 
         $day = substr($rule['OFFSET'], -2);
@@ -713,7 +731,7 @@ class Rule
             $offset_n = $this->calculateOffsetDays($special_day, $rule['OFFSET']);
             $year_days = $this->offsetByYearDay($year_days, $offset_n);
 
-            return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
+            return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
         }
 
         // Category = fixedDate
@@ -721,7 +739,7 @@ class Rule
         $year_day = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
         $year_days = $this->offsetByYearDayFixedDate($year_day, $offset_sign);
 
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
+        return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
     }
 
     /**
@@ -781,7 +799,7 @@ class Rule
      * @param integer $offset
      * @return array
      */
-    private function getEasterDateTimeRange(int $offset = 0, \DateTime $until, ?\DateTime $dtstart = null) : array
+    private function getEasterDateTimeRange(int $offset = 0, \DateTime $until, ?\DateTime $dtstart = null, int $interval = 1) : array
     {
         if (null == $dtstart) {
             $dtstart = new \DateTime('first day of January this year');
@@ -793,7 +811,12 @@ class Rule
         $range = range($latest->format('Y'), $until->format('Y'));
         $time = $dtstart->format('H:i:s');
 
-        foreach ($range as $year) {
+        foreach ($range as $key => $year) {
+            // Skip non-interval years
+            if ($key % $interval !== 0) {
+                continue;
+            }
+
             $easter = self::getEasterDateTime($year, $offset, $time);
             if ($easter <= $until) {
                 $output[] = $easter;
@@ -807,11 +830,13 @@ class Rule
      * Get array of DateTimes relating to Easter
      *
      * @since 1.3.1
-     * @param array $rule
      * @param integer $offset
+     * @param integer $count            How many dates to get
+     * @param \DateTime|null $dtstart   Start date
+     * @param integer $interval         Annual interval
      * @return array
      */
-    private function getEasterDateTimes(int $offset = 0, int $count, ?\DateTime $dtstart = null) : array
+    private function getEasterDateTimes(int $offset = 0, int $count, ?\DateTime $dtstart = null, int $interval = 1) : array
     {
         if (null == $dtstart) {
             $dtstart = new \DateTime('first day of January this year');
@@ -820,16 +845,23 @@ class Rule
         $output = [];
         $start = 1;
         $time = $dtstart->format('H:i:s');
+        $year = (int)$dtstart->format('Y');
 
-        $easter = self::getEasterDateTime((int)$dtstart->format('Y'), $offset, $time);
+        $easter = self::getEasterDateTime($year, $offset, $time);
         if ($easter > $dtstart) {
             $output[] = $easter;
             $count--;
         }
+
+        // Bail if no more to calculate
+        if ($count <= 0) {
+            return $output;
+        }
+
         $range = range($start, $count);
 
-        foreach ($range as $year) {
-            $easter = self::getEasterDateTime($year, $offset, $time);
+        foreach ($range as $increment) {
+            $easter = self::getEasterDateTime($year + ($increment * $interval), $offset, $time);
             $output[] = $easter;
         }
 
@@ -969,12 +1001,12 @@ class Rule
      */
     private function validate(array $rule): array
     {
-        // if (!isset($rule['OFFSET']) )
-        // {
-        // 	$rule['OFFSET'] = 0;
-        // }
         if (isset($rule['OFFSET']) && !$this->validOffset($rule['OFFSET'])) {
             throw new \InvalidArgumentException('OFFSET format incorrect. Got [' . $rule['OFFSET'] . ']');
+        }
+
+        if (isset($rule['INTERVAL']) && !ctype_digit(strval($rule['INTERVAL']))) {
+            throw new \InvalidArgumentException('Interval must be a whole number.');
         }
 
         if (isset($rule['SPECIAL'])) {
@@ -1005,7 +1037,6 @@ class Rule
         if (isset($rule['STARTOFFSET']) && $rule['STARTOFFSET'] < -6) {
             throw new \InvalidArgumentException('STARTOFFSET must be between -1 and -6. Got [' . $rule['STARTOFFSET'] . ']');
         }
-
 
         // Validate using RRule
         try {

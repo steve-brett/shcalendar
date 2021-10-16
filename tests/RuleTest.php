@@ -567,6 +567,17 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                 'BYDAY' => '1SU',
                 'STARTOFFSET' => 'garbage',
             ]],
+            // INTERVAL not an integer
+            [[
+                'BYMONTH' => 5,
+                'BYDAY' => '1SU',
+                'INTERVAL' => 'garbage',
+            ]],
+            [[
+                'BYMONTH' => 5,
+                'BYDAY' => '1SU',
+                'INTERVAL' => 1.2,
+            ]],
         ];
     }
 
@@ -1084,7 +1095,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function GetDatesReturnsSpecialDataProvider(): array
+    public function getDatesReturnsSpecialDataProvider(): array
     {
         return [
             // New Year
@@ -1277,7 +1288,87 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function GetDatesUntilReturnsCorrectYearsDataProvider(): array
+    public function getDatesReturnsCorrectIntervalDataProvider(): array
+    {
+        return [
+            // Regular
+            [
+                [
+                    [
+                        'start' => '2021-05-02',
+                        'end' => '2021-05-02',
+                    ],
+                    [
+                        'start' => '2023-05-07',
+                        'end' => '2023-05-07',
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '1SU',
+                        'INTERVAL' => 2,
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+            // New Year
+            [
+                [
+                    [
+                        'start' => '2021-01-01',
+                        'end' => '2021-01-01',
+                    ],
+                    [
+                        'start' => '2023-01-01',
+                        'end' => '2023-01-01',
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                        'INTERVAL' => 2,
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+            // Easter
+            [
+                [
+                    [
+                        'start' => '2021-04-04',
+                        'end' => '2021-04-04',
+                    ],
+                    [
+                        'start' => '2023-04-09',
+                        'end' => '2023-04-09',
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                        'INTERVAL' => 2,
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getDatesReturnsCorrectIntervalDataProvider
+     */
+    public function testGetDatesReturnsCorrectInterval(array $expectedValues, array $inputValue): void
+    {
+        $dtstart = \DateTime::createFromFormat('Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        foreach ($expectedValues as $key => $expectedValue) {
+            $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 2, $dtstart)[$key]['start']->format('Y-m-d'));
+            $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 2, $dtstart)[$key]['end']->format('Y-m-d'));
+        }
+    }
+
+
+    public function getDatesUntilReturnsCorrectYearsDataProvider(): array
     {
         return [
             // One year
@@ -1438,7 +1529,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         }
     }
 
-    public function GetDatesUntilReturnsEmptyArrayDataProvider(): array
+    public function getDatesUntilReturnsEmptyArrayDataProvider(): array
     {
         return [
             [
@@ -1514,6 +1605,93 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     {
         $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
         $dtstart = \DateTime::createFromFormat('Y-m-d H:i:s', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $result = $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart);
+        foreach ($expectedValue as $key => $expected) {
+            $this->assertEquals($expected['start'], $result[$key]['start']);
+            $this->assertEquals($expected['end'], $result[$key]['end']);
+        }
+    }
+
+
+    public function getDatesUntilReturnsCorrectIntervalDataProvider(): array
+    {
+        return [
+            // Regular
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2023-05-06', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2023-05-06', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '1SU',
+                        'OFFSET' => '-1SA',
+                        'INTERVAL' => '2',
+                    ],
+                    'dtstart' => '2021-01-01',
+                    'until' => '2024-01-01',
+                ]
+            ],
+            // Special
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-01-01', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-01-01', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2023-01-01', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2023-01-01', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                        'INTERVAL' => 2,
+                    ],
+                    'dtstart' => '2021-01-01',
+                    'until' => '2023-12-31',
+                ]
+            ],
+            // Easter
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-04-04', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-04-04', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2023-04-09', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2023-04-09', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'easter',
+                        'INTERVAL' => '2',
+                    ],
+                    'dtstart' => '2021-01-01',
+                    'until' => '2023-12-31',
+                ]
+            ],
+        ];
+    }
+
+
+    /**
+     * @dataProvider GetDatesUntilReturnsCorrectIntervalDataProvider
+     */
+    public function testGetDatesUntilReturnsCorrectInterval(array $expectedValue, array $inputValue): void
+    {
+        $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
         $result = $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart);
         foreach ($expectedValue as $key => $expected) {
             $this->assertEquals($expected['start'], $result[$key]['start']);

@@ -1,5 +1,10 @@
 # Changelog
 
+## `1.4.0` – 2021-10-16
+
+- Feature: add `$rule['INTERVAL'] = N` support for events that occur every N years.
+- Bugfix: fixed years for `Rule::getDates()` Easter-based cases where `$count > 1`.
+
 ## `1.3.2` – 2021-10-14
 
 - Bugfix: fix times for Easter-related results for `Rule::getDates()` and `Rule::getDatesUntil()`
