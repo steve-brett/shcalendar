@@ -1005,6 +1005,10 @@ class Rule
             throw new \InvalidArgumentException('OFFSET format incorrect. Got [' . $rule['OFFSET'] . ']');
         }
 
+        if (isset($rule['INTERVAL']) && !ctype_digit(strval($rule['INTERVAL']))) {
+            throw new \InvalidArgumentException('Interval must be a whole number.');
+        }
+
         if (isset($rule['SPECIAL'])) {
             if (!array_key_exists($rule['SPECIAL'], $this::$specials)) {
                 throw new \InvalidArgumentException('SPECIAL key not valid. Got [' . $rule['SPECIAL'] . ']');
@@ -1032,10 +1036,6 @@ class Rule
 
         if (isset($rule['STARTOFFSET']) && $rule['STARTOFFSET'] < -6) {
             throw new \InvalidArgumentException('STARTOFFSET must be between -1 and -6. Got [' . $rule['STARTOFFSET'] . ']');
-        }
-
-        if (isset($rule['INTERVAL']) && !ctype_digit(strval($rule['INTERVAL']))) {
-            throw new \InvalidArgumentException('Interval must be a whole number.');
         }
 
         // Validate using RRule
