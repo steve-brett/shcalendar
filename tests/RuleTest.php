@@ -1633,6 +1633,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                         'BYMONTH' => 5,
                         'BYDAY' => '1SU',
                         'OFFSET' => '-1SA',
+                        'INTERVAL' => '2',
                     ],
                     'dtstart' => '2021-01-01',
                     'until' => '2024-01-01',
