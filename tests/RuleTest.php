@@ -1280,6 +1280,27 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     public function getDatesReturnsCorrectIntervalDataProvider(): array
     {
         return [
+            // Regular
+            [
+                [
+                    [
+                        'start' => '2021-05-02',
+                        'end' => '2021-05-02',
+                    ],
+                    [
+                        'start' => '2023-05-07',
+                        'end' => '2023-05-07',
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '1SU',
+                        'INTERVAL' => 2,
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
             // New Year
             [
                 [
