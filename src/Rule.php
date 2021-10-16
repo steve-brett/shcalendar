@@ -327,8 +327,6 @@ class Rule
 
         if (!isset($rule['INTERVAL'])) {
             $rule['INTERVAL'] = 1;
-            // } elseif (!ctype_digit(strval($rule['INTERVAL']))) {
-        //     throw new \InvalidArgumentException('Interval must be a whole number.');
         }
 
         if (isset($rule['SPECIAL'])) {
@@ -975,10 +973,6 @@ class Rule
      */
     private function validate(array $rule): array
     {
-        // if (!isset($rule['OFFSET']) )
-        // {
-        // 	$rule['OFFSET'] = 0;
-        // }
         if (isset($rule['OFFSET']) && !$this->validOffset($rule['OFFSET'])) {
             throw new \InvalidArgumentException('OFFSET format incorrect. Got [' . $rule['OFFSET'] . ']');
         }
@@ -1012,6 +1006,9 @@ class Rule
             throw new \InvalidArgumentException('STARTOFFSET must be between -1 and -6. Got [' . $rule['STARTOFFSET'] . ']');
         }
 
+        if (isset($rule['INTERVAL']) && !ctype_digit(strval($rule['INTERVAL']))) {
+            throw new \InvalidArgumentException('Interval must be a whole number.');
+        }
 
         // Validate using RRule
         try {
