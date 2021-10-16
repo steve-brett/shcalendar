@@ -626,15 +626,21 @@ class Rule
      */
     public function getEndDatesUntil(array $rule, \DateTime $until, ?\DateTime $dtstart = null)
     {
+        if (!isset($rule['INTERVAL'])) {
+            $rule['INTERVAL'] = 1;
+        }
+
+        $rule['INTERVAL'] = (int)$rule['INTERVAL'];
+
         if (
             isset($rule['SPECIAL']) &&
             ('easter' === $rule['SPECIAL'])
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->getEasterDateTimeRange($offset_n, $until, $dtstart);
+                return $this->getEasterDateTimeRange($offset_n, $until, $dtstart, $rule['INTERVAL']);
             }
-            return $this->getEasterDateTimeRange(0, $until, $dtstart);
+            return $this->getEasterDateTimeRange(0, $until, $dtstart, $rule['INTERVAL']);
         }
 
         if (
@@ -643,9 +649,9 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->getEasterDateTimeRange($offset_n - 7, $until, $dtstart);
+                return $this->getEasterDateTimeRange($offset_n - 7, $until, $dtstart, $rule['INTERVAL']);
             }
-            return $this->getEasterDateTimeRange(-7, $until, $dtstart);
+            return $this->getEasterDateTimeRange(-7, $until, $dtstart, $rule['INTERVAL']);
         }
 
         if ($dtstart) {
@@ -789,7 +795,7 @@ class Rule
      * @param integer $offset
      * @return array
      */
-    private function getEasterDateTimeRange(int $offset = 0, \DateTime $until, ?\DateTime $dtstart = null) : array
+    private function getEasterDateTimeRange(int $offset = 0, \DateTime $until, ?\DateTime $dtstart = null, int $interval = 1) : array
     {
         if (null == $dtstart) {
             $dtstart = new \DateTime('first day of January this year');
@@ -801,7 +807,12 @@ class Rule
         $range = range($latest->format('Y'), $until->format('Y'));
         $time = $dtstart->format('H:i:s');
 
-        foreach ($range as $year) {
+        foreach ($range as $key => $year) {
+            // Skip non-interval years
+            if ($key % $interval !== 0) {
+                continue;
+            }
+
             $easter = self::getEasterDateTime($year, $offset, $time);
             if ($easter <= $until) {
                 $output[] = $easter;
