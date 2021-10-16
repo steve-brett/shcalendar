@@ -325,6 +325,12 @@ class Rule
             throw $e;
         }
 
+        if (!isset($rule['INTERVAL'])) {
+            $rule['INTERVAL'] = 1;
+            // } elseif (!ctype_digit(strval($rule['INTERVAL']))) {
+        //     throw new \InvalidArgumentException('Interval must be a whole number.');
+        }
+
         if (isset($rule['SPECIAL'])) {
             if ('easter' === $rule['SPECIAL']
             || 'palmSunday' === $rule['SPECIAL']) {
@@ -334,16 +340,8 @@ class Rule
             return $this->rfc5545Special($rule);
         }
 
-        $interval = 1;
-        if (isset($rule['INTERVAL'])) {
-            // if (!ctype_digit(strval($rule['INTERVAL']))) {
-            //     throw new \InvalidArgumentException('Interval must be a whole number.');
-            // }
-            $interval = $rule['INTERVAL'];
-        }
-
         if (!isset($rule['OFFSET'])) {
-            return 'FREQ=YEARLY;INTERVAL=' . $interval . ';BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
+            return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
         }
 
         $month_week = (int) substr($rule['BYDAY'], 0, -2);
@@ -365,7 +363,7 @@ class Rule
         $week = $this->createWeek($year_day);
         $year_days = $this->offsetByYearDay($week, $offset);
 
-        return 'FREQ=YEARLY;INTERVAL=' . $interval . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days ;
+        return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days ;
     }
 
     /**
@@ -708,16 +706,8 @@ class Rule
             throw new \InvalidArgumentException('Rule key does not exist. Got [' . $rule['SPECIAL'] . ']');
         }
 
-        $interval = 1;
-        if (isset($rule['INTERVAL'])) {
-            // if (!ctype_digit(strval($rule['INTERVAL']))) {
-            //     throw new \InvalidArgumentException('Interval must be a whole number.');
-            // }
-            $interval = $rule['INTERVAL'];
-        }
-
         if (!isset($rule['OFFSET'])) {
-            return 'FREQ=YEARLY;INTERVAL=' . $interval . ';' . $this::$special_rules[$rule['SPECIAL']]['rule'];
+            return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';' . $this::$special_rules[$rule['SPECIAL']]['rule'];
         }
 
         $day = substr($rule['OFFSET'], -2);
@@ -729,7 +719,7 @@ class Rule
             $offset_n = $this->calculateOffsetDays($special_day, $rule['OFFSET']);
             $year_days = $this->offsetByYearDay($year_days, $offset_n);
 
-            return 'FREQ=YEARLY;INTERVAL=' . $interval . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
+            return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
         }
 
         // Category = fixedDate
@@ -737,7 +727,7 @@ class Rule
         $year_day = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
         $year_days = $this->offsetByYearDayFixedDate($year_day, $offset_sign);
 
-        return 'FREQ=YEARLY;INTERVAL=' . $interval . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
+        return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
     }
 
     /**
