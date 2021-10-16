@@ -1613,6 +1613,90 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
+    public function GetDatesUntilReturnsCorrectIntervalDataProvider(): array
+    {
+        return [
+            // Regular
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-05-01', new \DateTimeZone('UTC')),
+                    ],
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2023-05-06', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2023-05-06', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'BYMONTH' => 5,
+                        'BYDAY' => '1SU',
+                        'OFFSET' => '-1SA',
+                    ],
+                    'dtstart' => '2021-01-01',
+                    'until' => '2024-01-01',
+                ]
+            ],
+            // // Special
+            // [
+            //     [
+            //         [
+            //             'start' => \DateTime::createFromFormat('!Y-m-d', '2020-01-01', new \DateTimeZone('UTC')),
+            //             'end' => \DateTime::createFromFormat('!Y-m-d', '2020-01-01', new \DateTimeZone('UTC')),
+            //         ],
+            //         [
+            //             'start' => \DateTime::createFromFormat('!Y-m-d', '2021-01-01', new \DateTimeZone('UTC')),
+            //             'end' => \DateTime::createFromFormat('!Y-m-d', '2021-01-01', new \DateTimeZone('UTC')),
+            //         ],
+            //     ],
+            //     [
+            //         'formula' => [
+            //             'SPECIAL' => 'newYear',
+            //         ],
+            //         'dtstart' => '2020-01-01',
+            //         'until' => '2021-12-31',
+            //     ]
+            // ],
+            // // Easter
+            // [
+            //     [
+            //         [
+            //             'start' => \DateTime::createFromFormat('!Y-m-d', '2020-04-12', new \DateTimeZone('UTC')),
+            //             'end' => \DateTime::createFromFormat('!Y-m-d', '2020-04-12', new \DateTimeZone('UTC')),
+            //         ],
+            //         [
+            //             'start' => \DateTime::createFromFormat('!Y-m-d', '2021-04-04', new \DateTimeZone('UTC')),
+            //             'end' => \DateTime::createFromFormat('!Y-m-d', '2021-04-04', new \DateTimeZone('UTC')),
+            //         ],
+            //     ],
+            //     [
+            //         'formula' => [
+            //             'SPECIAL' => 'easter',
+            //         ],
+            //         'dtstart' => '2020-01-01',
+            //         'until' => '2021-04-04',
+            //     ]
+            // ],
+        ];
+    }
+
+
+    /**
+     * @dataProvider GetDatesUntilReturnsCorrectIntervalDataProvider
+     */
+    public function testGetDatesUntilReturnsCorrectInterval(array $expectedValue, array $inputValue): void
+    {
+        $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
+        $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        $result = $this->rule->getDatesUntil($inputValue['formula'], $until, $dtstart);
+        foreach ($expectedValue as $key => $expected) {
+            $this->assertEquals($expected['start'], $result[$key]['start']);
+            $this->assertEquals($expected['end'], $result[$key]['end']);
+        }
+    }
+
+
     public function calculateOffsetDataProvider(): array
     {
         return [
