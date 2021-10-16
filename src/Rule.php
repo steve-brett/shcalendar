@@ -329,6 +329,8 @@ class Rule
             $rule['INTERVAL'] = 1;
         }
 
+        $rule['INTERVAL'] = (int)$rule['INTERVAL'];
+
         if (isset($rule['SPECIAL'])) {
             if ('easter' === $rule['SPECIAL']
             || 'palmSunday' === $rule['SPECIAL']) {
@@ -542,6 +544,8 @@ class Rule
         if (!isset($rule['INTERVAL'])) {
             $rule['INTERVAL'] = 1;
         }
+
+        $rule['INTERVAL'] = (int)$rule['INTERVAL'];
 
         if (
             isset($rule['SPECIAL']) &&
