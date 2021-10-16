@@ -567,6 +567,17 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                 'BYDAY' => '1SU',
                 'STARTOFFSET' => 'garbage',
             ]],
+            // INTERVAL not an integer
+            [[
+                'BYMONTH' => 5,
+                'BYDAY' => '1SU',
+                'INTERVAL' => 'garbage',
+            ]],
+            [[
+                'BYMONTH' => 5,
+                'BYDAY' => '1SU',
+                'INTERVAL' => 1.2,
+            ]],
         ];
     }
 
