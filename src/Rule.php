@@ -539,15 +539,19 @@ class Rule
             throw new \InvalidArgumentException('$count must be between 1 and 100. Got [' . $count . ']');
         }
 
+        if (!isset($rule['INTERVAL'])) {
+            $rule['INTERVAL'] = 1;
+        }
+
         if (
             isset($rule['SPECIAL']) &&
             ('easter' === $rule['SPECIAL'])
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->getEasterDateTimes($offset_n, $count, $dtstart);
+                return $this->getEasterDateTimes($offset_n, $count, $dtstart, $rule['INTERVAL']);
             }
-            return $this->getEasterDateTimes(0, $count, $dtstart);
+            return $this->getEasterDateTimes(0, $count, $dtstart, $rule['INTERVAL']);
         }
 
         if (
@@ -556,9 +560,9 @@ class Rule
         ) {
             if (isset($rule['OFFSET'])) {
                 $offset_n = $this->calculateOffsetDays('SU', $rule['OFFSET']);
-                return $this->getEasterDateTimes($offset_n - 7, $count, $dtstart);
+                return $this->getEasterDateTimes($offset_n - 7, $count, $dtstart, $rule['INTERVAL']);
             }
-            return $this->getEasterDateTimes(-7, $count, $dtstart);
+            return $this->getEasterDateTimes(-7, $count, $dtstart, $rule['INTERVAL']);
         }
 
         if ($dtstart) {
@@ -811,11 +815,13 @@ class Rule
      * Get array of DateTimes relating to Easter
      *
      * @since 1.3.1
-     * @param array $rule
      * @param integer $offset
+     * @param integer $count            How many dates to get
+     * @param \DateTime|null $dtstart   Start date
+     * @param integer $interval         Annual interval
      * @return array
      */
-    private function getEasterDateTimes(int $offset = 0, int $count, ?\DateTime $dtstart = null) : array
+    private function getEasterDateTimes(int $offset = 0, int $count, ?\DateTime $dtstart = null, int $interval = 1) : array
     {
         if (null == $dtstart) {
             $dtstart = new \DateTime('first day of January this year');
@@ -824,16 +830,23 @@ class Rule
         $output = [];
         $start = 1;
         $time = $dtstart->format('H:i:s');
+        $year = (int)$dtstart->format('Y');
 
-        $easter = self::getEasterDateTime((int)$dtstart->format('Y'), $offset, $time);
+        $easter = self::getEasterDateTime($year, $offset, $time);
         if ($easter > $dtstart) {
             $output[] = $easter;
             $count--;
         }
+
+        // Bail if no more to calculate
+        if ($count <= 0) {
+            return $output;
+        }
+
         $range = range($start, $count);
 
-        foreach ($range as $year) {
-            $easter = self::getEasterDateTime($year, $offset, $time);
+        foreach ($range as $increment) {
+            $easter = self::getEasterDateTime($year + ($increment * $interval), $offset, $time);
             $output[] = $easter;
         }
 
