@@ -1095,7 +1095,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function GetDatesReturnsSpecialDataProvider(): array
+    public function getDatesReturnsSpecialDataProvider(): array
     {
         return [
             // New Year
@@ -1368,7 +1368,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function GetDatesUntilReturnsCorrectYearsDataProvider(): array
+    public function getDatesUntilReturnsCorrectYearsDataProvider(): array
     {
         return [
             // One year
@@ -1529,7 +1529,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         }
     }
 
-    public function GetDatesUntilReturnsEmptyArrayDataProvider(): array
+    public function getDatesUntilReturnsEmptyArrayDataProvider(): array
     {
         return [
             [
@@ -1613,7 +1613,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function GetDatesUntilReturnsCorrectIntervalDataProvider(): array
+    public function getDatesUntilReturnsCorrectIntervalDataProvider(): array
     {
         return [
             // Regular
