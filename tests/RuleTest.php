@@ -1277,6 +1277,45 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
+    public function getDatesReturnsCorrectIntervalDataProvider(): array
+    {
+        return [
+            // New Year
+            [
+                [
+                    [
+                        'start' => '2021-01-01',
+                        'end' => '2021-01-01',
+                    ],
+                    [
+                        'start' => '2023-01-01',
+                        'end' => '2023-01-01',
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'newYear',
+                        'INTERVAL' => 2,
+                    ],
+                    'dtstart' => '2021-01-01',
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getDatesReturnsCorrectIntervalDataProvider
+     */
+    public function testGetDatesReturnsCorrectInterval(array $expectedValues, array $inputValue): void
+    {
+        $dtstart = \DateTime::createFromFormat('Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
+        foreach ($expectedValues as $key => $expectedValue) {
+            $this->assertEquals($expectedValue['start'], $this->rule->getDates($inputValue['formula'], 2, $dtstart)[$key]['start']->format('Y-m-d'));
+            $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 2, $dtstart)[$key]['end']->format('Y-m-d'));
+        }
+    }
+
+
     public function GetDatesUntilReturnsCorrectYearsDataProvider(): array
     {
         return [
