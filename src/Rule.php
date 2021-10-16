@@ -334,8 +334,16 @@ class Rule
             return $this->rfc5545Special($rule);
         }
 
+        $interval = 1;
+        if (isset($rule['INTERVAL'])) {
+            // if (!ctype_digit(strval($rule['INTERVAL']))) {
+            //     throw new \InvalidArgumentException('Interval must be a whole number.');
+            // }
+            $interval = $rule['INTERVAL'];
+        }
+
         if (!isset($rule['OFFSET'])) {
-            return 'FREQ=YEARLY;INTERVAL=1;BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
+            return 'FREQ=YEARLY;INTERVAL=' . $interval . ';BYMONTH='. $rule['BYMONTH'] . ';BYDAY=' . $rule['BYDAY'];
         }
 
         $month_week = (int) substr($rule['BYDAY'], 0, -2);
@@ -357,7 +365,7 @@ class Rule
         $week = $this->createWeek($year_day);
         $year_days = $this->offsetByYearDay($week, $offset);
 
-        return 'FREQ=YEARLY;INTERVAL=1;BYDAY=' . $day . ';BYYEARDAY=' . $year_days ;
+        return 'FREQ=YEARLY;INTERVAL=' . $interval . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days ;
     }
 
     /**
