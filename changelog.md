@@ -1,5 +1,9 @@
 # Changelog
 
+## `1.4.1` – 2021-11-30
+
+- Bugfix: fixed `Rule::getDates()` and `Rule::getDatesUntil()` for Easter-based cases where `$dtstart` is a formula date.
+
 ## `1.4.0` – 2021-10-16
 
 - Feature: add `$rule['INTERVAL'] = N` support for events that occur every N years.
