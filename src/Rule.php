@@ -848,7 +848,7 @@ class Rule
         $year = (int)$dtstart->format('Y');
 
         $easter = self::getEasterDateTime($year, $offset, $time);
-        if ($easter > $dtstart) {
+        if ($easter >= $dtstart) {
             $output[] = $easter;
             $count--;
         }
