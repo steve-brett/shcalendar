@@ -818,6 +818,12 @@ class Rule
             }
 
             $easter = self::getEasterDateTime($year, $offset, $time);
+
+            // Skip if easter date before dtstart
+            if ($easter < $dtstart) {
+                continue;
+            }
+
             if ($easter <= $until) {
                 $output[] = $easter;
             }
