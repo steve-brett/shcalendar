@@ -1137,7 +1137,19 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'dtstart' => '2021-01-01',
                 ]
             ],
-
+            // 0th date is dtstart
+            [
+                [
+                    'start' => '2021-03-28',
+                    'end' => '2021-03-28',
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'palmSunday',
+                    ],
+                    'dtstart' => '2021-03-28',
+                ]
+            ],
         ];
     }
 
@@ -1486,7 +1498,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'formula' => [
                         'SPECIAL' => 'palmSunday',
                     ],
-                    'dtstart' => '2020-01-01',
+                    'dtstart' => '2020-04-05',
                     'until' => '2022-01-01',
                 ]
             ],
@@ -1508,6 +1520,22 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                         'OFFSET' => '1MO',
                     ],
                     'dtstart' => '2020-01-01',
+                    'until' => '2022-01-01',
+                ]
+            ],
+            // DTstart after special of that year
+            [
+                [
+                    [
+                        'start' => \DateTime::createFromFormat('!Y-m-d', '2021-03-28', new \DateTimeZone('UTC')),
+                        'end' => \DateTime::createFromFormat('!Y-m-d', '2021-03-28', new \DateTimeZone('UTC')),
+                    ],
+                ],
+                [
+                    'formula' => [
+                        'SPECIAL' => 'palmSunday',
+                    ],
+                    'dtstart' => '2020-05-01',
                     'until' => '2022-01-01',
                 ]
             ],

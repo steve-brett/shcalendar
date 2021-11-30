@@ -818,6 +818,12 @@ class Rule
             }
 
             $easter = self::getEasterDateTime($year, $offset, $time);
+
+            // Skip if easter date before dtstart
+            if ($easter < $dtstart) {
+                continue;
+            }
+
             if ($easter <= $until) {
                 $output[] = $easter;
             }
@@ -848,7 +854,7 @@ class Rule
         $year = (int)$dtstart->format('Y');
 
         $easter = self::getEasterDateTime($year, $offset, $time);
-        if ($easter > $dtstart) {
+        if ($easter >= $dtstart) {
             $output[] = $easter;
             $count--;
         }
