@@ -332,6 +332,8 @@ class RuleCreator
             $specials['whitsun'] = "2002-06-03";
         } elseif ($year == 2012) { // Diamond Jubilee exception year
             $specials['whitsun'] = "2012-06-04";
+        } elseif ($year == 2022) { // Platinum Jubilee exception year
+            $specials['whitsun'] = "2022-06-02";
         } else {
             switch (date("w", strtotime("$year-05-31 00:00:00"))) {
                 case 0:
@@ -512,28 +514,37 @@ class RuleCreator
 
 
         // non-standard South West singing formula:
-        switch (date("w", strtotime("$year-05-31 00:00:00"))) {
-            case 0:
-                $specials['southWestWhitsun'] = "$year-06-06";
-                break;
-            case 1:
-                $specials['southWestWhitsun'] = "$year-06-12";
-                break;
-            case 2:
-                $specials['southWestWhitsun'] = "$year-06-11";
-                break;
-            case 3:
-                $specials['southWestWhitsun'] = "$year-06-10";
-                break;
-            case 4:
-                $specials['southWestWhitsun'] = "$year-06-09";
-                break;
-            case 5:
-                $specials['southWestWhitsun'] = "$year-06-08";
-                break;
-            case 6:
-                $specials['southWestWhitsun'] = "$year-06-07";
-                break;
+        if ($year == 2002) { // Golden Jubilee exception year
+            $specials['southWestWhitsun'] = "2002-06-15";
+        } elseif ($year == 2012) { // Diamond Jubilee exception year
+            $specials['southWestWhitsun'] = "2012-06-16";
+        } elseif ($year == 2022) { // Platinum Jubilee exception year
+            // Is actually same as usual but specified here for clarity
+            $specials['southWestWhitsun'] = "2022-06-11";
+        } else {
+            switch (date("w", strtotime("$year-05-31 00:00:00"))) {
+                case 0:
+                    $specials['southWestWhitsun'] = "$year-06-06";
+                    break;
+                case 1:
+                    $specials['southWestWhitsun'] = "$year-06-12";
+                    break;
+                case 2:
+                    $specials['southWestWhitsun'] = "$year-06-11";
+                    break;
+                case 3:
+                    $specials['southWestWhitsun'] = "$year-06-10";
+                    break;
+                case 4:
+                    $specials['southWestWhitsun'] = "$year-06-09";
+                    break;
+                case 5:
+                    $specials['southWestWhitsun'] = "$year-06-08";
+                    break;
+                case 6:
+                    $specials['southWestWhitsun'] = "$year-06-07";
+                    break;
+            }
         }
 
 
