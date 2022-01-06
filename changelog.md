@@ -1,5 +1,9 @@
 # Changelog
 
+## `1.5.0` – 2022-01-06
+
+- Feature: Update Whitsun bank holiday changes
+
 ## `1.4.1` – 2021-11-30
 
 - Bugfix: fixed `Rule::getDates()` and `Rule::getDatesUntil()` for Easter-based cases where `$dtstart` is a formula date.
