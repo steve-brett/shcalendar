@@ -261,6 +261,12 @@ class Rule
             'byday' => 'SA',
             'category' => 'fixedDay'),
 
+        'londonChristianHarmony' => array(
+            'rule' => 'BYDAY=SU;BYYEARDAY=-67,-66,-65,-64,-63,-62,-61',
+            'byyearday' => array(-67,-66,-65,-64,-63,-62,-61),
+            'byday' => 'SU',
+            'category' => 'fixedDay'),
+
         'thanksgiving' => array(
             'rule' => 'BYMONTH=11;BYDAY=4TH',
             'byyearday' => array(-40,-39,-38,-37,-36,-35,-34),
