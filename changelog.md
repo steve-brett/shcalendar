@@ -1,5 +1,9 @@
 # Changelog
 
+## `1.6.0` – 2022-10-05
+
+- Feature: Add London Christian Harmony special formula
+
 ## `1.5.0` – 2022-01-06
 
 - Feature: Update Whitsun bank holiday changes

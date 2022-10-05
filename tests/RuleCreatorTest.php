@@ -856,6 +856,37 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
                 ]
             ],
 
+            [
+                [
+
+                    [
+                        'TYPE' => 'LASTDAY',
+                        'BYMONTH' => 10,
+                        'BYDAY' => '-1SU',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'L5SUT',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => '5SULabour',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'L5SU',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'londonChristianHarmony',
+                    ],
+                ],
+                [
+                    'start' => '2022-10-30T10:30:00+00:00',
+                    'end' => '2022-10-30T16:00:00+00:00'
+                ]
+            ],
+
         ];
     }
 
