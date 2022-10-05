@@ -866,10 +866,6 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
                     ],
                     [
                         'TYPE' => 'SPECIAL',
-                        'SPECIAL' => 'londonChristianHarmony',
-                    ],
-                    [
-                        'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'L5SUT',
                     ],
                     [
@@ -879,6 +875,10 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
                     [
                         'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'L5SU',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'londonChristianHarmony',
                     ],
                 ],
                 [
