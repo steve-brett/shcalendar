@@ -573,6 +573,31 @@ class RuleCreator
                 break;
         }
 
+        // non-standard London Christian Harmony formula:
+            switch (date("w", strtotime("$year-10-26 00:00:00"))) {
+                case 0:
+                    $specials['londonChristianHarmony'] = "$year-10-26";
+                    break;
+                case 1:
+                    $specials['londonChristianHarmony'] = "$year-11-01";
+                    break;
+                case 2:
+                    $specials['londonChristianHarmony'] = "$year-10-31";
+                    break;
+                case 3:
+                    $specials['londonChristianHarmony'] = "$year-10-30";
+                    break;
+                case 4:
+                    $specials['londonChristianHarmony'] = "$year-10-29";
+                    break;
+                case 5:
+                    $specials['londonChristianHarmony'] = "$year-10-28";
+                    break;
+                case 6:
+                    $specials['londonChristianHarmony'] = "$year-10-27";
+                    break;
+            }
+
         $specials['boxingDay'] = "$year-12-26";
 
         return $specials;
