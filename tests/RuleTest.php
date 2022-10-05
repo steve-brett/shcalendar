@@ -898,6 +898,12 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                 ]
             ],
             [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SU;BYYEARDAY=-67,-66,-65,-64,-63,-62,-61',
+                [
+                    'SPECIAL' => 'londonChristianHarmony',
+                ]
+            ],
+            [
                 'FREQ=YEARLY;INTERVAL=1;BYMONTH=11;BYDAY=4TH',
                 [
                     'SPECIAL' => 'thanksgiving',
