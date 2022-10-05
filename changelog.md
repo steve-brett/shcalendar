@@ -1,5 +1,9 @@
 # Changelog
 
+## `1.6.1` – 2022-10-05
+
+- Fix: Add missing RFC5545 generator for London Christian Harmony singing
+
 ## `1.6.0` – 2022-10-05
 
 - Feature: Add London Christian Harmony special formula
