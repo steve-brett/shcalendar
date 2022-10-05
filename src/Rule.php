@@ -83,6 +83,7 @@ class Rule
         'southWestWhitsun' => 'the second Saturday after the Whitsun bank holiday',
         'summer' => 'the summer bank holiday',
         'scottishShenandoah' => 'the Saturday after the third Friday in October',
+        'londonChristianHarmony' => 'the Sunday after the last Saturday in October',
         'thanksgiving' => 'Thanksgiving',
         'christmas' => 'Christmas Day',
         'boxingDay' => 'Boxing Day',
