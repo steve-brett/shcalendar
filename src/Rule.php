@@ -520,7 +520,7 @@ class Rule
         $ordinal = substr($rule['BYDAY'], 0, -2);
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
         $formatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
-        $ordinal = $formatter->format($ordinal);
+        $ordinal = $formatter->format((int)$ordinal);
 
         if (substr($rule['BYDAY'], 0, 1) == '-') {
             $ordinal = 'last';
