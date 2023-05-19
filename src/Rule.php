@@ -806,7 +806,7 @@ class Rule
      * @param integer $offset
      * @return array
      */
-    private function getEasterDateTimeRange(int $offset = 0, \DateTime $until, ?\DateTime $dtstart = null, int $interval = 1) : array
+    private function getEasterDateTimeRange(int $offset, \DateTime $until, ?\DateTime $dtstart = null, int $interval = 1) : array
     {
         if (null == $dtstart) {
             $dtstart = new \DateTime('first day of January this year');
@@ -849,7 +849,7 @@ class Rule
      * @param integer $interval         Annual interval
      * @return array
      */
-    private function getEasterDateTimes(int $offset = 0, int $count, ?\DateTime $dtstart = null, int $interval = 1) : array
+    private function getEasterDateTimes(int $offset, int $count, ?\DateTime $dtstart = null, int $interval = 1) : array
     {
         if (null == $dtstart) {
             $dtstart = new \DateTime('first day of January this year');
