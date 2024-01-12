@@ -399,7 +399,7 @@ class Rule
                     return $this::$specials[$rule['SPECIAL']] . ' and the day before';
                 }
                 $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
-                $startoffset_count = $formatter->format(abs($rule['STARTOFFSET']));
+                $startoffset_count = $formatter->format(abs((int)$rule['STARTOFFSET']));
 
                 return $this::$specials[$rule['SPECIAL']] . ' and the ' . $startoffset_count . ' preceding days';
             }

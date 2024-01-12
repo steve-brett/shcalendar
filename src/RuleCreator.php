@@ -106,7 +106,7 @@ class RuleCreator
             $diff = -$diff;
         }
 
-        if (abs($diff) > 0) {
+        if (abs((int)$diff) > 0) {
             $output['STARTOFFSET'] = (int)$diff;
         }
 
@@ -262,7 +262,7 @@ class RuleCreator
             $rule[$i]['SPECIAL'] = $id;
             $rule[$i]['TYPE'] = 'SPECIAL';
 
-            if (abs($offset) > 0) {
+            if (abs((int)$offset) > 0) {
                 $rule[$i]['OFFSET'] = $this->sign($offset) . strtoupper(substr($date->format('D'), 0, -1));
             }
 
