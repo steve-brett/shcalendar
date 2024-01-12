@@ -1,8 +1,12 @@
 # Changelog
 
-## `1.6.2` – 2024-01-12
+## `1.6.3` – 2024-01-12
 
 - Fix: correct types passed to abs()
+
+## `1.6.2` – 2023-05-19
+
+- Fix: PHP8.0 compatabililty fixes
 
 ## `1.6.1` – 2022-10-05
 
