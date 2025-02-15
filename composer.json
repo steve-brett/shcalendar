@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "rlanvin/php-rrule": "^1.6"
+    "rlanvin/php-rrule": "^2.5"
   },
   "autoload": {
     "psr-4": {
