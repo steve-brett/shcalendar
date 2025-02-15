@@ -1800,7 +1800,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     /**
      * @dataProvider calculateOffsetDataProvider
      */
-    public function testCalculateOffset(string $expectedValue, string $day, string $offset): void
+    public function testCalculateOffset(int $expectedValue, string $day, string $offset): void
     {
         $this->assertEquals($expectedValue, $this->rule->calculateOffsetDays($day, $offset));
     }
