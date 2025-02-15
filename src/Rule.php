@@ -16,9 +16,8 @@ class Rule
      * Weekdays with RFC5545 abbreviation as key
      *
      * @since 1.0.0
-     * @var array
      */
-    protected static $week_day_abbrev = array(
+    const WEEK_DAY_ABBREV = array(
         'MO' => 'Monday',
         'TU' => 'Tuesday',
         'WE' => 'Wednesday',
@@ -32,9 +31,8 @@ class Rule
      * Weekdays numbered from 1 (ISO-8601 or `date('N')`).
      *
      * @since 1.0.0
-     * @var array
      */
-    protected static $week_days = array(
+    const WEEK_DAYS = array(
         1 => 'Monday',
         2 => 'Tuesday',
         3 => 'Wednesday',
@@ -49,9 +47,8 @@ class Rule
      * Negative values from March account for both leap and non-leap years.
      *
      * @since 1.0.0
-     * @var array
      */
-    private static $first_of_month = array(
+    const FIRST_OF_MONTH = array(
         1 => 1,
         2 => 32,
         3 => -306,
@@ -71,9 +68,8 @@ class Rule
      * @see RuleCreator::calculateSpecial()
      *
      * @since 1.0.0
-     * @var array
      */
-    private static $specials = array(
+    const SPECIALS = array(
         'newYear' => 'New Year\'s Day',
         'palmSunday' => 'Palm Sunday',
         'easter' => 'Easter',
@@ -103,9 +99,8 @@ class Rule
      * @see sappjw/calendars
      *
      * @since 1.0.0
-     * @var array
      */
-    private static $metonic_cycle = array(
+    const METONIC_CYCLE = array(
         1 => array(
             'BYYEARDAY' => array(-261,-260,-259,-258,-257,-256,-255),
             'DTSTART' => '1900-04-15',
@@ -208,9 +203,8 @@ class Rule
      * @see RuleCreator::calculateSpecial()
      *
      * @since 1.0.0
-     * @var array
      */
-    private static $special_rules = array(
+    const SPECIAL_RULES = array(
         'newYear' => array(
             'rule' => 'BYMONTH=1;BYMONTHDAY=1',
             'byyearday' => 1,
@@ -356,7 +350,7 @@ class Rule
         $day = substr($rule['OFFSET'], -2);
         $offset = $this->calculateOffsetDays(substr($rule['BYDAY'], -2), $rule['OFFSET']);
 
-        $year_day = $this::$first_of_month[$rule['BYMONTH']] + 7 * ($month_week -1);
+        $year_day = $this::FIRST_OF_MONTH[$rule['BYMONTH']] + 7 * ($month_week -1);
 
         if ($month_week === -1) {
             /**
@@ -364,7 +358,7 @@ class Rule
              * the first day of the next month.
              */
             $next_month = ($rule['BYMONTH'] + 1) % 12;
-            $year_day = $this->yearDayAdder($this::$first_of_month[$next_month], -7);
+            $year_day = $this->yearDayAdder($this::FIRST_OF_MONTH[$next_month], -7);
         }
 
         $week = $this->createWeek($year_day);
@@ -396,31 +390,31 @@ class Rule
         if (isset($rule['SPECIAL'])) {
             if (isset($rule['STARTOFFSET'])) {
                 if ($rule['STARTOFFSET'] == -1) {
-                    return $this::$specials[$rule['SPECIAL']] . ' and the day before';
+                    return $this::SPECIALS[$rule['SPECIAL']] . ' and the day before';
                 }
                 $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
                 $startoffset_count = $formatter->format(abs((int)$rule['STARTOFFSET']));
 
-                return $this::$specials[$rule['SPECIAL']] . ' and the ' . $startoffset_count . ' preceding days';
+                return $this::SPECIALS[$rule['SPECIAL']] . ' and the ' . $startoffset_count . ' preceding days';
             }
-            return ucfirst($this::$specials[$rule['SPECIAL']]);
+            return ucfirst($this::SPECIALS[$rule['SPECIAL']]);
         }
 
         if (isset($rule['STARTOFFSET'])) {
             // Get reference day in ISO-8601 integer format
-            $dayN = \RRule\RRule::$week_days[substr($rule['BYDAY'], -2)];
+            $dayN = \RRule\RRule::WEEKDAYS[substr($rule['BYDAY'], -2)];
 
             // Add the offset to find the start date
             // We have to use pymod() as PHP's % returns negative
             $startOffsetDayN = \RRule\pymod($dayN + $rule['STARTOFFSET'], 7);
-            $startOffsetDay = $this::$week_days[$startOffsetDayN];
+            $startOffsetDay = $this::WEEK_DAYS[$startOffsetDayN];
 
             if ($rule['STARTOFFSET'] < -1) {
                 $joiner = ($rule['STARTOFFSET'] < -2) ? ' to ' : ' and ';
 
                 // e.g. 'and the Thursday to Saturday before
                 $startOffsetDay2N = \RRule\pymod($dayN - 1, 7);
-                $startOffsetDay2 = $this::$week_days[$startOffsetDay2N];
+                $startOffsetDay2 = $this::WEEK_DAYS[$startOffsetDay2N];
 
                 $startOffsetDay .= $joiner . $startOffsetDay2;
             }
@@ -442,25 +436,25 @@ class Rule
         $offset_sign = (int) substr($rule['OFFSET'], 0, -2);
         $modifier = ($offset_sign > 0) ? ' after ' : ' before ';
 
-        $offset = 'The ' . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
+        $offset = 'The ' . $this::WEEK_DAY_ABBREV[substr($rule['OFFSET'], -2)] . $modifier;
 
         /**
          * Positive OFFSET combined with (always) negative STARTOFFSET
          */
         if ($offset_sign > 0 && isset($rule['STARTOFFSET'])) {
-            $dayN = \RRule\RRule::$week_days[substr($rule['OFFSET'], -2)];
+            $dayN = \RRule\RRule::WEEKDAYS[substr($rule['OFFSET'], -2)];
 
             // Add the offset to find the start date
             // We have to use pymod() as PHP's % returns negative
             $startOffsetDayN = \RRule\pymod($dayN + $rule['STARTOFFSET'], 7);
-            $startOffsetDay = $this::$week_days[$startOffsetDayN];
+            $startOffsetDay = $this::WEEK_DAYS[$startOffsetDayN];
 
             if ($rule['STARTOFFSET'] < -1) {
                 $joiner = ($rule['STARTOFFSET'] < -2) ? ' to ' : ' and ';
 
                 // e.g. 'and the Thursday to Saturday before
                 $startOffsetDay2N = \RRule\pymod($dayN - 1, 7);
-                $startOffsetDay2 = $this::$week_days[$startOffsetDay2N];
+                $startOffsetDay2 = $this::WEEK_DAYS[$startOffsetDay2N];
 
                 $startOffsetDay .= $joiner . $startOffsetDay2;
             }
@@ -468,7 +462,7 @@ class Rule
             $startOffset = ' and the ' . $startOffsetDay . ' before';
 
             if (isset($rule['SPECIAL'])) {
-                return $offset . $this::$specials[$rule['SPECIAL']] . $startOffset;
+                return $offset . $this::SPECIALS[$rule['SPECIAL']] . $startOffset;
             }
 
             return $offset . $this->readableStandard($rule) . $startOffset;
@@ -478,26 +472,26 @@ class Rule
          * Negative OFFSET combined with (always) negative STARTOFFSET
          */
         if (isset($rule['STARTOFFSET'])) {
-            $dayN = \RRule\RRule::$week_days[substr($rule['OFFSET'], -2)];
+            $dayN = \RRule\RRule::WEEKDAYS[substr($rule['OFFSET'], -2)];
 
             // Add the offset to find the start date
             // We have to use pymod() as PHP's % returns negative
             $startOffsetDayN = \RRule\pymod($dayN + $rule['STARTOFFSET'], 7);
-            $startOffsetDay = $this::$week_days[$startOffsetDayN];
+            $startOffsetDay = $this::WEEK_DAYS[$startOffsetDayN];
 
             $joiner = ($rule['STARTOFFSET'] < -1) ? ' to ' : ' and ';
 
-            $offset = 'The ' . $startOffsetDay . $joiner . $this::$week_day_abbrev[substr($rule['OFFSET'], -2)] . $modifier;
+            $offset = 'The ' . $startOffsetDay . $joiner . $this::WEEK_DAY_ABBREV[substr($rule['OFFSET'], -2)] . $modifier;
 
             if (isset($rule['SPECIAL'])) {
-                return $offset . $this::$specials[$rule['SPECIAL']];
+                return $offset . $this::SPECIALS[$rule['SPECIAL']];
             }
 
             return $offset . $this->readableStandard($rule);
         }
 
         if (isset($rule['SPECIAL'])) {
-            return $offset . $this::$specials[$rule['SPECIAL']];
+            return $offset . $this::SPECIALS[$rule['SPECIAL']];
         }
 
         return $offset . $this->readableStandard($rule);
@@ -515,7 +509,7 @@ class Rule
         $dateObj   = \DateTime::createFromFormat('!m', sprintf("%02s", $rule['BYMONTH']));
         $monthName = $dateObj->format('F');
 
-        $dayName = $this::$week_day_abbrev[substr($rule['BYDAY'], -2)];
+        $dayName = $this::WEEK_DAY_ABBREV[substr($rule['BYDAY'], -2)];
 
         $ordinal = substr($rule['BYDAY'], 0, -2);
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::SPELLOUT);
@@ -721,20 +715,20 @@ class Rule
      */
     private function rfc5545Special(array $rule): string
     {
-        if (!array_key_exists($rule['SPECIAL'], $this::$special_rules)) {
+        if (!array_key_exists($rule['SPECIAL'], $this::SPECIAL_RULES)) {
             throw new \InvalidArgumentException('Rule key does not exist. Got [' . $rule['SPECIAL'] . ']');
         }
 
         if (!isset($rule['OFFSET'])) {
-            return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';' . $this::$special_rules[$rule['SPECIAL']]['rule'];
+            return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';' . $this::SPECIAL_RULES[$rule['SPECIAL']]['rule'];
         }
 
         $day = substr($rule['OFFSET'], -2);
 
         // Category = fixedDay
-        if ('fixedDay' === $this::$special_rules[$rule['SPECIAL']]['category']) {
-            $year_days = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
-            $special_day = $this::$special_rules[$rule['SPECIAL']]['byday'];
+        if ('fixedDay' === $this::SPECIAL_RULES[$rule['SPECIAL']]['category']) {
+            $year_days = $this::SPECIAL_RULES[$rule['SPECIAL']]['byyearday'];
+            $special_day = $this::SPECIAL_RULES[$rule['SPECIAL']]['byday'];
             $offset_n = $this->calculateOffsetDays($special_day, $rule['OFFSET']);
             $year_days = $this->offsetByYearDay($year_days, $offset_n);
 
@@ -743,7 +737,7 @@ class Rule
 
         // Category = fixedDate
         $offset_sign = (int) substr($rule['OFFSET'], 0, -2);
-        $year_day = $this::$special_rules[$rule['SPECIAL']]['byyearday'];
+        $year_day = $this::SPECIAL_RULES[$rule['SPECIAL']]['byyearday'];
         $year_days = $this->offsetByYearDayFixedDate($year_day, $offset_sign);
 
         return 'FREQ=YEARLY;INTERVAL=' . $rule['INTERVAL'] . ';BYDAY=' . $day . ';BYYEARDAY=' . $year_days;
@@ -766,10 +760,10 @@ class Rule
         // Otherwise calculate day from offset
         if ($offset !== 0) {
             $key = $offset % 7;
-            $day = substr($this::$week_days[$key], 0, 2);
+            $day = substr($this::WEEK_DAYS[$key], 0, 2);
         }
 
-        foreach ($this::$metonic_cycle as $cycle) {
+        foreach ($this::METONIC_CYCLE as $cycle) {
             $rset->addRRule(array(
                 'FREQ' => 'YEARLY',
                 'INTERVAL' => 19,
@@ -1023,7 +1017,7 @@ class Rule
         }
 
         if (isset($rule['SPECIAL'])) {
-            if (!array_key_exists($rule['SPECIAL'], $this::$specials)) {
+            if (!array_key_exists($rule['SPECIAL'], $this::SPECIALS)) {
                 throw new \InvalidArgumentException('SPECIAL key not valid. Got [' . $rule['SPECIAL'] . ']');
             }
             return $rule;
@@ -1087,7 +1081,7 @@ class Rule
         }
 
         // Last two chars are weekdays
-        if (!array_key_exists(substr($offset, -2), $this::$week_day_abbrev)) {
+        if (!array_key_exists(substr($offset, -2), $this::WEEK_DAY_ABBREV)) {
             return false;
         }
 
@@ -1111,9 +1105,9 @@ class Rule
      */
     public function calculateOffsetDays(string $day, string $offset) : int
     {
-        $day = \RRule\RRule::$week_days[$day];
+        $day = \RRule\RRule::WEEKDAYS[$day];
         $offset_sign = (int) substr($offset, 0, -2);
-        $offset_value = \RRule\RRule::$week_days[substr($offset, -2)];
+        $offset_value = \RRule\RRule::WEEKDAYS[substr($offset, -2)];
         $offset = $offset_sign * $offset_value;
 
         if ($day === $offset_value) {

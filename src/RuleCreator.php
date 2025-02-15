@@ -14,9 +14,8 @@ class RuleCreator
      * Possible day formats for $refDay
      *
      * @since 1.0.0
-     * @var array
      */
-    private static $dayFormats = [
+    const DAY_FORMATS = [
         'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun',
         'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
     ];
@@ -132,7 +131,7 @@ class RuleCreator
       Got [' . $date->format('Y-m-d') . ']');
         }
 
-        if (isset($refDay) && !in_array(strtolower($refDay), $this::$dayFormats)) {
+        if (isset($refDay) && !in_array(strtolower($refDay), $this::DAY_FORMATS)) {
             throw new \InvalidArgumentException('Reference day must be valid.
       Got [' . $refDay . ']');
         }
@@ -185,7 +184,7 @@ class RuleCreator
       Got [' . $date->format('Y-m-d') . ']');
         }
 
-        if (isset($refDay) && !in_array(strtolower($refDay), $this::$dayFormats)) {
+        if (isset($refDay) && !in_array(strtolower($refDay), $this::DAY_FORMATS)) {
             throw new \InvalidArgumentException('Reference day must be valid. Got [' . $refDay . ']');
         }
 
