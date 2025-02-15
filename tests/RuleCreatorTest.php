@@ -19,7 +19,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         $this->rule = new RuleCreator();
     }
 
-    public function happyPathSundayDataProvider(): array
+    public static function happyPathSundayDataProvider(): array
     {
         return [
             [
@@ -80,7 +80,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function happyPathSundayOffsetDataProvider(): array
+    public static function happyPathSundayOffsetDataProvider(): array
     {
         return [
             // Saturday before first sunday
@@ -173,7 +173,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), null, $inputValue['refday']));
     }
 
-    public function happyPathDayDataProvider(): array
+    public static function happyPathDayDataProvider(): array
     {
         return [
             // First Saturday
@@ -248,7 +248,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
     }
 
-    public function invalidData(): array
+    public static function invalidData(): array
     {
         return [
             // Before 1800
@@ -266,7 +266,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         $this->rule->nthDay(\DateTime::createFromFormat('Y-m-d', $inputValue));
     }
 
-    public function invalidDataTwo(): array
+    public static function invalidDataTwo(): array
     {
         return [
             [[
@@ -305,7 +305,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
      * Last day tests -----------------------------------------------
      */
 
-    public function happyPathLastSundayDataProvider(): array
+    public static function happyPathLastSundayDataProvider(): array
     {
         return [
             [[
@@ -336,7 +336,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->lastDay(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
     }
 
-    public function happyPathLastSundayOffsetDataProvider(): array
+    public static function happyPathLastSundayOffsetDataProvider(): array
     {
         return [
             [
@@ -364,7 +364,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function invalidDataLastDay(): array
+    public static function invalidDataLastDay(): array
     {
         return [
             ['1799-12-31'],
@@ -386,7 +386,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
     /**
      * Special day tests -----------------------------------------------
      */
-    public function happyPathSpecialDataProvider(): array
+    public static function happyPathSpecialDataProvider(): array
     {
         return [
             [
@@ -473,7 +473,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->special(\DateTime::createFromFormat('!Y-m-d', $inputValue, new \DateTimeZone('UTC'))));
     }
 
-    public function invalidDataSpecial(): array
+    public static function invalidDataSpecial(): array
     {
         return [
             // before 1800
@@ -491,7 +491,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         $this->rule->special(\DateTime::createFromFormat('Y-m-d', $inputValue));
     }
 
-    public function happyPathSpanDataProvider(): array
+    public static function happyPathSpanDataProvider(): array
     {
         return [
             [
@@ -574,7 +574,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTime::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTime::ATOM, $inputValue['end'])));
     }
 
-    public function happyPathSpanSingleDataProvider(): array
+    public static function happyPathSpanSingleDataProvider(): array
     {
         return [
             [
@@ -595,7 +595,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTime::ATOM, $inputValue)));
     }
 
-    public function invalidDataSpan(): array
+    public static function invalidDataSpan(): array
     {
         return [
             [[
@@ -619,7 +619,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         $this->rule->span(\DateTime::createFromFormat(\DateTime::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTime::ATOM, $inputValue['end']));
     }
 
-    public function happyPathCreateDataProvider(): array
+    public static function happyPathCreateDataProvider(): array
     {
         return [
             [

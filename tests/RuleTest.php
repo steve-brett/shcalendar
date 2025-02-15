@@ -19,7 +19,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->rule = new Rule();
     }
 
-    public function happyPathReadableDataProvider(): array
+    public static function happyPathReadableDataProvider(): array
     {
         return [
             [
@@ -183,7 +183,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
     }
 
-    public function happyPathReadableSpecialDataProvider(): array
+    public static function happyPathReadableSpecialDataProvider(): array
     {
         return [
             [
@@ -291,7 +291,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
     }
 
-    public function startOffsetOfSingleDayReturnsCorrectDayInReadableOutputDataProvider(): array
+    public static function startOffsetOfSingleDayReturnsCorrectDayInReadableOutputDataProvider(): array
     {
         return [
             [
@@ -321,7 +321,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
     }
 
-    public function startOffsetOfMultipleDaysReturnsCorrectDayInReadableOutputDataProvider(): array
+    public static function startOffsetOfMultipleDaysReturnsCorrectDayInReadableOutputDataProvider(): array
     {
         return [
             [
@@ -367,7 +367,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
     }
 
-    public function startOffsetWithOffsetReturnsCorrectDayInReadableOutputDataProvider(): array
+    public static function startOffsetWithOffsetReturnsCorrectDayInReadableOutputDataProvider(): array
     {
         return [
             [
@@ -426,7 +426,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
     }
 
-    public function startOffsetWithSpecialReturnsCorrectReadableOutputDataProvider(): array
+    public static function startOffsetWithSpecialReturnsCorrectReadableOutputDataProvider(): array
     {
         return [
             [
@@ -462,7 +462,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
     }
 
-    public function startOffsetWithSpecialOffsetReturnsCorrectReadableOutputDataProvider(): array
+    public static function startOffsetWithSpecialOffsetReturnsCorrectReadableOutputDataProvider(): array
     {
         return [
             [
@@ -509,7 +509,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
     }
 
-    public function invalidData(): array
+    public static function invalidData(): array
     {
         return [
             [['BYDAY' => '1SU',]],
@@ -598,7 +598,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function happyPath5545DataProvider(): array
+    public static function happyPath5545DataProvider(): array
     {
         return [
             // Nth Sunday rules
@@ -935,7 +935,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function RFC5545ReturnsSpecialWithOffsetDataProvider(): array
+    public static function RFC5545ReturnsSpecialWithOffsetDataProvider(): array
     {
         return [
             // Before
@@ -1088,7 +1088,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->rfc5545($inputValue));
     }
 
-    public function invalidData5545(): array
+    public static function invalidData5545(): array
     {
         return [
             [[
@@ -1108,7 +1108,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function getDatesReturnsSpecialDataProvider(): array
+    public static function getDatesReturnsSpecialDataProvider(): array
     {
         return [
             // New Year
@@ -1177,7 +1177,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function getDatesReturnsSpecialWithOffsetDataProvider(): array
+    public static function getDatesReturnsSpecialWithOffsetDataProvider(): array
     {
         return [
             // Easter
@@ -1222,7 +1222,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue['end'], $this->rule->getDates($inputValue['formula'], 1, $dtstart)[0]['end']->format('Y-m-d'));
     }
 
-    public function getDatesReturnsMultiDayEventsDataProvider(): array
+    public static function getDatesReturnsMultiDayEventsDataProvider(): array
     {
         return [
             // 1 day before
@@ -1270,7 +1270,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function getDatesReturnsCorrectTimeDataProvider(): array
+    public static function getDatesReturnsCorrectTimeDataProvider(): array
     {
         return [
             // New Year
@@ -1313,7 +1313,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function getDatesReturnsCorrectIntervalDataProvider(): array
+    public static function getDatesReturnsCorrectIntervalDataProvider(): array
     {
         return [
             // Regular
@@ -1393,7 +1393,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function getDatesUntilReturnsCorrectYearsDataProvider(): array
+    public static function getDatesUntilReturnsCorrectYearsDataProvider(): array
     {
         return [
             // One year
@@ -1570,7 +1570,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         }
     }
 
-    public function getDatesUntilReturnsEmptyArrayDataProvider(): array
+    public static function getDatesUntilReturnsEmptyArrayDataProvider(): array
     {
         return [
             [
@@ -1601,7 +1601,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function getDatesUntilReturnsCorrectTimeDataProvider(): array
+    public static function getDatesUntilReturnsCorrectTimeDataProvider(): array
     {
         return [
             // New Year
@@ -1654,7 +1654,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function getDatesUntilReturnsCorrectIntervalDataProvider(): array
+    public static function getDatesUntilReturnsCorrectIntervalDataProvider(): array
     {
         return [
             // Regular
@@ -1741,7 +1741,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    public function calculateOffsetDataProvider(): array
+    public static function calculateOffsetDataProvider(): array
     {
         return [
             // Same week
@@ -1805,7 +1805,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         $this->assertEquals($expectedValue, $this->rule->calculateOffsetDays($day, $offset));
     }
 
-    public function offsetBYYEARDAYDataProvider(): array
+    public static function offsetBYYEARDAYDataProvider(): array
     {
         return [
             [
