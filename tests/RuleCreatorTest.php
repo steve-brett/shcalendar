@@ -14,7 +14,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
      */
     private $rule;
 
-    protected function setUp()
+    protected function setUp() :void
     {
         $this->rule = new RuleCreator();
     }
