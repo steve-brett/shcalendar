@@ -83,7 +83,8 @@ class Rule
         'thanksgiving' => 'Thanksgiving',
         'christmas' => 'Christmas Day',
         'boxingDay' => 'Boxing Day',
-
+        'boxingDay+1' => 'the day after Boxing Day',
+        // Fifth Sundays
         '5SUSpring' => 'the first fifth Sunday in the spring',
         '5SU47' => 'the first fifth Sunday after the 4th July',
         'L5SUT' => 'the last fifth Sunday before Thanksgiving',
