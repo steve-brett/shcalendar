@@ -278,6 +278,11 @@ class Rule
             'byyearday' => -6,
             'category' => 'fixedDate'),
 
+        'boxingDay+1' => array(
+            'rule' => 'BYMONTH=12;BYMONTHDAY=27',
+            'byyearday' => -5,
+            'category' => 'fixedDate'),
+
         // Fifth Sundays
         '5SUSpring' => array(
             'rule' => 'BYDAY=SU;BYYEARDAY=-278,-277,-276,-247,-246,-217,-216',
