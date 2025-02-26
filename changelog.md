@@ -1,5 +1,9 @@
 # Changelog
 
+## `1.8.0` – 2025-02-26
+
+- Feature: Add day after Boxing Day singing
+
 ## `1.7.0` – 2025-02-15
 
 - Feature: PHP8.2 compatability
