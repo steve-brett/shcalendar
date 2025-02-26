@@ -264,6 +264,13 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
             ],
 
             [
+              'The day after Boxing Day',
+              [
+                  'SPECIAL' => 'boxingDay+1',
+              ]
+          ],
+
+            [
                 'The Sunday after the last Saturday in October',
                 [
                     'SPECIAL' => 'londonChristianHarmony',
