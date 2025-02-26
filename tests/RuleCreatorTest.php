@@ -462,6 +462,21 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
                 '2019-06-01'
             ],
 
+            [
+              [
+                [
+                  'TYPE' => 'SPECIAL',
+                  'SPECIAL' => 'boxingDay+1',
+                ],
+                [
+                  'TYPE' => 'SPECIAL',
+                  'SPECIAL' => 'christmas',
+                  'OFFSET' => '1SA',
+                ]
+              ],
+              '2025-12-27'
+            ],
+
         ];
     }
 
