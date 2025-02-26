@@ -264,6 +264,13 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
             ],
 
             [
+              'The day after Boxing Day',
+              [
+                  'SPECIAL' => 'boxingDay+1',
+              ]
+          ],
+
+            [
                 'The Sunday after the last Saturday in October',
                 [
                     'SPECIAL' => 'londonChristianHarmony',
@@ -921,6 +928,12 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                     'SPECIAL' => 'boxingDay',
                 ]
             ],
+            [
+              'FREQ=YEARLY;INTERVAL=1;BYMONTH=12;BYMONTHDAY=27',
+              [
+                  'SPECIAL' => 'boxingDay+1',
+              ]
+          ],
 
             // Multi-day
         ];
@@ -1075,6 +1088,15 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
                 [
                     'SPECIAL' => 'boxingDay',
                     'OFFSET' => '1SU',
+                ]
+            ],
+            // Boxing Day +1
+            // -5
+            [
+                'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-4,-3,-2,-1,1,2,3',
+                [
+                    'SPECIAL' => 'boxingDay+1',
+                    'OFFSET' => '1SA',
                 ]
             ],
         ];

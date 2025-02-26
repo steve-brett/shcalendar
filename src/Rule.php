@@ -83,7 +83,8 @@ class Rule
         'thanksgiving' => 'Thanksgiving',
         'christmas' => 'Christmas Day',
         'boxingDay' => 'Boxing Day',
-
+        'boxingDay+1' => 'the day after Boxing Day',
+        // Fifth Sundays
         '5SUSpring' => 'the first fifth Sunday in the spring',
         '5SU47' => 'the first fifth Sunday after the 4th July',
         'L5SUT' => 'the last fifth Sunday before Thanksgiving',
@@ -275,6 +276,11 @@ class Rule
         'boxingDay' => array(
             'rule' => 'BYMONTH=12;BYMONTHDAY=26',
             'byyearday' => -6,
+            'category' => 'fixedDate'),
+
+        'boxingDay+1' => array(
+            'rule' => 'BYMONTH=12;BYMONTHDAY=27',
+            'byyearday' => -5,
             'category' => 'fixedDate'),
 
         // Fifth Sundays

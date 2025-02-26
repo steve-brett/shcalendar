@@ -599,6 +599,8 @@ class RuleCreator
 
         $specials['boxingDay'] = "$year-12-26";
 
+        $specials['boxingDay+1'] = "$year-12-27";
+
         return $specials;
     }
 
