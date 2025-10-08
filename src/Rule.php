@@ -78,6 +78,7 @@ class Rule
         'independence' => 'Independence Day',
         'southWestWhitsun' => 'the second Saturday after the Whitsun bank holiday',
         'summer' => 'the summer bank holiday',
+        'southamptonChristianHarmony' => 'the Saturday after the fourth Sunday in August',
         'scottishShenandoah' => 'the Saturday after the third Friday in October',
         'londonChristianHarmony' => 'the Sunday after the last Saturday in October',
         'thanksgiving' => 'Thanksgiving',
