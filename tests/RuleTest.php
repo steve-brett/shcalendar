@@ -940,7 +940,14 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
               [
                   'SPECIAL' => 'boxingDay+1',
               ]
-          ],
+            ],
+            [
+              // 28 august to 3 september
+              'FREQ=YEARLY;INTERVAL=1;BYDAY=SA;BYYEARDAY=-126,-125,-124,-123,-122,-121,-120',
+              [
+                  'SPECIAL' => 'southamptonChristianHarmony',
+              ]
+            ],
 
             // Multi-day
         ];
