@@ -251,6 +251,12 @@ class Rule
             'byday' => 'MO',
             'category' => 'fixedDay'),
 
+        'southamptonChristianHarmony' => array(
+            'rule' => 'BYDAY=SA;BYYEARDAY=-126,-125,-124,-123,-122,-121,-120',
+            'byyearday' => array(-126,-125,-124,-123,-122,-121,-120),
+            'byday' => 'SU',
+            'category' => 'fixedDay'),
+
         'scottishShenandoah' => array(
             'rule' => 'BYDAY=SA;BYYEARDAY=-77,-76,-75,-74,-73,-72,-71',
             'byyearday' => array(-77,-76,-75,-74,-73,-72,-71),
