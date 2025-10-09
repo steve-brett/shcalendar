@@ -254,7 +254,7 @@ class Rule
         'southamptonChristianHarmony' => array(
             'rule' => 'BYDAY=SA;BYYEARDAY=-126,-125,-124,-123,-122,-121,-120',
             'byyearday' => array(-126,-125,-124,-123,-122,-121,-120),
-            'byday' => 'SU',
+            'byday' => 'SA',
             'category' => 'fixedDay'),
 
         'scottishShenandoah' => array(

@@ -546,6 +546,31 @@ class RuleCreator
             }
         }
 
+        // non-standard Southampton Christian Harmony formula:
+            switch (date("w", strtotime("$year-08-31 00:00:00"))) {
+                case 0:
+                    $specials['southamptonChristianHarmony'] = "$year-08-30";
+                    break;
+                case 1:
+                    $specials['southamptonChristianHarmony'] = "$year-08-29";
+                    break;
+                case 2:
+                    $specials['southamptonChristianHarmony'] = "$year-08-28";
+                    break;
+                case 3:
+                    $specials['southamptonChristianHarmony'] = "$year-09-03";
+                    break;
+                case 4:
+                    $specials['southamptonChristianHarmony'] = "$year-09-02";
+                    break;
+                case 5:
+                    $specials['southamptonChristianHarmony'] = "$year-09-01";
+                    break;
+                case 6:
+                    $specials['southamptonChristianHarmony'] = "$year-08-31";
+                    break;
+            }
+
 
         // non-standard Scottish Shenandoah formula:
         switch (date("w", strtotime("$year-10-16 00:00:00"))) {
