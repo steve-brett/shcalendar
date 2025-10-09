@@ -916,12 +916,12 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
                     ],
                     [
                         'TYPE' => 'SPECIAL',
-                        'SPECIAL' => 'summer',
-                        'OFFSET' => '1SA'
+                        'SPECIAL' => 'southamptonChristianHarmony',
                     ],
                     [
                         'TYPE' => 'SPECIAL',
-                        'SPECIAL' => 'southamptonChristianHarmony',
+                        'SPECIAL' => 'summer',
+                        'OFFSET' => '1SA'
                     ],
                 ],
                 [
@@ -949,6 +949,10 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
                     ],
                     [
                         'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'southamptonChristianHarmony',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
                         'SPECIAL' => '5SU47',
                         'OFFSET' => '-1SA'
                     ],
@@ -956,10 +960,6 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
                         'TYPE' => 'SPECIAL',
                         'SPECIAL' => 'summer',
                         'OFFSET' => '-1SA'
-                    ],
-                    [
-                        'TYPE' => 'SPECIAL',
-                        'SPECIAL' => 'southamptonChristianHarmony',
                     ],
                 ],
                 [
