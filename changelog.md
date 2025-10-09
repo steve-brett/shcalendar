@@ -1,5 +1,9 @@
 # Changelog
 
+## `1.9.0` – 2025-02-26
+
+- Feature: Add Southampton Christian Harmony singing formula
+
 ## `1.8.0` – 2025-02-26
 
 - Feature: Add day after Boxing Day singing

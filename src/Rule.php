@@ -78,6 +78,7 @@ class Rule
         'independence' => 'Independence Day',
         'southWestWhitsun' => 'the second Saturday after the Whitsun bank holiday',
         'summer' => 'the summer bank holiday',
+        'southamptonChristianHarmony' => 'the Saturday after the fourth Sunday in August',
         'scottishShenandoah' => 'the Saturday after the third Friday in October',
         'londonChristianHarmony' => 'the Sunday after the last Saturday in October',
         'thanksgiving' => 'Thanksgiving',
@@ -248,6 +249,12 @@ class Rule
             'rule' => 'BYMONTH=8;BYDAY=-1MO',
             'byyearday' => array(-129,-128,-127,-126,-125,-124,-123),
             'byday' => 'MO',
+            'category' => 'fixedDay'),
+
+        'southamptonChristianHarmony' => array(
+            'rule' => 'BYDAY=SA;BYYEARDAY=-126,-125,-124,-123,-122,-121,-120',
+            'byyearday' => array(-126,-125,-124,-123,-122,-121,-120),
+            'byday' => 'SA',
             'category' => 'fixedDay'),
 
         'scottishShenandoah' => array(

@@ -901,6 +901,96 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
                     'end' => '2022-10-30T16:00:00+00:00'
                 ]
             ],
+            [
+                [
+                    [
+                        'TYPE' => 'NTHDAY',
+                        'BYMONTH' => 9,
+                        'BYDAY' => '1SU',
+                        'OFFSET' => '-1SA'
+                    ],
+                    [
+                        'TYPE' => 'NTHDAY',
+                        'BYMONTH' => 9,
+                        'BYDAY' => '1SA',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'southamptonChristianHarmony',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'summer',
+                        'OFFSET' => '1SA'
+                    ],
+                ],
+                [
+                    'start' => '2028-09-02T10:30:00+00:00',
+                    'end' => '2028-09-02T16:00:00+00:00'
+                ]
+            ],
+            [
+                [
+                    [
+                        'TYPE' => 'LASTDAY',
+                        'BYMONTH' => 8,
+                        'BYDAY' => '-1SU',
+                        'OFFSET' => '-1SA'
+                    ],
+                    [
+                        'TYPE' => 'NTHDAY',
+                        'BYMONTH' => 8,
+                        'BYDAY' => '4SA',
+                    ],
+                    [
+                        'TYPE' => 'LASTDAY',
+                        'BYMONTH' => 8,
+                        'BYDAY' => '-1SA',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'southamptonChristianHarmony',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => '5SU47',
+                        'OFFSET' => '-1SA'
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'summer',
+                        'OFFSET' => '-1SA'
+                    ],
+                ],
+                [
+                    'start' => '2027-08-28T10:30:00+00:00',
+                    'end' => '2027-08-28T16:00:00+00:00'
+                ]
+            ],
+             [
+                [
+                    [
+                        'TYPE' => 'LASTDAY',
+                        'BYMONTH' => 8,
+                        'BYDAY' => '-1SU',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => '5SU47',
+                    ],
+                    [
+                        'TYPE' => 'SPECIAL',
+                        'SPECIAL' => 'summer',
+                        'OFFSET' => '-1SU'
+                    ],
+                ],
+                [
+                    'start' => '2027-08-29T10:30:00+00:00',
+                    'end' => '2027-08-29T16:00:00+00:00'
+                ]
+            ],
+
+
 
         ];
     }
