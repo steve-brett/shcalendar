@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SacredHarpCalendar\Test;
 
 use SacredHarpCalendar\RuleCreator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
@@ -71,9 +72,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathSundayDataProvider
-     */
+    #[DataProvider('happyPathSundayDataProvider')]
     public function testHappyPathSunday(array $expectedValue, string $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
@@ -165,9 +164,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathSundayOffsetDataProvider
-     */
+    #[DataProvider('happyPathSundayOffsetDataProvider')]
     public function testHappyPathSundayOffset(array $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), null, $inputValue['refday']));
@@ -240,9 +237,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathDayDataProvider
-     */
+    #[DataProvider('happyPathDayDataProvider')]
     public function testHappyPathDay(array $expectedValue, string $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->nthDay(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
@@ -257,9 +252,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider invalidData
-     */
+    #[DataProvider('invalidData')]
     public function testThrowsException(string $inputValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -292,9 +285,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider invalidDataTwo
-     */
+    #[DataProvider('invalidDataTwo')]
     public function testTwoThrowsException(array $inputValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -328,9 +319,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathLastSundayDataProvider
-     */
+    #[DataProvider('happyPathLastSundayDataProvider')]
     public function testHappyPathLastSunday(array $expectedValue, string $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->lastDay(\DateTime::createFromFormat('!Y-m-d', $inputValue)));
@@ -355,9 +344,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathLastSundayOffsetDataProvider
-     */
+    #[DataProvider('happyPathLastSundayOffsetDataProvider')]
     public function testHappyPathLastSundayOffset(array $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->lastDay(\DateTime::createFromFormat('!Y-m-d', $inputValue['date']), null, $inputValue['refday']));
@@ -373,9 +360,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider invalidDataLastDay
-     */
+    #[DataProvider('invalidDataLastDay')]
     public function testLastDayThrowsException(string $inputValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -480,9 +465,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathSpecialDataProvider
-     */
+    #[DataProvider('happyPathSpecialDataProvider')]
     public function testHappyPathSpecial(array $expectedValue, string $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->special(\DateTime::createFromFormat('!Y-m-d', $inputValue, new \DateTimeZone('UTC'))));
@@ -497,9 +480,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider invalidDataSpecial
-     */
+    #[DataProvider('invalidDataSpecial')]
     public function testSpecialThrowsException(string $inputValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -581,9 +562,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathSpanDataProvider
-     */
+    #[DataProvider('happyPathSpanDataProvider')]
     public function testHappyPathSpan(array $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTime::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTime::ATOM, $inputValue['end'])));
@@ -602,9 +581,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathSpanSingleDataProvider
-     */
+    #[DataProvider('happyPathSpanSingleDataProvider')]
     public function testHappyPathSpanSingle(array $expectedValue, string $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->span(\DateTime::createFromFormat(\DateTime::ATOM, $inputValue)));
@@ -625,9 +602,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider invalidDataSpan
-     */
+    #[DataProvider('invalidDataSpan')]
     public function testSpanThrowsException(array $inputValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -995,9 +970,7 @@ class RuleCreatorTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathCreateDataProvider
-     */
+    #[DataProvider('happyPathCreateDataProvider')]
     public function testHappyPathCreate(array $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->create(\DateTime::createFromFormat(\DateTime::ATOM, $inputValue['start']), \DateTime::createFromFormat(\DateTime::ATOM, $inputValue['end'])));

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SacredHarpCalendar\Test;
 
 use SacredHarpCalendar\Rule;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class RuleTest extends TestCase # Has to be [ClassName]Test
@@ -175,9 +176,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathReadableDataProvider
-     */
+    #[DataProvider('happyPathReadableDataProvider')]
     public function testHappyPathReadable(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
@@ -297,9 +296,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPathReadableSpecialDataProvider
-     */
+    #[DataProvider('happyPathReadableSpecialDataProvider')]
     public function testHappyPathReadableSpecial(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
@@ -327,9 +324,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
             ],
         ];
     }
-    /**
-     * @dataProvider startOffsetOfSingleDayReturnsCorrectDayInReadableOutputDataProvider
-     */
+    #[DataProvider('startOffsetOfSingleDayReturnsCorrectDayInReadableOutputDataProvider')]
     public function testStartOffsetOfSingleDayReturnsCorrectDayInReadableOutput(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
@@ -373,9 +368,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
 
         ];
     }
-    /**
-     * @dataProvider startOffsetOfMultipleDaysReturnsCorrectDayInReadableOutputDataProvider
-     */
+    #[DataProvider('startOffsetOfMultipleDaysReturnsCorrectDayInReadableOutputDataProvider')]
     public function testStartOffsetOfMultipleDaysReturnsCorrectDayInReadableOutput(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
@@ -432,9 +425,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
 
         ];
     }
-    /**
-     * @dataProvider startOffsetWithOffsetReturnsCorrectDayInReadableOutputDataProvider
-     */
+    #[DataProvider('startOffsetWithOffsetReturnsCorrectDayInReadableOutputDataProvider')]
     public function testStartOffsetWithOffsetReturnsCorrectDayInReadableOutput(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
@@ -468,9 +459,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider startOffsetWithSpecialReturnsCorrectReadableOutputDataProvider
-     */
+    #[DataProvider('startOffsetWithSpecialReturnsCorrectReadableOutputDataProvider')]
     public function testStartOffsetWithSpecialReturnsCorrectReadableOutput(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
@@ -515,9 +504,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider startOffsetWithSpecialOffsetReturnsCorrectReadableOutputDataProvider
-     */
+    #[DataProvider('startOffsetWithSpecialOffsetReturnsCorrectReadableOutputDataProvider')]
     public function testStartOffsetWithSpecialOffsetReturnsCorrectReadableOutput(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->readable($inputValue));
@@ -602,9 +589,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider invalidData
-     */
+    #[DataProvider('invalidData')]
     public function testThrowsExceptionReadable(array $inputValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -953,9 +938,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider happyPath5545DataProvider
-     */
+    #[DataProvider('happyPath5545DataProvider')]
     public function testHappyPath5545(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->rfc5545($inputValue));
@@ -1116,9 +1099,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider RFC5545ReturnsSpecialWithOffsetDataProvider
-     */
+    #[DataProvider('RFC5545ReturnsSpecialWithOffsetDataProvider')]
     public function test5545ReturnsSpecialWithOffset(string $expectedValue, array $inputValue): void
     {
         $this->assertEquals($expectedValue, $this->rule->rfc5545($inputValue));
@@ -1134,9 +1115,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider invalidData5545
-     */
+    #[DataProvider('invalidData5545')]
     public function testThrowsException5545(array $inputValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -1202,9 +1181,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider GetDatesReturnsSpecialDataProvider
-     */
+    #[DataProvider('GetDatesReturnsSpecialDataProvider')]
     public function testGetDatesReturnsSpecial(array $expectedValue, array $inputValue): void
     {
         $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
@@ -1248,9 +1225,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider getDatesReturnsSpecialWithOffsetDataProvider
-     */
+    #[DataProvider('getDatesReturnsSpecialWithOffsetDataProvider')]
     public function testGetDatesReturnsSpecialWithOffset(array $expectedValue, array $inputValue): void
     {
         $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
@@ -1295,9 +1270,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider getDatesReturnsMultiDayEventsDataProvider
-     */
+    #[DataProvider('getDatesReturnsMultiDayEventsDataProvider')]
     public function testGetDatesReturnsMultiDayEvents(array $expectedValue, array $inputValue): void
     {
         $dtstart = \DateTime::createFromFormat('!Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
@@ -1338,9 +1311,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider getDatesReturnsCorrectTimeDataProvider
-     */
+    #[DataProvider('getDatesReturnsCorrectTimeDataProvider')]
     public function testGetDatesReturnsCorrectTime(array $expectedValue, array $inputValue): void
     {
         $dtstart = \DateTime::createFromFormat('Y-m-d H:i:s', $inputValue['dtstart'], new \DateTimeZone('UTC'));
@@ -1416,9 +1387,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider getDatesReturnsCorrectIntervalDataProvider
-     */
+    #[DataProvider('getDatesReturnsCorrectIntervalDataProvider')]
     public function testGetDatesReturnsCorrectInterval(array $expectedValues, array $inputValue): void
     {
         $dtstart = \DateTime::createFromFormat('Y-m-d', $inputValue['dtstart'], new \DateTimeZone('UTC'));
@@ -1592,9 +1561,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    /**
-     * @dataProvider GetDatesUntilReturnsCorrectYearsDataProvider
-     */
+    #[DataProvider('GetDatesUntilReturnsCorrectYearsDataProvider')]
     public function testGetDatesUntilReturnsCorrectYears(array $expectedValue, array $inputValue): void
     {
         $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
@@ -1625,9 +1592,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    /**
-     * @dataProvider GetDatesUntilReturnsEmptyArrayDataProvider
-     */
+    #[DataProvider('GetDatesUntilReturnsEmptyArrayDataProvider')]
     public function testGetDatesUntilReturnsEmptyArray(array $expectedValue, array $inputValue): void
     {
         $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
@@ -1675,9 +1640,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider getDatesUntilReturnsCorrectTimeDataProvider
-     */
+    #[DataProvider('getDatesUntilReturnsCorrectTimeDataProvider')]
     public function testGetDatesUntilReturnsCorrectTime(array $expectedValue, array $inputValue): void
     {
         $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
@@ -1762,9 +1725,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
     }
 
 
-    /**
-     * @dataProvider GetDatesUntilReturnsCorrectIntervalDataProvider
-     */
+    #[DataProvider('GetDatesUntilReturnsCorrectIntervalDataProvider')]
     public function testGetDatesUntilReturnsCorrectInterval(array $expectedValue, array $inputValue): void
     {
         $until = \DateTime::createFromFormat('!Y-m-d', $inputValue['until'], new \DateTimeZone('UTC'));
@@ -1833,9 +1794,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-     * @dataProvider calculateOffsetDataProvider
-     */
+    #[DataProvider('calculateOffsetDataProvider')]
     public function testCalculateOffset(int $expectedValue, string $day, string $offset): void
     {
         $this->assertEquals($expectedValue, $this->rule->calculateOffsetDays($day, $offset));
@@ -1884,9 +1843,7 @@ class RuleTest extends TestCase # Has to be [ClassName]Test
         ];
     }
 
-    /**
-    * @dataProvider offsetBYYEARDAYDataProvider
-    */
+    // #[DataProvider('offsetBYYEARDAYDataProvider')]
     // public function testOffsetBYYEARDAY(string $expectedValue, array $days, int $offset): void
     // {
     //     $this->assertEquals($expectedValue, $this->rule->offsetByYearDay($days, $offset));
