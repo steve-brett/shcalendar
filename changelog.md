@@ -1,5 +1,9 @@
 # Changelog
 
+## `1.9.1` – 2026-10-17
+
+- Chore: Upgrade PHPUnit to v12
+
 ## `1.9.0` – 2025-02-26
 
 - Feature: Add Southampton Christian Harmony singing formula
@@ -10,7 +14,7 @@
 
 ## `1.7.0` – 2025-02-15
 
-- Feature: PHP8.2 compatability
+- Feature: PHP8.2 compatibility
 
 ## `1.6.3` – 2024-01-12
 
@@ -18,7 +22,7 @@
 
 ## `1.6.2` – 2023-05-19
 
-- Fix: PHP8.0 compatabililty fixes
+- Fix: PHP8.0 compatibility fixes
 
 ## `1.6.1` – 2022-10-05
 
